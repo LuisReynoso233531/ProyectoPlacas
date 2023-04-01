@@ -5,6 +5,10 @@
 package daos;
 
 import entidades.Persona;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import persistencias.IPersona;
 
 /**
@@ -13,14 +17,42 @@ import persistencias.IPersona;
  */
 public class PersonaDAO implements IPersona {
 
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
+    
     @Override
     public Persona agregar(Persona persona) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("INSERT INTO Persona (id, nombres, ApellidoP, apellidoM, telefono, fechaNacimiento, discapacidad) "
+                    + "VALUES (:id, :nombres, :ApellidoP, :apellidoM, :telefono, :fechaNacimiento, :discapacidad)");
+            query.setParameter("id", persona.getId());
+            query.setParameter("nombres", persona.getNombres());
+            query.setParameter("ApellidoP", persona.getApellidoP());
+            query.setParameter("apellidoM", persona.getApellidoM());
+            query.setParameter("telefono", persona.getTelefono());
+            query.setParameter("fechaNacimiento", persona.getFechaNacimiento());
+            query.setParameter("discapacidad", persona.isDiscapacidad());
+            query.executeUpdate();
+            em.getTransaction().commit();
+            return persona;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new RuntimeException("Error al agregar la persona", e);
+        } finally {
+            em.close();
+        }
+
     }
 
     @Override
     public Persona agregarEmpleado(Persona persona) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    @Override
+    public Persona agregarMasivo(Persona persona) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

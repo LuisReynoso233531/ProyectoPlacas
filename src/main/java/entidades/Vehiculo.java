@@ -25,13 +25,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Vehiculo")
-@Inheritance (strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Vehiculo implements Serializable {
 
     //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "NumeroSerie")
+    @Column(name = "id_Vehiculo")
     private String id;
 
     @Basic
@@ -49,9 +49,29 @@ public class Vehiculo implements Serializable {
     @Basic
     @Column(name = "Linea")
     private String linea;
-    
+
     @ManyToOne
     private Persona personaVehiculo;
+
+    public Vehiculo() {
+    }
+
+    public Vehiculo(String id, String marca, String color, String modelo, String linea, Persona personaVehiculo) {
+        this.id = id;
+        this.marca = marca;
+        this.color = color;
+        this.modelo = modelo;
+        this.linea = linea;
+        this.personaVehiculo = personaVehiculo;
+    }
+
+    public Vehiculo(String marca, String color, String modelo, String linea, Persona personaVehiculo) {
+        this.marca = marca;
+        this.color = color;
+        this.modelo = modelo;
+        this.linea = linea;
+        this.personaVehiculo = personaVehiculo;
+    }
 
     public String getId() {
         return id;
@@ -59,6 +79,46 @@ public class Vehiculo implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getLinea() {
+        return linea;
+    }
+
+    public void setLinea(String linea) {
+        this.linea = linea;
+    }
+
+    public Persona getPersonaVehiculo() {
+        return personaVehiculo;
+    }
+
+    public void setPersonaVehiculo(Persona personaVehiculo) {
+        this.personaVehiculo = personaVehiculo;
     }
 
     @Override

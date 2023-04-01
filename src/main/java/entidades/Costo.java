@@ -38,9 +38,25 @@ public class Costo implements Serializable {
     @Basic
     @Column(name = "Monto")
     private int monto;
-    
-    @ManyToOne 
+
+    @ManyToOne
     private Tramite tramiteCosto;
+
+    public Costo() {
+    }
+
+    public Costo(int id, Date fechaPago, int monto, Tramite tramiteCosto) {
+        this.id = id;
+        this.fechaPago = fechaPago;
+        this.monto = monto;
+        this.tramiteCosto = tramiteCosto;
+    }
+
+    public Costo(Date fechaPago, int monto, Tramite tramiteCosto) {
+        this.fechaPago = fechaPago;
+        this.monto = monto;
+        this.tramiteCosto = tramiteCosto;
+    }
 
     public int getId() {
         return id;
@@ -48,6 +64,30 @@ public class Costo implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Date getFechaPago() {
+        return fechaPago;
+    }
+
+    public void setFechaPago(Date fechaPago) {
+        this.fechaPago = fechaPago;
+    }
+
+    public int getMonto() {
+        return monto;
+    }
+
+    public void setMonto(int monto) {
+        this.monto = monto;
+    }
+
+    public Tramite getTramiteCosto() {
+        return tramiteCosto;
+    }
+
+    public void setTramiteCosto(Tramite tramiteCosto) {
+        this.tramiteCosto = tramiteCosto;
     }
 
     @Override

@@ -30,7 +30,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Persona")
-@Inheritance (strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Persona implements Serializable {
 
     //private static final long serialVersionUID = 1L;
@@ -69,12 +69,102 @@ public class Persona implements Serializable {
     @OneToMany(mappedBy = "personasTramite", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     List<Tramite> tramites;
 
+    public Persona() {
+    }
+
+    public Persona(String id, String nombres, String ApellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad, List<Vehiculo> vehiculos, List<Tramite> tramites) {
+        this.id = id;
+        this.nombres = nombres;
+        this.ApellidoP = ApellidoP;
+        this.apellidoM = apellidoM;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+        this.discapacidad = discapacidad;
+        this.vehiculos = vehiculos;
+        this.tramites = tramites;
+    }
+
+    public Persona(String nombres, String ApellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad, List<Vehiculo> vehiculos, List<Tramite> tramites) {
+        this.nombres = nombres;
+        this.ApellidoP = ApellidoP;
+        this.apellidoM = apellidoM;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+        this.discapacidad = discapacidad;
+        this.vehiculos = vehiculos;
+        this.tramites = tramites;
+    }
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidoP() {
+        return ApellidoP;
+    }
+
+    public void setApellidoP(String ApellidoP) {
+        this.ApellidoP = ApellidoP;
+    }
+
+    public String getApellidoM() {
+        return apellidoM;
+    }
+
+    public void setApellidoM(String apellidoM) {
+        this.apellidoM = apellidoM;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public boolean isDiscapacidad() {
+        return discapacidad;
+    }
+
+    public void setDiscapacidad(boolean discapacidad) {
+        this.discapacidad = discapacidad;
+    }
+
+    public List<Vehiculo> getVehiculos() {
+        return vehiculos;
+    }
+
+    public void setVehiculos(List<Vehiculo> vehiculos) {
+        this.vehiculos = vehiculos;
+    }
+
+    public List<Tramite> getTramites() {
+        return tramites;
+    }
+
+    public void setTramites(List<Tramite> tramites) {
+        this.tramites = tramites;
     }
 
     @Override

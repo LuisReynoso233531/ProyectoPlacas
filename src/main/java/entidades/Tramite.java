@@ -28,7 +28,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Tramite")
-@Inheritance (strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Tramite implements Serializable {
 
     //private static final long serialVersionUID = 1L;
@@ -52,19 +52,89 @@ public class Tramite implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "FechaFin")
     private Date fechaFin;
-    
+
     @ManyToOne
     private Persona personasTramite;
-    
-    @OneToMany(mappedBy="tramiteCosto", cascade ={CascadeType.PERSIST, CascadeType.REMOVE})
-    List<Costo>costos;
-    
+
+    @OneToMany(mappedBy = "tramiteCosto", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    List<Costo> costos;
+
+    public Tramite() {
+    }
+
+    public Tramite(int id, String tipo, int costo, Date fechaInicio, Date fechaFin, Persona personasTramite, List<Costo> costos) {
+        this.id = id;
+        this.tipo = tipo;
+        this.costo = costo;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.personasTramite = personasTramite;
+        this.costos = costos;
+    }
+
+    public Tramite(String tipo, int costo, Date fechaInicio, Date fechaFin, Persona personasTramite, List<Costo> costos) {
+        this.tipo = tipo;
+        this.costo = costo;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.personasTramite = personasTramite;
+        this.costos = costos;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getCosto() {
+        return costo;
+    }
+
+    public void setCosto(int costo) {
+        this.costo = costo;
+    }
+
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public Persona getPersonasTramite() {
+        return personasTramite;
+    }
+
+    public void setPersonasTramite(Persona personasTramite) {
+        this.personasTramite = personasTramite;
+    }
+
+    public List<Costo> getCostos() {
+        return costos;
+    }
+
+    public void setCostos(List<Costo> costos) {
+        this.costos = costos;
     }
 
     @Override
