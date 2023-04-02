@@ -32,7 +32,7 @@ public class Vehiculo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Vehiculo")
-    private String id;
+    private int id;
 
     @Basic
     @Column(name = "Marca")
@@ -56,7 +56,7 @@ public class Vehiculo implements Serializable {
     public Vehiculo() {
     }
 
-    public Vehiculo(String id, String marca, String color, String modelo, String linea, Persona personaVehiculo) {
+    public Vehiculo(int id, String marca, String color, String modelo, String linea, Persona personaVehiculo) {
         this.id = id;
         this.marca = marca;
         this.color = color;
@@ -73,11 +73,11 @@ public class Vehiculo implements Serializable {
         this.personaVehiculo = personaVehiculo;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -123,23 +123,27 @@ public class Vehiculo implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 19 * hash + this.id;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Vehiculo)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Vehiculo other = (Vehiculo) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
+        final Vehiculo other = (Vehiculo) obj;
         return true;
     }
+
+    
 
     @Override
     public String toString() {

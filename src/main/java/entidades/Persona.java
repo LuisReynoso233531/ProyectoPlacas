@@ -36,8 +36,12 @@ public class Persona implements Serializable {
     //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_Persona")
+    private int id;
+
+    @Basic
     @Column(name = "RFC")
-    private String id;
+    private String rfc;
 
     @Basic
     @Column(name = "Nombres")
@@ -45,7 +49,7 @@ public class Persona implements Serializable {
 
     @Basic
     @Column(name = "ApellidoP")
-    private String ApellidoP;
+    private String apellidoP;
 
     @Basic
     @Column(name = "ApellidoM")
@@ -72,10 +76,11 @@ public class Persona implements Serializable {
     public Persona() {
     }
 
-    public Persona(String id, String nombres, String ApellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad, List<Vehiculo> vehiculos, List<Tramite> tramites) {
+    public Persona(int id, String rfc, String nombres, String apellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad, List<Vehiculo> vehiculos, List<Tramite> tramites) {
         this.id = id;
+        this.rfc = rfc;
         this.nombres = nombres;
-        this.ApellidoP = ApellidoP;
+        this.apellidoP = apellidoP;
         this.apellidoM = apellidoM;
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
@@ -84,9 +89,10 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
 
-    public Persona(String nombres, String ApellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad, List<Vehiculo> vehiculos, List<Tramite> tramites) {
+    public Persona(String rfc, String nombres, String apellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad, List<Vehiculo> vehiculos, List<Tramite> tramites) {
+        this.rfc = rfc;
         this.nombres = nombres;
-        this.ApellidoP = ApellidoP;
+        this.apellidoP = apellidoP;
         this.apellidoM = apellidoM;
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
@@ -95,11 +101,21 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
 
-    public String getId() {
+    public Persona(String rfc, String nombres, String apellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad) {
+        this.rfc = rfc;
+        this.nombres = nombres;
+        this.apellidoP = apellidoP;
+        this.apellidoM = apellidoM;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+        this.discapacidad = discapacidad;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -112,11 +128,11 @@ public class Persona implements Serializable {
     }
 
     public String getApellidoP() {
-        return ApellidoP;
+        return apellidoP;
     }
 
     public void setApellidoP(String ApellidoP) {
-        this.ApellidoP = ApellidoP;
+        this.apellidoP = ApellidoP;
     }
 
     public String getApellidoM() {
@@ -167,23 +183,33 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
 
+    public String getRfc() {
+        return rfc;
+    }
+
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 79 * hash + this.id;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Persona)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Persona other = (Persona) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
+        final Persona other = (Persona) obj;
         return true;
     }
 

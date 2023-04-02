@@ -16,9 +16,26 @@ import javax.persistence.Id;
  */
 @Entity
 public class Cliente extends Persona implements Serializable {
-
+    
+    private String cliente;
+    
     public Cliente(){
         
     }
+    
+    public Cliente(String cliente){
+        this.cliente=cliente;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+    
+    
+    
     
 }

@@ -18,15 +18,20 @@ import persistencias.IPersona;
 public class PersonaDAO implements IPersona {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
-    
+    EntityManager em = emf.createEntityManager();
+
+    public PersonaDAO(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+
     @Override
     public Persona agregar(Persona persona) {
-        EntityManager em = emf.createEntityManager();
+
         try {
             em.getTransaction().begin();
-            Query query = em.createQuery("INSERT INTO Persona (id, nombres, ApellidoP, apellidoM, telefono, fechaNacimiento, discapacidad) "
-                    + "VALUES (:id, :nombres, :ApellidoP, :apellidoM, :telefono, :fechaNacimiento, :discapacidad)");
-            query.setParameter("id", persona.getId());
+            Query query = em.createNativeQuery("INSERT INTO Persona (rfc, nombres, ApellidoP, apellidoM, telefono, fechaNacimiento, discapacidad) "
+                    + "VALUES (:rfc, :nombres, :ApellidoP, :apellidoM, :telefono, :fechaNacimiento, :discapacidad)");
+            query.setParameter("rfc", persona.getRfc());
             query.setParameter("nombres", persona.getNombres());
             query.setParameter("ApellidoP", persona.getApellidoP());
             query.setParameter("apellidoM", persona.getApellidoM());

@@ -19,24 +19,28 @@ import javax.persistence.Persistence;
  * @author luis-
  */
 public class SolicitarLicencia extends javax.swing.JFrame {
+
     private EntityManagerFactory emf;
     private PersonaDAO personaDAO;
+
     /**
      * Creates new form SolicitarLicencia
      */
     public SolicitarLicencia() {
         emf = Persistence.createEntityManagerFactory("ConexionPU");
+        personaDAO = new PersonaDAO(emf); 
         initComponents();
     }
 
     private void solicitarLicencia() {
+        String rfc = this.txtRfc.getText();
         String nombres = this.txtNombre.getText();
         String apellidoP = this.txtApellidoP.getText();
         String apellidoM = this.txtApellidoM.getText();
         String telefono = this.txtTelefono.getText();
         Date fechaNacimiento = Date.from(this.dpFechaNacimiento.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
         boolean discapacidad = this.checkBoxDiscapacidad.isSelected();
-        Persona personaNueva = new Persona(nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad, new ArrayList<Vehiculo>(), new ArrayList<Tramite>());
+        Persona personaNueva = new Persona(rfc, nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad);
         personaDAO.agregar(personaNueva);
     }
 
@@ -301,13 +305,12 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
-     @Override
+    @Override
     public void dispose() {
         super.dispose();
         emf.close();
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
