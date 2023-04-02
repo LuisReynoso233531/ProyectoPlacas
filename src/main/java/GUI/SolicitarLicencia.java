@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,6 +43,11 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         boolean discapacidad = this.checkBoxDiscapacidad.isSelected();
         Persona personaNueva = new Persona(rfc, nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad);
         personaDAO.agregar(personaNueva);
+        if(personaNueva!=null){
+             JOptionPane.showMessageDialog(this, "Se agregó el nuevo cliente", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+             JOptionPane.showMessageDialog(this, "Error","", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     /**

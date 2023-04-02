@@ -29,11 +29,11 @@ public class PersonaDAO implements IPersona {
 
         try {
             em.getTransaction().begin();
-            Query query = em.createNativeQuery("INSERT INTO Persona (rfc, nombres, ApellidoP, apellidoM, telefono, fechaNacimiento, discapacidad) "
-                    + "VALUES (:rfc, :nombres, :ApellidoP, :apellidoM, :telefono, :fechaNacimiento, :discapacidad)");
+            Query query = em.createNativeQuery(" (rfc, nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad) "
+                    + "VALUES (:rfc, :nombres, :apellidoP, :apellidoM, :telefono, :fechaNacimiento, :discapacidad)");
             query.setParameter("rfc", persona.getRfc());
             query.setParameter("nombres", persona.getNombres());
-            query.setParameter("ApellidoP", persona.getApellidoP());
+            query.setParameter("apellidoP", persona.getApellidoP());
             query.setParameter("apellidoM", persona.getApellidoM());
             query.setParameter("telefono", persona.getTelefono());
             query.setParameter("fechaNacimiento", persona.getFechaNacimiento());
@@ -47,7 +47,18 @@ public class PersonaDAO implements IPersona {
         } finally {
             em.close();
         }
-
+        //        
+//        try {
+//            em.getTransaction().begin();
+//            em.persist(persona);
+//            em.getTransaction().commit();
+//            return persona;
+//        } catch (Exception e) {
+//            em.getTransaction().rollback();
+//            throw new RuntimeException("Error al agregar la persona", e);
+//        } finally {
+//            em.close();
+//        }
     }
 
     @Override
