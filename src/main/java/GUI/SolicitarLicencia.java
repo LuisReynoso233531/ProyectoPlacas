@@ -4,13 +4,18 @@
  */
 package GUI;
 
+import daos.LicenciaDAO;
 import daos.PersonaDAO;
+
+import entidades.Licencia;
 import entidades.Persona;
 import entidades.Tramite;
 import entidades.Vehiculo;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
@@ -23,17 +28,19 @@ public class SolicitarLicencia extends javax.swing.JFrame {
 
     private EntityManagerFactory emf;
     private PersonaDAO personaDAO;
+    private LicenciaDAO licenciaDAO;
 
     /**
      * Creates new form SolicitarLicencia
      */
     public SolicitarLicencia() {
         emf = Persistence.createEntityManagerFactory("ConexionPU");
-        personaDAO = new PersonaDAO(emf); 
+        personaDAO = new PersonaDAO(emf);
+        licenciaDAO = new LicenciaDAO(emf);
         initComponents();
     }
 
-    private void solicitarLicencia() {
+    private void agregarCliente() {
         String rfc = this.txtRfc.getText();
         String nombres = this.txtNombre.getText();
         String apellidoP = this.txtApellidoP.getText();
@@ -42,12 +49,32 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         Date fechaNacimiento = Date.from(this.dpFechaNacimiento.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
         boolean discapacidad = this.checkBoxDiscapacidad.isSelected();
         Persona personaNueva = new Persona(rfc, nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad);
-        personaDAO.agregar(personaNueva);
-        if(personaNueva!=null){
-             JOptionPane.showMessageDialog(this, "Se agregó el nuevo cliente", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }else{
-             JOptionPane.showMessageDialog(this, "Error","", JOptionPane.INFORMATION_MESSAGE);
+     
+        personaNueva=personaDAO.agregar(personaNueva);
+        
+        if (personaNueva != null) {
+            JOptionPane.showMessageDialog(this, "Se agregó el nuevo cliente", "Información", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    private void solicitarLicencia() {
+        String vigencia = cbVigencia.getSelectedItem().toString();
+        int costo = Integer.parseInt(this.txtCosto.getText());
+        Date fechaInicio = new Date(11,11,11);
+        Date fechaFin = new Date(10,11,11);
+        Licencia nuevaLicencia = new Licencia("1",vigencia,"Licencia",costo,fechaInicio,fechaFin,personaDAO.buscarRFC(this.txtRfc.getText()));
+        licenciaDAO.agregarLicencia(nuevaLicencia);
+        if (licenciaDAO != null) {
+            JOptionPane.showMessageDialog(this, "Se agregó la nueva licencia", "Información", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+       
     }
 
     /**
@@ -83,8 +110,8 @@ public class SolicitarLicencia extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Solicitar licencia");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
 
         jLabel2.setText("RFC");
 
@@ -123,7 +150,17 @@ public class SolicitarLicencia extends javax.swing.JFrame {
             }
         });
 
-        cbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-", "1 Año", "2 Años", "3 Años" }));
+        cbVigencia.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbVigenciaItemStateChanged(evt);
+            }
+        });
+        cbVigencia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbVigenciaMouseClicked(evt);
+            }
+        });
         cbVigencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbVigenciaActionPerformed(evt);
@@ -200,24 +237,23 @@ public class SolicitarLicencia extends javax.swing.JFrame {
                                     .addComponent(txtApellidoM, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtApellidoP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(112, 112, 112)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(jLabel8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addGap(241, 241, 241))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(checkBoxDiscapacidad, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cbVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(241, 241, 241))
+                                .addComponent(cbVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(332, 332, 332))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(201, 201, 201)
                 .addComponent(btnReporte)
@@ -272,6 +308,36 @@ public class SolicitarLicencia extends javax.swing.JFrame {
 
     private void checkBoxDiscapacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxDiscapacidadActionPerformed
         // TODO add your handling code here:
+         if (cbVigencia.getSelectedItem().toString().equals("-Seleccione-")) {
+        if (checkBoxDiscapacidad.isSelected()) {
+            txtCosto.setText(String.valueOf(0));
+        } else {
+            txtCosto.setText(String.valueOf(0));
+        }
+         }
+        
+        if (cbVigencia.getSelectedItem().toString().equals("1 Año")) {
+        if (checkBoxDiscapacidad.isSelected()) {
+            txtCosto.setText(String.valueOf(200));
+        } else {
+            txtCosto.setText(String.valueOf(600));
+        }
+    }
+        if (cbVigencia.getSelectedItem().toString().equals("2 Años")) {
+        if (checkBoxDiscapacidad.isSelected()) {
+            txtCosto.setText(String.valueOf(500));
+        } else {
+            txtCosto.setText(String.valueOf(900));
+        }
+    }
+        if (cbVigencia.getSelectedItem().toString().equals("3 Años")) {
+        if (checkBoxDiscapacidad.isSelected()) {
+            txtCosto.setText(String.valueOf(700));
+        } else {
+            txtCosto.setText(String.valueOf(1100));
+        }
+    }
+         
     }//GEN-LAST:event_checkBoxDiscapacidadActionPerformed
 
     private void txtRfcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRfcActionPerformed
@@ -300,10 +366,12 @@ public class SolicitarLicencia extends javax.swing.JFrame {
 
     private void txtCostoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostoActionPerformed
         // TODO add your handling code here:
+          txtCosto.setText(String.valueOf(0));
     }//GEN-LAST:event_txtCostoActionPerformed
 
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
         // TODO add your handling code here:
+        agregarCliente();
         solicitarLicencia();
     }//GEN-LAST:event_btnReporteActionPerformed
 
@@ -311,11 +379,46 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
-    @Override
-    public void dispose() {
-        super.dispose();
-        emf.close();
+
+    private void cbVigenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbVigenciaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbVigenciaMouseClicked
+
+    private void cbVigenciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVigenciaItemStateChanged
+        // TODO add your handling code here:
+        if (cbVigencia.getSelectedItem().toString().equals("-Seleccione-")) {
+        if (checkBoxDiscapacidad.isSelected()) {
+            txtCosto.setText(String.valueOf(0));
+        } else {
+            txtCosto.setText(String.valueOf(0));
+        }
     }
+        if (cbVigencia.getSelectedItem().toString().equals("1 Año")) {
+        if (checkBoxDiscapacidad.isSelected()) {
+            txtCosto.setText(String.valueOf(200));
+        } else {
+            txtCosto.setText(String.valueOf(600));
+        }
+    }
+     
+        if (cbVigencia.getSelectedItem().toString().equals("2 Años")) {
+        if (checkBoxDiscapacidad.isSelected()) {
+            txtCosto.setText(String.valueOf(500));
+        } else {
+            txtCosto.setText(String.valueOf(900));
+        }
+    }
+        
+        if (cbVigencia.getSelectedItem().toString().equals("3 Años")) {
+        if (checkBoxDiscapacidad.isSelected()) {
+            txtCosto.setText(String.valueOf(700));
+        } else {
+            txtCosto.setText(String.valueOf(1100));
+        }
+    }
+        
+    }//GEN-LAST:event_cbVigenciaItemStateChanged
+   
 
     /**
      * @param args the command line arguments

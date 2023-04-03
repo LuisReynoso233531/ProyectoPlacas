@@ -4,52 +4,44 @@
  */
 package daos;
 
-import entidades.Persona;
+import entidades.Licencia;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import persistencias.IPersona;
+import persistencias.ILicencia;
 
 /**
  *
  * @author luis-
  */
-public class PersonaDAO implements IPersona {
+public class LicenciaDAO implements ILicencia {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
-
-    public PersonaDAO(EntityManagerFactory emf) {
+    
+    
+    public LicenciaDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
     @Override
-    public Persona agregar(Persona persona) {
-        EntityManager em = emf.createEntityManager();
+    public Licencia agregarLicencia(Licencia licencia) {
+        EntityManager em = emf.createEntityManager(); 
         try {
+             
             em.getTransaction().begin();
-            em.persist(persona);
+            em.persist(licencia);
             em.getTransaction().commit();
-            return persona;
+            return licencia;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new RuntimeException("Error al agregar la persona", e);
+            throw new RuntimeException("Error al agregar la licencia", e);
         } finally {
             em.close();
         }
-
     }
 
     @Override
-    public Persona buscarRFC(String rfc) {
-        EntityManager em = emf.createEntityManager();
-        Query query = em.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
-        query.setParameter("rfc", rfc);
-        return (Persona) query.getSingleResult();
-    }
-
-    @Override
-    public Persona agregarMasivo(Persona persona) {
+    public Licencia renovarLicencia(Licencia licencia) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

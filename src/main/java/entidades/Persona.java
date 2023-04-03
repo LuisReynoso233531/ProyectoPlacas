@@ -101,6 +101,8 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
 
+    
+
     public Persona(String rfc, String nombres, String apellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad) {
         this.rfc = rfc;
         this.nombres = nombres;

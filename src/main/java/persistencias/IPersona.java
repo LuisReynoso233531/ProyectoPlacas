@@ -13,6 +13,7 @@ import entidades.Persona;
 public interface IPersona {
     public Persona agregarMasivo(Persona persona);
     public Persona agregar(Persona persona);
-    public Persona agregarEmpleado(Persona persona);
+    public Persona buscarRFC(String rfc);
+    
     
 }

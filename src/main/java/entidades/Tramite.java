@@ -35,26 +35,26 @@ public class Tramite implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tramite")
-    private int id;
+    protected int id;
 
     @Basic
     @Column(name = "Tipo")
-    private String tipo;
+    protected String tipo;
 
     @Basic
     @Column(name = "Costo")
-    private int costo;
+    protected int costo;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "FechaInicio")
-    private Date fechaInicio;
+    protected Date fechaInicio;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "FechaFin")
-    private Date fechaFin;
+    protected Date fechaFin;
 
     @ManyToOne
-    private Persona personasTramite;
+    protected Persona personasTramite;
 
     @OneToMany(mappedBy = "tramiteCosto", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     List<Costo> costos;
@@ -80,6 +80,16 @@ public class Tramite implements Serializable {
         this.personasTramite = personasTramite;
         this.costos = costos;
     }
+
+    public Tramite(String tipo, int costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
+        this.tipo = tipo;
+        this.costo = costo;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.personasTramite = personasTramite;
+    }
+    
+    
 
     public int getId() {
         return id;
