@@ -14,6 +14,7 @@ public class Prueba {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //Ya funciona
         SolicitarLicencia xd = new SolicitarLicencia();
         xd.setVisible(true);
     }

@@ -90,6 +90,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
             }
         });
 
+        txtCosto.setEditable(false);
         txtCosto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCostoActionPerformed(evt);
@@ -138,7 +139,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(btnReporte)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(btnSalir)
                 .addGap(92, 92, 92))
         );

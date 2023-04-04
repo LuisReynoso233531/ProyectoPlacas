@@ -14,8 +14,10 @@ import entidades.Vehiculo;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
@@ -47,11 +49,27 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         String apellidoM = this.txtApellidoM.getText();
         String telefono = this.txtTelefono.getText();
         Date fechaNacimiento = Date.from(this.dpFechaNacimiento.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        if (rfc.isEmpty() || nombres.isEmpty() || apellidoP.isEmpty() || telefono.isEmpty() || fechaNacimiento == null) {
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!rfc.matches("\\d{13}")) {
+            JOptionPane.showMessageDialog(this, "El RFC no tiene el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!telefono.matches("[0-9]{10}")) {
+            JOptionPane.showMessageDialog(this, "El teléfono no tiene el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         boolean discapacidad = this.checkBoxDiscapacidad.isSelected();
         Persona personaNueva = new Persona(rfc, nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad);
-     
-        personaNueva=personaDAO.agregar(personaNueva);
-        
+
+        personaNueva = personaDAO.agregar(personaNueva);
+
         if (personaNueva != null) {
             JOptionPane.showMessageDialog(this, "Se agregó el nuevo cliente", "Información", JOptionPane.INFORMATION_MESSAGE);
             dispose();
@@ -63,18 +81,40 @@ public class SolicitarLicencia extends javax.swing.JFrame {
     private void solicitarLicencia() {
         String vigencia = cbVigencia.getSelectedItem().toString();
         int costo = Integer.parseInt(this.txtCosto.getText());
-        Date fechaInicio = new Date(11,11,11);
-        Date fechaFin = new Date(10,11,11);
-        Licencia nuevaLicencia = new Licencia("1",vigencia,"Licencia",costo,fechaInicio,fechaFin,personaDAO.buscarRFC(this.txtRfc.getText()));
+
+        if (vigencia.equals("Seleccione")) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una vigencia", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Date fechaInicio = Calendar.getInstance().getTime();
+        Calendar calendar = Calendar.getInstance();
+        if (vigencia.equals("1 Año")) {
+            calendar.add(Calendar.YEAR, 1);
+        } else if (vigencia.equals("2 Años")) {
+            calendar.add(Calendar.YEAR, 2);
+        } else if (vigencia.equals("3 Años")) {
+            calendar.add(Calendar.YEAR, 3);
+        }
+        Date fechaFin = calendar.getTime();
+
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        for (int i = 0; i < 14; i++) {
+            sb.append(caracteres.charAt(random.nextInt(caracteres.length())));
+        }
+        String identificador = sb.toString();
+
+        Licencia nuevaLicencia = new Licencia(identificador, vigencia, "Licencia", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRfc.getText()));
         licenciaDAO.agregarLicencia(nuevaLicencia);
         if (licenciaDAO != null) {
             JOptionPane.showMessageDialog(this, "Se agregó la nueva licencia", "Información", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
+           
         } else {
             JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.INFORMATION_MESSAGE);
         }
-
-       
+     
     }
 
     /**
@@ -150,7 +190,7 @@ public class SolicitarLicencia extends javax.swing.JFrame {
             }
         });
 
-        cbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-", "1 Año", "2 Años", "3 Años" }));
+        cbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "1 Año", "2 Años", "3 Años" }));
         cbVigencia.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbVigenciaItemStateChanged(evt);
@@ -308,36 +348,32 @@ public class SolicitarLicencia extends javax.swing.JFrame {
 
     private void checkBoxDiscapacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxDiscapacidadActionPerformed
         // TODO add your handling code here:
-         if (cbVigencia.getSelectedItem().toString().equals("-Seleccione-")) {
-        if (checkBoxDiscapacidad.isSelected()) {
-            txtCosto.setText(String.valueOf(0));
-        } else {
-            txtCosto.setText(String.valueOf(0));
+        if (cbVigencia.getSelectedItem().toString().equals("Seleccione")) {        
+                txtCosto.setText(String.valueOf(0));
         }
-         }
-        
+
         if (cbVigencia.getSelectedItem().toString().equals("1 Año")) {
-        if (checkBoxDiscapacidad.isSelected()) {
-            txtCosto.setText(String.valueOf(200));
-        } else {
-            txtCosto.setText(String.valueOf(600));
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(200));
+            } else {
+                txtCosto.setText(String.valueOf(600));
+            }
         }
-    }
         if (cbVigencia.getSelectedItem().toString().equals("2 Años")) {
-        if (checkBoxDiscapacidad.isSelected()) {
-            txtCosto.setText(String.valueOf(500));
-        } else {
-            txtCosto.setText(String.valueOf(900));
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(500));
+            } else {
+                txtCosto.setText(String.valueOf(900));
+            }
         }
-    }
         if (cbVigencia.getSelectedItem().toString().equals("3 Años")) {
-        if (checkBoxDiscapacidad.isSelected()) {
-            txtCosto.setText(String.valueOf(700));
-        } else {
-            txtCosto.setText(String.valueOf(1100));
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(700));
+            } else {
+                txtCosto.setText(String.valueOf(1100));
+            }
         }
-    }
-         
+
     }//GEN-LAST:event_checkBoxDiscapacidadActionPerformed
 
     private void txtRfcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRfcActionPerformed
@@ -366,12 +402,12 @@ public class SolicitarLicencia extends javax.swing.JFrame {
 
     private void txtCostoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostoActionPerformed
         // TODO add your handling code here:
-          txtCosto.setText(String.valueOf(0));
+        txtCosto.setText(String.valueOf(0));
     }//GEN-LAST:event_txtCostoActionPerformed
 
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
         // TODO add your handling code here:
-        agregarCliente();
+     //   agregarCliente();
         solicitarLicencia();
     }//GEN-LAST:event_btnReporteActionPerformed
 
@@ -386,39 +422,34 @@ public class SolicitarLicencia extends javax.swing.JFrame {
 
     private void cbVigenciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVigenciaItemStateChanged
         // TODO add your handling code here:
-        if (cbVigencia.getSelectedItem().toString().equals("-Seleccione-")) {
-        if (checkBoxDiscapacidad.isSelected()) {
-            txtCosto.setText(String.valueOf(0));
-        } else {
-            txtCosto.setText(String.valueOf(0));
+        if (cbVigencia.getSelectedItem().toString().equals("Seleccione")) {          
+                txtCosto.setText(String.valueOf(0));          
         }
-    }
         if (cbVigencia.getSelectedItem().toString().equals("1 Año")) {
-        if (checkBoxDiscapacidad.isSelected()) {
-            txtCosto.setText(String.valueOf(200));
-        } else {
-            txtCosto.setText(String.valueOf(600));
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(200));
+            } else {
+                txtCosto.setText(String.valueOf(600));
+            }
         }
-    }
-     
+
         if (cbVigencia.getSelectedItem().toString().equals("2 Años")) {
-        if (checkBoxDiscapacidad.isSelected()) {
-            txtCosto.setText(String.valueOf(500));
-        } else {
-            txtCosto.setText(String.valueOf(900));
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(500));
+            } else {
+                txtCosto.setText(String.valueOf(900));
+            }
         }
-    }
-        
+
         if (cbVigencia.getSelectedItem().toString().equals("3 Años")) {
-        if (checkBoxDiscapacidad.isSelected()) {
-            txtCosto.setText(String.valueOf(700));
-        } else {
-            txtCosto.setText(String.valueOf(1100));
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(700));
+            } else {
+                txtCosto.setText(String.valueOf(1100));
+            }
         }
-    }
-        
+
     }//GEN-LAST:event_cbVigenciaItemStateChanged
-   
 
     /**
      * @param args the command line arguments
