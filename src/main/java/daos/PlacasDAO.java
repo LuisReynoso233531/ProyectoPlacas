@@ -4,61 +4,43 @@
  */
 package daos;
 
-import entidades.Persona;
+import entidades.Placas;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import persistencias.IPersona;
+import persistencias.IPlacas;
 
 /**
  *
  * @author luis-
  */
-public class PersonaDAO implements IPersona {
-
+public class PlacasDAO implements IPlacas {
+    
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
 
-    public PersonaDAO(EntityManagerFactory emf) {
+    public PlacasDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
     @Override
-    public Persona agregar(Persona persona) {
+    public Placas agregarPlacas(Placas placas) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(persona);
+            em.persist(placas);
             em.getTransaction().commit();
-            return persona;
+            return placas;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new RuntimeException("Error al agregar la persona", e);
+            throw new RuntimeException("Error al agregar las placas", e);
         } finally {
             em.close();
         }
-
     }
 
     @Override
-    public Persona buscarRFC(String rfc) {
-        EntityManager em = emf.createEntityManager();
-        try{
-           Query query = em.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
-        query.setParameter("rfc", rfc);
-        return (Persona) query.getSingleResult(); 
-        }catch(Exception e){
-           em.getTransaction().rollback();
-            throw new RuntimeException("Error al agregar la persona", e); 
-        }finally{
-            em.close();
-        }
-        
-    }
-
-    @Override
-    public Persona agregarMasivo(Persona persona) {
+    public Placas renovarPlacas(Placas placas) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
 }

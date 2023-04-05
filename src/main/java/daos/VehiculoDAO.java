@@ -5,6 +5,9 @@
 package daos;
 
 import entidades.Vehiculo;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import persistencias.IVehiculo;
 
 /**
@@ -12,10 +15,28 @@ import persistencias.IVehiculo;
  * @author luis-
  */
 public class VehiculoDAO implements IVehiculo {
+    
+     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
 
+    public VehiculoDAO(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+    
     @Override
     public Vehiculo agregar(Vehiculo vehiculo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(vehiculo);
+            em.getTransaction().commit();
+            return vehiculo;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new RuntimeException("Error al agregar el vehiculo", e);
+        } finally {
+            em.close();
+        }
+
     }
     
 }

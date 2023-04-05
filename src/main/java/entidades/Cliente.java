@@ -5,6 +5,7 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,25 +18,16 @@ import javax.persistence.Id;
 @Entity
 public class Cliente extends Persona implements Serializable {
     
-    private String cliente;
+  
     
     public Cliente(){
         
     }
-    
-    public Cliente(String cliente){
-        this.cliente=cliente;
-    }
 
-    public String getCliente() {
-        return cliente;
+    public Cliente(String cliente, String rfc, String nombres, String apellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad) {
+        super(rfc, nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad);
+        
     }
-
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
-    }
-    
-    
     
     
 }

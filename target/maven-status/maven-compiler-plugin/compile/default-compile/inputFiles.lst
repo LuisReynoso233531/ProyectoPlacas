@@ -5,6 +5,7 @@ C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\entidades\
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\GUI\Menu.java
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\daos\VehiculoDAO.java
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\entidades\Placas.java
+C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\persistencias\IPlacas.java
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\daos\CostoDAO.java
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\entidades\Costo.java
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\entidades\Licencia.java
@@ -20,6 +21,7 @@ C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\entidades\
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\entidades\Motocicleta.java
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\GUI\Login.java
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\entidades\Persona.java
+C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\daos\PlacasDAO.java
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\daos\PersonaDAO.java
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\GUI\SolicitarPlacas.java
 C:\Users\luis-\OneDrive\Documents\GitHub\ProyectoPlacas\src\main\java\persistencias\IVehiculo.java

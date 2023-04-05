@@ -4,12 +4,15 @@
  */
 package persistencias;
 
-import entidades.Vehiculo;
+import entidades.Placas;
 
 /**
  *
  * @author luis-
  */
-public interface IVehiculo {
-    public Vehiculo agregar(Vehiculo vehiculo);
+public interface IPlacas {
+    
+   public Placas agregarPlacas(Placas placas);
+   public Placas renovarPlacas(Placas placas);
+    
 }

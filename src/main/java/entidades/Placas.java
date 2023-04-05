@@ -5,6 +5,7 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,11 +22,58 @@ public class Placas extends Tramite implements Serializable {
     private int costo;
 
     public Placas() {
+        super();
     }
 
     public Placas(String numeroPlacas, int costo) {
         this.numeroPlacas = numeroPlacas;
         this.costo = costo;
+    }
+
+    public Placas(String numeroPlacas, String tipo, int costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
+        super(tipo, costo, fechaInicio, fechaFin, personasTramite);
+        this.numeroPlacas = numeroPlacas;
+        this.costo = costo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public Persona getPersonasTramite() {
+        return personasTramite;
+    }
+
+    public void setPersonasTramite(Persona personasTramite) {
+        this.personasTramite = personasTramite;
     }
 
     public String getNumeroPlacas() {
