@@ -44,7 +44,7 @@ public class Renovarlicencia extends javax.swing.JFrame {
         int costo = Integer.parseInt(this.txtCosto.getText());
         int identificador = Integer.parseInt(this.txtIdentificador.getText());
         if (vigencia.equals("Seleccione")) {
-            JOptionPane.showMessageDialog(this, "Por favor seleccione una vigencia", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una vigencia correcta", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         Date fechaInicio = Calendar.getInstance().getTime();
@@ -60,9 +60,9 @@ public class Renovarlicencia extends javax.swing.JFrame {
         Licencia actualizarLicencia = new Licencia("",vigencia,"Licencia",costo,fechaInicio,fechaFin,personaDAO.buscarRFC(this.txtRfc.getText()));
         licenciaDAO.renovarLicencia(actualizarLicencia);
         if(actualizarLicencia!=null){
-             JOptionPane.showMessageDialog(this, "Se renovo con exito", "", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(this, "Se ha renovado con éxito la Licencia", "", JOptionPane.ERROR_MESSAGE);
         }else{
-             JOptionPane.showMessageDialog(this, "Error!!", "", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(this, "Error! No es posible renovar la Licencia", "", JOptionPane.ERROR_MESSAGE);
         }
     }
 

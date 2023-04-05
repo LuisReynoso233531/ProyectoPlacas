@@ -33,7 +33,7 @@ public class LicenciaDAO implements ILicencia {
             return licencia;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new RuntimeException("Error al agregar la licencia", e);
+            throw new RuntimeException("Error. No es posible agregar la Licencia", e);
         } finally {
             em.close();
         }
@@ -53,6 +53,7 @@ public class LicenciaDAO implements ILicencia {
         int rowsUpdated = query.executeUpdate();
         em.getTransaction().commit();
         }catch(Exception e){
+            System.err.println(e.getMessage());
         }finally{
         em.close();
         }

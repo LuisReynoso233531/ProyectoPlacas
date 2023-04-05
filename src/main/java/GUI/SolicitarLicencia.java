@@ -56,17 +56,17 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         Date fechaNacimiento = Date.from(this.dpFechaNacimiento.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         if (rfc.isEmpty() || nombres.isEmpty() || apellidoP.isEmpty() || telefono.isEmpty() || fechaNacimiento == null) {
-            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (!rfc.matches("\\d{13}")) {
-            JOptionPane.showMessageDialog(this, "El RFC no tiene el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (!telefono.matches("[0-9]{10}")) {
-            JOptionPane.showMessageDialog(this, "El teléfono no tiene el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El teléfono ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -89,7 +89,7 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         int costo = Integer.parseInt(this.txtCosto.getText());
 
         if (vigencia.equals("Seleccione")) {
-            JOptionPane.showMessageDialog(this, "Por favor seleccione una vigencia", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una vigencia correcta", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -430,7 +430,7 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         // TODO add your handling code here:
         agregarCliente();
         solicitarLicencia();
-        JOptionPane.showMessageDialog(this, "Se agregó la nueva licencia", "Información", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Se ha agregado con éxito la nueva licencia", "Información", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnReporteActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

@@ -32,7 +32,7 @@ public class VehiculoDAO implements IVehiculo {
             return vehiculo;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new RuntimeException("Error al agregar el vehiculo", e);
+            throw new RuntimeException("Error. No es posible agregar el Vehículo", e);
         } finally {
             em.close();
         }

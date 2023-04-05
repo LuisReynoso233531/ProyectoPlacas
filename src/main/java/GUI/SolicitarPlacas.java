@@ -54,14 +54,14 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         String rfc = this.txtRFC.getText();
         
         if(numeroSerie.isEmpty()||marca.isEmpty()||modelo.isEmpty()||linea.isEmpty()||color.isEmpty()||rfc.isEmpty()){
-             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         Vehiculo nuevoVehiculo = new Vehiculo(numeroSerie,marca,color,modelo,linea,personaDAO.buscarRFC(this.txtRFC.getText()));
         nuevoVehiculo = vehiculoDAO.agregar(nuevoVehiculo);
          if (nuevoVehiculo != null) {
-            JOptionPane.showMessageDialog(this, "Se agregó el nuevo Vehiculo", "Información", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Se ha agregado con éxito un nuevo Vehículo", "Información", JOptionPane.INFORMATION_MESSAGE);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.ERROR_MESSAGE);
@@ -77,7 +77,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         Placas nuevasPlacas = new Placas("111-111","Placas",costo,fechaInicio,fechaFin, personaDAO.buscarRFC(this.txtRFC.getText()));
         nuevasPlacas = placasDAO.agregarPlacas(nuevasPlacas);
         if(nuevasPlacas!=null){
-            JOptionPane.showMessageDialog(this, "Se agregó la nueva placa", "Información", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Se ha agregado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
         }else{
             JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.INFORMATION_MESSAGE);
         }

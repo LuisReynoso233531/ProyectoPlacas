@@ -53,7 +53,7 @@
                                   <Component id="txtRfc" alignment="0" max="32767" attributes="0"/>
                                   <Component id="txtCosto" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="66" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtIdentificador" min="-2" pref="85" max="-2" attributes="0"/>

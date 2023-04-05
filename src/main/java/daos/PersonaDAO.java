@@ -33,7 +33,7 @@ public class PersonaDAO implements IPersona {
             return persona;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new RuntimeException("Error al agregar la persona", e);
+            throw new RuntimeException("Error. No es posible agregar la persona", e);
         } finally {
             em.close();
         }
@@ -49,7 +49,7 @@ public class PersonaDAO implements IPersona {
         return (Persona) query.getSingleResult(); 
         }catch(Exception e){
            em.getTransaction().rollback();
-            throw new RuntimeException("Error al agregar la persona", e); 
+            throw new RuntimeException("Error. No es posible encontrar la persona", e); 
         }finally{
             em.close();
         }
