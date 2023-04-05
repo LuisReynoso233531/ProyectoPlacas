@@ -14,6 +14,6 @@ public interface IPersona {
     public Persona agregarMasivo(Persona persona);
     public Persona agregar(Persona persona);
     public Persona buscarRFC(String rfc);
-    
+    public Persona buscarDiscapacidad(boolean discapacidad);
     
 }

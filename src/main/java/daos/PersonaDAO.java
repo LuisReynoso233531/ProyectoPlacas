@@ -55,9 +55,16 @@ public class PersonaDAO implements IPersona {
         }
         
     }
+    
+    
 
     @Override
     public Persona agregarMasivo(Persona persona) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Persona buscarDiscapacidad(boolean discapacidad) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

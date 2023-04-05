@@ -4,6 +4,15 @@
  */
 package GUI;
 
+import daos.LicenciaDAO;
+import daos.PersonaDAO;
+import entidades.Licencia;
+import java.util.Calendar;
+import java.util.Date;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author luis-
@@ -13,8 +22,48 @@ public class Renovarlicencia extends javax.swing.JFrame {
     /**
      * Creates new form RenovarPlacas
      */
+    private EntityManagerFactory emf;
+    private PersonaDAO personaDAO;
+    private LicenciaDAO licenciaDAO;
+
     public Renovarlicencia() {
+        emf = Persistence.createEntityManagerFactory("ConexionPU");
+        personaDAO = new PersonaDAO(emf);
+        licenciaDAO = new LicenciaDAO(emf);
         initComponents();
+        this.rellenarCosto();
+    }
+
+    private void rellenarCosto() {
+        txtCosto.setText("0");
+    }
+    
+    public void renovarLicencia(){
+        String rfc = this.txtRfc.getText();
+        String vigencia = cbVigencia.getSelectedItem().toString();
+        int costo = Integer.parseInt(this.txtCosto.getText());
+        int identificador = Integer.parseInt(this.txtIdentificador.getText());
+        if (vigencia.equals("Seleccione")) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una vigencia", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Date fechaInicio = Calendar.getInstance().getTime();
+        Calendar calendar = Calendar.getInstance();
+        if (vigencia.equals("1 Año")) {
+            calendar.add(Calendar.YEAR, 1);
+        } else if (vigencia.equals("2 Años")) {
+            calendar.add(Calendar.YEAR, 2);
+        } else if (vigencia.equals("3 Años")) {
+            calendar.add(Calendar.YEAR, 3);
+        }
+        Date fechaFin = calendar.getTime();
+        Licencia actualizarLicencia = new Licencia("",vigencia,"Licencia",costo,fechaInicio,fechaFin,personaDAO.buscarRFC(this.txtRfc.getText()));
+        licenciaDAO.renovarLicencia(actualizarLicencia);
+        if(actualizarLicencia!=null){
+             JOptionPane.showMessageDialog(this, "Se renovo con exito", "", JOptionPane.ERROR_MESSAGE);
+        }else{
+             JOptionPane.showMessageDialog(this, "Error!!", "", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -37,6 +86,9 @@ public class Renovarlicencia extends javax.swing.JFrame {
         cbVigencia = new javax.swing.JComboBox<>();
         btnReporte = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        checkBoxDiscapacidad = new javax.swing.JCheckBox();
+        txtIdentificador = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
@@ -71,7 +123,7 @@ public class Renovarlicencia extends javax.swing.JFrame {
             }
         });
 
-        cbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "1 Año", "2 Años", "3 Años" }));
         cbVigencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbVigenciaActionPerformed(evt);
@@ -92,6 +144,15 @@ public class Renovarlicencia extends javax.swing.JFrame {
             }
         });
 
+        checkBoxDiscapacidad.setText("¿Obtuvo una dicapacidad?");
+        checkBoxDiscapacidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkBoxDiscapacidadActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Identificador");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -101,34 +162,44 @@ public class Renovarlicencia extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkBoxExtravio)
-                            .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(checkBoxExtravio)
+                                .addGap(36, 36, 36)
+                                .addComponent(checkBoxDiscapacidad))
+                            .addComponent(jLabel1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel4))
                                 .addGap(68, 68, 68)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cbVigencia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtRfc)
-                                    .addComponent(txtCosto)
-                                    .addComponent(cbVigencia, 0, 80, Short.MAX_VALUE)))))
+                                    .addComponent(txtCosto))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(txtIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addComponent(btnReporte)
                         .addGap(79, 79, 79)
                         .addComponent(btnSalir)))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(26, 26, 26)
+                .addGap(4, 4, 4)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtRfc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRfc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -138,7 +209,9 @@ public class Renovarlicencia extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(checkBoxExtravio)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkBoxExtravio)
+                    .addComponent(checkBoxDiscapacidad))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReporte)
@@ -159,6 +232,36 @@ public class Renovarlicencia extends javax.swing.JFrame {
 
     private void cbVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbVigenciaActionPerformed
         // TODO add your handling code here:
+        if (cbVigencia.getSelectedItem().toString().equals("Seleccione")) {
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(0));
+            } else {
+                txtCosto.setText(String.valueOf(0));
+            }
+        }
+        if (cbVigencia.getSelectedItem().toString().equals("1 Año")) {
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(200));
+            } else {
+                txtCosto.setText(String.valueOf(600));
+            }
+        }
+
+        if (cbVigencia.getSelectedItem().toString().equals("2 Años")) {
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(500));
+            } else {
+                txtCosto.setText(String.valueOf(900));
+            }
+        }
+
+        if (cbVigencia.getSelectedItem().toString().equals("3 Años")) {
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(700));
+            } else {
+                txtCosto.setText(String.valueOf(1100));
+            }
+        }
     }//GEN-LAST:event_cbVigenciaActionPerformed
 
     private void txtCostoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostoActionPerformed
@@ -167,29 +270,68 @@ public class Renovarlicencia extends javax.swing.JFrame {
 
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
         // TODO add your handling code here:
+        renovarLicencia();
     }//GEN-LAST:event_btnReporteActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void checkBoxDiscapacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxDiscapacidadActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        if (cbVigencia.getSelectedItem().toString().equals("Seleccione")) {
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(0));
+            } else {
+                txtCosto.setText(String.valueOf(0));
+            }
+        }
+
+        if (cbVigencia.getSelectedItem().toString().equals("1 Año")) {
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(200));
+            } else {
+                txtCosto.setText(String.valueOf(600));
+            }
+        }
+        if (cbVigencia.getSelectedItem().toString().equals("2 Años")) {
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(500));
+            } else {
+                txtCosto.setText(String.valueOf(900));
+            }
+        }
+        if (cbVigencia.getSelectedItem().toString().equals("3 Años")) {
+            if (checkBoxDiscapacidad.isSelected()) {
+                txtCosto.setText(String.valueOf(700));
+            } else {
+                txtCosto.setText(String.valueOf(1100));
+            }
+        }
+
+
+    }//GEN-LAST:event_checkBoxDiscapacidadActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReporte;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cbVigencia;
+    private javax.swing.JCheckBox checkBoxDiscapacidad;
     private javax.swing.JCheckBox checkBoxExtravio;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField txtCosto;
+    private javax.swing.JTextField txtIdentificador;
     private javax.swing.JTextField txtRfc;
     // End of variables declaration//GEN-END:variables
 }

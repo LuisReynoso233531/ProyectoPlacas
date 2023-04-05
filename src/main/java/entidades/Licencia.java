@@ -27,19 +27,19 @@ public class Licencia extends Tramite implements Serializable {
         super();
     }
 
-    public Licencia(String id_licencia, String Vigencia, int costo) {
+    public Licencia(String id_licencia, String Vigencia, Integer costo) {
         this.id_licencia = id_licencia;
         this.Vigencia = Vigencia;
         this.costo = costo;
     }
 
-    public Licencia(String id_licencia, String Vigencia, String tipo, int costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
+    public Licencia(String id_licencia, String Vigencia, String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
         super(tipo, costo, fechaInicio, fechaFin, personasTramite);
         this.id_licencia = id_licencia;
         this.Vigencia = Vigencia;
         this.costo = costo;
     }
-
+    
     public String getId_licencia() {
         return id_licencia;
     }
@@ -56,11 +56,11 @@ public class Licencia extends Tramite implements Serializable {
         this.Vigencia = Vigencia;
     }
 
-    public int getCosto() {
+    public Integer getCosto() {
         return costo;
     }
 
-    public void setCosto(int costo) {
+    public void setCosto(Integer costo) {
         this.costo = costo;
     }
 

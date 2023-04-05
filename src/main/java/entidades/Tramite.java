@@ -43,7 +43,7 @@ public class Tramite implements Serializable {
 
     @Basic
     @Column(name = "Costo")
-    protected int costo;
+    protected Integer costo;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "FechaInicio")
@@ -62,7 +62,7 @@ public class Tramite implements Serializable {
     public Tramite() {
     }
 
-    public Tramite(int id, String tipo, int costo, Date fechaInicio, Date fechaFin, Persona personasTramite, List<Costo> costos) {
+    public Tramite(int id, String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite, List<Costo> costos) {
         this.id = id;
         this.tipo = tipo;
         this.costo = costo;
@@ -72,7 +72,7 @@ public class Tramite implements Serializable {
         this.costos = costos;
     }
 
-    public Tramite(String tipo, int costo, Date fechaInicio, Date fechaFin, Persona personasTramite, List<Costo> costos) {
+    public Tramite(String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite, List<Costo> costos) {
         this.tipo = tipo;
         this.costo = costo;
         this.fechaInicio = fechaInicio;
@@ -81,7 +81,7 @@ public class Tramite implements Serializable {
         this.costos = costos;
     }
 
-    public Tramite(String tipo, int costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
+    public Tramite(String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
         this.tipo = tipo;
         this.costo = costo;
         this.fechaInicio = fechaInicio;
@@ -107,11 +107,11 @@ public class Tramite implements Serializable {
         this.tipo = tipo;
     }
 
-    public int getCosto() {
+    public Integer getCosto() {
         return costo;
     }
 
-    public void setCosto(int costo) {
+    public void setCosto(Integer costo) {
         this.costo = costo;
     }
 

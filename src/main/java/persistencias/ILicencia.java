@@ -13,5 +13,5 @@ import entidades.Licencia;
 public interface ILicencia {
     
     public Licencia agregarLicencia(Licencia licencia);
-    public Licencia renovarLicencia(Licencia licencia);
+    public void renovarLicencia(Licencia licencia);
 }

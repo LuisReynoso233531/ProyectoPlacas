@@ -19,18 +19,18 @@ import javax.persistence.Id;
 public class Placas extends Tramite implements Serializable {
 
     private String numeroPlacas;
-    private int costo;
+    private Integer costo;
 
     public Placas() {
         super();
     }
 
-    public Placas(String numeroPlacas, int costo) {
+    public Placas(String numeroPlacas, Integer costo) {
         this.numeroPlacas = numeroPlacas;
         this.costo = costo;
     }
 
-    public Placas(String numeroPlacas, String tipo, int costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
+    public Placas(String numeroPlacas, String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
         super(tipo, costo, fechaInicio, fechaFin, personasTramite);
         this.numeroPlacas = numeroPlacas;
         this.costo = costo;
@@ -84,11 +84,11 @@ public class Placas extends Tramite implements Serializable {
         this.numeroPlacas = numeroPlacas;
     }
 
-    public int getCosto() {
+    public Integer getCosto() {
         return costo;
     }
 
-    public void setCosto(int costo) {
+    public void setCosto(Integer costo) {
         this.costo = costo;
     }
 

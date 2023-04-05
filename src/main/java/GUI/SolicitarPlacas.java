@@ -43,10 +43,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
     private void rellenarCosto(){
         txtCosto.setText("1500");
     }
-    
-    private boolean validarCliente(){
-        
-    }
+
     
     public void agregarVehiculo(){
         String numeroSerie = this.formatNumeroSerie.getText();
