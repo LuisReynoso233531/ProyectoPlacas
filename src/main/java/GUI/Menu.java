@@ -4,6 +4,10 @@
  */
 package GUI;
 
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+
 /**
  *
  * @author luis-
@@ -38,6 +42,11 @@ public class Menu extends javax.swing.JFrame {
         btnHistorial = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setText("Bienvenido al sistema de ");
@@ -159,28 +168,46 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnRenovarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenovarLicenciaActionPerformed
         // TODO add your handling code here:
+        Renovarlicencia xd = new Renovarlicencia();
+        xd.setVisible(true);
     }//GEN-LAST:event_btnRenovarLicenciaActionPerformed
 
     private void btnSolicitarPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarPlacasActionPerformed
         // TODO add your handling code here:
+        SolicitarPlacas xd = new SolicitarPlacas();
+        xd.setVisible(true);
     }//GEN-LAST:event_btnSolicitarPlacasActionPerformed
 
     private void btnSolicitarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarLicenciaActionPerformed
         // TODO add your handling code here:
+        SolicitarLicencia xd = new SolicitarLicencia();
+        xd.setVisible(true);
     }//GEN-LAST:event_btnSolicitarLicenciaActionPerformed
 
     private void btnRenovarPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenovarPlacasActionPerformed
         // TODO add your handling code here:
+        RenovarPlacas xd = new RenovarPlacas();
+        xd.setVisible(true);
     }//GEN-LAST:event_btnRenovarPlacasActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        int mensaje = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (mensaje == JOptionPane.NO_OPTION) {
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        } else {
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHistorial;

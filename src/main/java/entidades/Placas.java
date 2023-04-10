@@ -10,30 +10,31 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author luis-
  */
 @Entity
+@Table(name = "placas")
 public class Placas extends Tramite implements Serializable {
 
     private String numeroPlacas;
-    private Integer costo;
 
     public Placas() {
-        super();
+
     }
 
-    public Placas(String numeroPlacas, Integer costo) {
+    public Placas(String numeroPlacas) {
         this.numeroPlacas = numeroPlacas;
-        this.costo = costo;
+
     }
 
     public Placas(String numeroPlacas, String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
         super(tipo, costo, fechaInicio, fechaFin, personasTramite);
         this.numeroPlacas = numeroPlacas;
-        this.costo = costo;
+
     }
 
     public int getId() {

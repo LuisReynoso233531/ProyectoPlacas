@@ -114,6 +114,11 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Solicitar placas");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Solicitar placas");
@@ -309,6 +314,16 @@ public class SolicitarPlacas extends javax.swing.JFrame {
     private void formatNumeroSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatNumeroSerieActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_formatNumeroSerieActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        int mensaje = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if(mensaje==JOptionPane.NO_OPTION){
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        }else{
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

@@ -22,27 +22,27 @@ public class Prueba {
      */
     public static void main(String[] args) {
 //        //Ya funciona
-//        SolicitarLicencia xd = new SolicitarLicencia();
-//        xd.setVisible(true);
+        Menu xd = new Menu();
+        xd.setVisible(true);
 //  Ya funciona
 //        SolicitarPlacas xd = new SolicitarPlacas();
 //        xd.setVisible(true);
 
-        Renovarlicencia xd = new Renovarlicencia();
-        xd.setVisible(true);
-        
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
-        EntityManager em = emf.createEntityManager();
-        
-        Persona persona = new Persona("1111111111111", "1", "1", "1", "1111111111", new Date(11, 11, 11), true);
-        Licencia licencia = new Licencia("1","1 Año","Licencia",1, new Date(11,11,11), new Date(12,11,11),persona);
-        
-        em.getTransaction().begin();
-        em.persist(persona);
-        em.persist(licencia);
-        
-        em.getTransaction().commit();
-        em.close();
+//        Renovarlicencia xd = new Renovarlicencia();
+//        xd.setVisible(true);
+//        
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
+//        EntityManager em = emf.createEntityManager();
+//        
+//        Persona persona = new Persona("1111111111111", "1", "1", "1", "1111111111", new Date(11, 11, 11), true);
+//        Licencia licencia = new Licencia("1","1 Año","Licencia",1, new Date(11,11,11), new Date(12,11,11),persona);
+//        
+//        em.getTransaction().begin();
+//        em.persist(persona);
+//        em.persist(licencia);
+//        
+//        em.getTransaction().commit();
+//        em.close();
         
     }
 }

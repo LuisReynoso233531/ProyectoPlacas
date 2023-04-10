@@ -11,12 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author luis-
  */
 @Entity
+@Table(name="licencia")
 public class Licencia extends Tramite implements Serializable {
 
     private String id_licencia;

@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -28,7 +29,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Tramite")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Tramite implements Serializable {
 
     //private static final long serialVersionUID = 1L;
@@ -54,6 +55,7 @@ public class Tramite implements Serializable {
     protected Date fechaFin;
 
     @ManyToOne
+    @JoinColumn(name="id_persona", nullable = false)
     protected Persona personasTramite;
 
     @OneToMany(mappedBy = "tramiteCosto", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

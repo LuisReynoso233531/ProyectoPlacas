@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,7 +26,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Vehiculo")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Vehiculo implements Serializable {
 
     //private static final long serialVersionUID = 1L;
@@ -33,11 +34,11 @@ public class Vehiculo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Vehiculo")
     private int id;
-    
+
     @Basic
-    @Column(name ="NumeroSerie")
+    @Column(name = "NumeroSerie")
     private String numeroSerie;
-    
+
     @Basic
     @Column(name = "Marca")
     private String marca;
@@ -55,6 +56,7 @@ public class Vehiculo implements Serializable {
     private String linea;
 
     @ManyToOne
+    @JoinColumn(name="id_persona", nullable = false)
     private Persona personaVehiculo;
 
     public Vehiculo() {
@@ -79,7 +81,13 @@ public class Vehiculo implements Serializable {
         this.personaVehiculo = personaVehiculo;
     }
 
-    
+    public String getNumeroSerie() {
+        return numeroSerie;
+    }
+
+    public void setNumeroSerie(String numeroSerie) {
+        this.numeroSerie = numeroSerie;
+    }
 
     public int getId() {
         return id;
@@ -150,8 +158,6 @@ public class Vehiculo implements Serializable {
         final Vehiculo other = (Vehiculo) obj;
         return true;
     }
-
-    
 
     @Override
     public String toString() {
