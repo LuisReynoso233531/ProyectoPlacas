@@ -48,7 +48,7 @@ public class Historial extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Tipo", "RFC del cliente", "Costo", "Fecha"
+                "ID", "Tipo", "ID_Cliente", "Costo", "Fecha"
             }
         ));
         jScrollPane1.setViewportView(jTable1);

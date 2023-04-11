@@ -95,7 +95,7 @@
               <Table columnCount="5" rowCount="4">
                 <Column editable="true" title="ID" type="java.lang.Object"/>
                 <Column editable="true" title="Tipo" type="java.lang.Object"/>
-                <Column editable="true" title="RFC del cliente" type="java.lang.Object"/>
+                <Column editable="true" title="ID_Cliente" type="java.lang.Object"/>
                 <Column editable="true" title="Costo" type="java.lang.Object"/>
                 <Column editable="true" title="Fecha" type="java.lang.Object"/>
               </Table>

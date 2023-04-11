@@ -57,7 +57,7 @@ public class Renovarlicencia extends javax.swing.JFrame {
             calendar.add(Calendar.YEAR, 3);
         }
         Date fechaFin = calendar.getTime();
-        Licencia actualizarLicencia = new Licencia(identificador,"Activo",vigencia,"Licencia",costo,fechaInicio,fechaFin,personaDAO.buscarRFC(this.txtRfc.getText()));
+        Licencia actualizarLicencia = new Licencia(identificador,vigencia,"Activo","Licencia",costo,fechaInicio,fechaFin,personaDAO.buscarRFC(this.txtRfc.getText()));
         licenciaDAO.agregarLicencia(actualizarLicencia);
         if(actualizarLicencia!=null){
              JOptionPane.showMessageDialog(this, "Se ha renovado con éxito la Licencia", "", JOptionPane.INFORMATION_MESSAGE);

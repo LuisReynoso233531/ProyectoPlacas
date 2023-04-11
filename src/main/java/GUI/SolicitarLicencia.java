@@ -60,7 +60,7 @@ public class SolicitarLicencia extends javax.swing.JFrame {
             return;
         }
 
-        if (!rfc.matches("\\d{13}")) {
+        if (!rfc.matches("[a-zA-Z0-9]{13}")) {
             JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -112,7 +112,7 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         }
         String identificador = sb.toString();
 
-        Licencia nuevaLicencia = new Licencia(identificador, vigencia,"Activo", "Licencia", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRfc.getText()));
+        Licencia nuevaLicencia = new Licencia(identificador, vigencia, "Activo", "Licencia", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRfc.getText()));
         licenciaDAO.agregarLicencia(nuevaLicencia);
         if (licenciaDAO != null) {
             // JOptionPane.showMessageDialog(this, "Se agregó la nueva licencia", "Información", JOptionPane.INFORMATION_MESSAGE);
