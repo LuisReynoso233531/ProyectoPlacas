@@ -12,6 +12,7 @@ import entidades.Placas;
 import entidades.Vehiculo;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
@@ -74,7 +75,26 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, 1);
         Date fechaFin = calendar.getTime();
-        Placas nuevasPlacas = new Placas("111-111","Placas",costo,fechaInicio,fechaFin, personaDAO.buscarRFC(this.txtRFC.getText()));
+        
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        for (int i = 0; i < 4; i++) {
+            sb.append(caracteres.charAt(random.nextInt(caracteres.length())));
+        }
+        String numeroPlacas = sb.toString();
+        
+        StringBuilder sb2 = new StringBuilder();
+        Random random2 = new Random();
+        String caracteres2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        for (int i = 0; i < 4; i++) {
+            sb.append(caracteres.charAt(random.nextInt(caracteres.length())));
+        }
+        String numeroPlacas2 = sb.toString();
+        
+        String numeroPlacas3 = numeroPlacas+"-"+numeroPlacas2;
+        
+        Placas nuevasPlacas = new Placas(numeroPlacas3,"Placas",costo,fechaInicio,fechaFin, personaDAO.buscarRFC(this.txtRFC.getText()));
         nuevasPlacas = placasDAO.agregarPlacas(nuevasPlacas);
         if(nuevasPlacas!=null){
             JOptionPane.showMessageDialog(this, "Se ha agregado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -106,7 +126,6 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         txtColor = new javax.swing.JTextField();
         txtCosto = new javax.swing.JTextField();
         btnReporte = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         txtRFC = new javax.swing.JTextField();
         formatNumeroSerie = new javax.swing.JFormattedTextField();
@@ -173,13 +192,6 @@ public class SolicitarPlacas extends javax.swing.JFrame {
             }
         });
 
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
-            }
-        });
-
         jLabel8.setText("RFC");
 
         txtRFC.addActionListener(new java.awt.event.ActionListener() {
@@ -204,34 +216,30 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(btnReporte)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-                .addComponent(btnSalir)
-                .addGap(92, 92, 92))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                            .addComponent(txtModelo)
-                            .addComponent(txtLinea)
-                            .addComponent(txtColor)
-                            .addComponent(txtCosto)
-                            .addComponent(txtRFC)
-                            .addComponent(formatNumeroSerie))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnReporte)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel8))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                                .addComponent(txtModelo)
+                                .addComponent(txtLinea)
+                                .addComponent(txtColor)
+                                .addComponent(txtCosto)
+                                .addComponent(txtRFC)
+                                .addComponent(formatNumeroSerie)))))
+                .addContainerGap(163, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,9 +275,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReporte)
-                    .addComponent(btnSalir))
+                .addComponent(btnReporte)
                 .addGap(18, 18, 18))
         );
 
@@ -302,11 +308,6 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         agregarPlacas();
     }//GEN-LAST:event_btnReporteActionPerformed
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
-
     private void txtRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRFCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRFCActionPerformed
@@ -333,7 +334,6 @@ public class SolicitarPlacas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReporte;
-    private javax.swing.JButton btnSalir;
     private javax.swing.JFormattedTextField formatNumeroSerie;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

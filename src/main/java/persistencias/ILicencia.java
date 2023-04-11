@@ -14,4 +14,6 @@ public interface ILicencia {
     
     public Licencia agregarLicencia(Licencia licencia);
     public void renovarLicencia(Licencia licencia);
+    public Licencia buscarPorLicencia(String id_licencia);
+    
 }

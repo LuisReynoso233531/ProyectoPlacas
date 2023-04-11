@@ -42,7 +42,7 @@ public class Renovarlicencia extends javax.swing.JFrame {
         String rfc = this.txtRfc.getText();
         String vigencia = cbVigencia.getSelectedItem().toString();
         int costo = Integer.parseInt(this.txtCosto.getText());
-        int identificador = Integer.parseInt(this.txtIdentificador.getText());
+        String identificador = this.txtIdentificador.getText();
         if (vigencia.equals("Seleccione")) {
             JOptionPane.showMessageDialog(this, "Por favor seleccione una vigencia correcta", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -57,15 +57,15 @@ public class Renovarlicencia extends javax.swing.JFrame {
             calendar.add(Calendar.YEAR, 3);
         }
         Date fechaFin = calendar.getTime();
-        Licencia actualizarLicencia = new Licencia("",vigencia,"Licencia",costo,fechaInicio,fechaFin,personaDAO.buscarRFC(this.txtRfc.getText()));
-        licenciaDAO.renovarLicencia(actualizarLicencia);
+        Licencia actualizarLicencia = new Licencia(identificador,"Activo",vigencia,"Licencia",costo,fechaInicio,fechaFin,personaDAO.buscarRFC(this.txtRfc.getText()));
+        licenciaDAO.agregarLicencia(actualizarLicencia);
         if(actualizarLicencia!=null){
-             JOptionPane.showMessageDialog(this, "Se ha renovado con éxito la Licencia", "", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(this, "Se ha renovado con éxito la Licencia", "", JOptionPane.INFORMATION_MESSAGE);
         }else{
              JOptionPane.showMessageDialog(this, "Error! No es posible renovar la Licencia", "", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

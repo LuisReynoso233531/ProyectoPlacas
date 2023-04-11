@@ -7,6 +7,7 @@ package entidades;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,30 +19,33 @@ import javax.persistence.Table;
  * @author luis-
  */
 @Entity
-@Table(name="licencia")
+@Table(name = "licencia")
 public class Licencia extends Tramite implements Serializable {
 
+    @Column(name="id_licencia")
     private String id_licencia;
+    @Column(name="vigencia")
     private String Vigencia;
-    private int costo;
+    @Column(name="estado")
+    private String estado;
 
     public Licencia() {
         super();
     }
 
-    public Licencia(String id_licencia, String Vigencia, Integer costo) {
+    public Licencia(String id_licencia, String Vigencia, String estado) {
         this.id_licencia = id_licencia;
         this.Vigencia = Vigencia;
-        this.costo = costo;
+        this.estado = estado;
     }
 
-    public Licencia(String id_licencia, String Vigencia, String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
+    public Licencia(String id_licencia, String Vigencia, String estado, String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
         super(tipo, costo, fechaInicio, fechaFin, personasTramite);
         this.id_licencia = id_licencia;
         this.Vigencia = Vigencia;
-        this.costo = costo;
+        this.estado = estado;
     }
-    
+
     public String getId_licencia() {
         return id_licencia;
     }
@@ -105,7 +109,14 @@ public class Licencia extends Tramite implements Serializable {
     public void setPersonasTramite(Persona personasTramite) {
         this.personasTramite = personasTramite;
     }
-    
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
     
     
 }
