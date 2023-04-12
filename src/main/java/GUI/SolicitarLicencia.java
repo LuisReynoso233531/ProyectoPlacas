@@ -73,6 +73,21 @@ public class SolicitarLicencia extends javax.swing.JFrame {
                 return;
             }
 
+            if (fechaNacimiento.after(new Date())) {
+                JOptionPane.showMessageDialog(this, "La fecha de nacimiento no puede ser mayor a la fecha actual", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(fechaNacimiento);
+            cal.add(Calendar.YEAR, 18);
+            Date fecha18 = cal.getTime();
+
+            if (fecha18.after(new Date())) {
+                JOptionPane.showMessageDialog(this, "El cliente debe tener al menos 18 años", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             boolean discapacidad = this.checkBoxDiscapacidad.isSelected();
             Persona personaNueva = new Persona(rfc, nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad);
 
@@ -86,18 +101,32 @@ public class SolicitarLicencia extends javax.swing.JFrame {
             }
         }
         if (!rfc.matches("[A-Z0-9]{13}")) {
-            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto, Asegurese de solo insertar letras mayusculas y numeros, ademas de que sean 13 caracteres",
-                     "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto,\n Asegurese de solo insertar letras mayusculas y numeros,\n ademas de que sean 13 caracteres",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+        Persona usuarioExistente = personaDAO.buscarRFC(rfc);
+        if (usuarioExistente != null) {
+            JOptionPane.showMessageDialog(this, "Ya existe un usuario con el RFC ingresado", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
     }
 
     private void solicitarLicencia() {
+        String rfc = this.txtRfc.getText();
         String vigencia = cbVigencia.getSelectedItem().toString();
         int costo = Integer.parseInt(this.txtCosto.getText());
 
         if (vigencia.equals("Seleccione")) {
             JOptionPane.showMessageDialog(this, "Por favor seleccione una vigencia correcta", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        //zzz
+        Persona usuarioNoExistente = personaDAO.buscarRFC(rfc);
+        if (usuarioNoExistente == null) {
+            JOptionPane.showMessageDialog(this, "No existe un usuario con el RFC ingresado", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

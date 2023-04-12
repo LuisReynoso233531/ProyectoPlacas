@@ -59,7 +59,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
             return;
         }
         
-        if (!rfc.matches("[a-zA-Z0-9]{13}")) {
+        if (!rfc.matches("[A-Z0-9]{13}")) {
                 JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
