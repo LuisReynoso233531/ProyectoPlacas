@@ -37,7 +37,6 @@ public class Menu extends javax.swing.JFrame {
         btnRenovarLicencia = new javax.swing.JButton();
         btnRenovarPlacas = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        btnSalir = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btnHistorial = new javax.swing.JButton();
 
@@ -86,13 +85,6 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel4.setText("*inserte imagen aqui* ");
 
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
-            }
-        });
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("¿Que desea hacer?");
 
@@ -128,9 +120,6 @@ public class Menu extends javax.swing.JFrame {
                         .addGap(249, 249, 249)
                         .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(287, 287, 287)
-                        .addComponent(btnSalir))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(254, 254, 254)
                         .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -160,9 +149,7 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(btnRenovarLicencia))
                 .addGap(29, 29, 29)
                 .addComponent(btnHistorial)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(btnSalir)
-                .addGap(21, 21, 21))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,11 +179,6 @@ public class Menu extends javax.swing.JFrame {
         xd.setVisible(true);
     }//GEN-LAST:event_btnRenovarPlacasActionPerformed
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         int mensaje = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -215,7 +197,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnHistorial;
     private javax.swing.JButton btnRenovarLicencia;
     private javax.swing.JButton btnRenovarPlacas;
-    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSolicitarLicencia;
     private javax.swing.JButton btnSolicitarPlacas;
     private javax.swing.JLabel jLabel1;

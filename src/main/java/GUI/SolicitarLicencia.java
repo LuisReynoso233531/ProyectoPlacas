@@ -53,35 +53,43 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         String apellidoP = this.txtApellidoP.getText();
         String apellidoM = this.txtApellidoM.getText();
         String telefono = this.txtTelefono.getText();
-        Date fechaNacimiento = Date.from(this.dpFechaNacimiento.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date fechaNacimiento = null;
 
-        if (rfc.isEmpty() || nombres.isEmpty() || apellidoP.isEmpty() || telefono.isEmpty() || fechaNacimiento == null) {
-            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
+        if (checkBoxPrimera.isSelected()) {
+            if (dpFechaNacimiento.getDate() != null) {
+                fechaNacimiento = Date.from(this.dpFechaNacimiento.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor complete todos los campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (rfc.isEmpty() || nombres.isEmpty() || apellidoP.isEmpty() || telefono.isEmpty() || fechaNacimiento == null) {
+                JOptionPane.showMessageDialog(this, "Por favor complete todos los campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!telefono.matches("[0-9]{10}")) {
+                JOptionPane.showMessageDialog(this, "El teléfono ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            boolean discapacidad = this.checkBoxDiscapacidad.isSelected();
+            Persona personaNueva = new Persona(rfc, nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad);
+
+            personaNueva = personaDAO.agregar(personaNueva);
+
+            if (personaNueva != null) {
+                // JOptionPane.showMessageDialog(this, "Se agregó el nuevo cliente", "Información", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        if (!rfc.matches("[A-Z0-9]{13}")) {
+            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto, Asegurese de solo insertar letras mayusculas y numeros, ademas de que sean 13 caracteres",
+                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        if (!rfc.matches("[a-zA-Z0-9]{13}")) {
-            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (!telefono.matches("[0-9]{10}")) {
-            JOptionPane.showMessageDialog(this, "El teléfono ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        boolean discapacidad = this.checkBoxDiscapacidad.isSelected();
-        Persona personaNueva = new Persona(rfc, nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad);
-
-        personaNueva = personaDAO.agregar(personaNueva);
-
-        if (personaNueva != null) {
-            // JOptionPane.showMessageDialog(this, "Se agregó el nuevo cliente", "Información", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.ERROR_MESSAGE);
-        }
-
     }
 
     private void solicitarLicencia() {
@@ -115,7 +123,7 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         Licencia nuevaLicencia = new Licencia(identificador, vigencia, "Activo", "Licencia", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRfc.getText()));
         licenciaDAO.agregarLicencia(nuevaLicencia);
         if (licenciaDAO != null) {
-            // JOptionPane.showMessageDialog(this, "Se agregó la nueva licencia", "Información", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Se agregó la nueva licencia", "Información", JOptionPane.INFORMATION_MESSAGE);
 
         } else {
             JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.INFORMATION_MESSAGE);
@@ -152,7 +160,6 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         txtTelefono = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         btnReporte = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
         dpFechaNacimiento = new com.github.lgooddatepicker.components.DatePicker();
         checkBoxPrimera = new javax.swing.JCheckBox();
 
@@ -258,13 +265,6 @@ public class SolicitarLicencia extends javax.swing.JFrame {
             }
         });
 
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
-            }
-        });
-
         dpFechaNacimiento.setEnabled(false);
 
         checkBoxPrimera.setText("¿Primera vez?");
@@ -278,12 +278,6 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(201, 201, 201)
-                .addComponent(btnReporte)
-                .addGap(65, 65, 65)
-                .addComponent(btnSalir)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(19, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,6 +328,10 @@ public class SolicitarLicencia extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)
                         .addGap(61, 61, 61))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(276, 276, 276)
+                .addComponent(btnReporte)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,11 +373,9 @@ public class SolicitarLicencia extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReporte)
-                    .addComponent(btnSalir))
-                .addGap(24, 24, 24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(btnReporte)
+                .addGap(14, 14, 14))
         );
 
         pack();
@@ -452,13 +448,8 @@ public class SolicitarLicencia extends javax.swing.JFrame {
         // TODO add your handling code here:
         agregarCliente();
         solicitarLicencia();
-        JOptionPane.showMessageDialog(this, "Se ha agregado con éxito la nueva licencia", "Información", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_btnReporteActionPerformed
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
+    }//GEN-LAST:event_btnReporteActionPerformed
 
     private void cbVigenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbVigenciaMouseClicked
         // TODO add your handling code here:
@@ -523,6 +514,11 @@ public class SolicitarLicencia extends javax.swing.JFrame {
             this.txtNombre.setEnabled(false);
             this.txtTelefono.setEnabled(false);
             this.dpFechaNacimiento.setEnabled(false);
+            this.txtApellidoM.setText("");
+            this.txtApellidoP.setText("");
+            this.txtNombre.setText("");
+            this.txtTelefono.setText("");
+            this.dpFechaNacimiento.setText("");
         }
 
     }//GEN-LAST:event_checkBoxPrimeraActionPerformed
@@ -533,7 +529,6 @@ public class SolicitarLicencia extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReporte;
-    private javax.swing.JButton btnSalir;
     private com.github.lgooddatepicker.components.CalendarPanel calendarPanel1;
     private javax.swing.JComboBox<String> cbVigencia;
     private javax.swing.JCheckBox checkBoxDiscapacidad;

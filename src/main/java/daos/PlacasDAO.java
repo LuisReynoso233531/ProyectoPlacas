@@ -32,7 +32,7 @@ public class PlacasDAO implements IPlacas {
             return placas;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new RuntimeException("Error. No es posible agregar las Placas", e);
+            throw new RuntimeException("Error. No es posible agregar las Placas"+ e.getMessage(),e);
         } finally {
             em.close();
         }

@@ -59,6 +59,11 @@ public class SolicitarPlacas extends javax.swing.JFrame {
             return;
         }
         
+        if (!rfc.matches("[a-zA-Z0-9]{13}")) {
+                JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        
         Vehiculo nuevoVehiculo = new Vehiculo(numeroSerie,marca,color,modelo,linea,personaDAO.buscarRFC(this.txtRFC.getText()));
         nuevoVehiculo = vehiculoDAO.agregar(nuevoVehiculo);
          if (nuevoVehiculo != null) {
@@ -78,19 +83,19 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
-        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        for (int i = 0; i < 4; i++) {
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (int i = 0; i < 3; i++) {
             sb.append(caracteres.charAt(random.nextInt(caracteres.length())));
         }
         String numeroPlacas = sb.toString();
         
         StringBuilder sb2 = new StringBuilder();
         Random random2 = new Random();
-        String caracteres2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        for (int i = 0; i < 4; i++) {
-            sb.append(caracteres.charAt(random.nextInt(caracteres.length())));
+        String caracteres2 = "123456789";
+        for (int i = 0; i < 3; i++) {
+            sb2.append(caracteres2.charAt(random2.nextInt(caracteres2.length())));
         }
-        String numeroPlacas2 = sb.toString();
+        String numeroPlacas2 = sb2.toString();
         
         String numeroPlacas3 = numeroPlacas+"-"+numeroPlacas2;
         

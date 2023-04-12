@@ -7,6 +7,7 @@ package daos;
 import entidades.Persona;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import persistencias.IPersona;
@@ -43,20 +44,24 @@ public class PersonaDAO implements IPersona {
     @Override
     public Persona buscarRFC(String rfc) {
         EntityManager em = emf.createEntityManager();
-        try{
-           Query query = em.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
-        query.setParameter("rfc", rfc);
-        return (Persona) query.getSingleResult(); 
-        }catch(Exception e){
-           em.getTransaction().rollback();
-            throw new RuntimeException("Error. No es posible encontrar la persona", e); 
-        }finally{
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
+            query.setParameter("rfc", rfc);
+            Persona persona = (Persona) query.getSingleResult();
+            em.getTransaction().commit();
+            return persona;
+        } catch (NoResultException e) {
+            em.getTransaction().rollback();
+            throw new RuntimeException("No se encontró una persona con el RFC especificado", e);
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new RuntimeException("Error al buscar persona por RFC: " + e.getMessage(), e);
+        } finally {
             em.close();
         }
-        
+
     }
-    
-    
 
     @Override
     public Persona agregarMasivo(Persona persona) {
