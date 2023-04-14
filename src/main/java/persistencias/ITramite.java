@@ -5,6 +5,7 @@
 package persistencias;
 
 import entidades.Tramite;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,4 +14,7 @@ import java.util.List;
  */
 public interface ITramite {
     List<Tramite> mostrarTramite();
+    List<Tramite> buscarTipo(String tipo);
+    List<Tramite> buscarPorId(int id);
+    List<Tramite> buscarPorFecha(Date fecha);
 }

@@ -5,6 +5,7 @@
 package daos;
 
 import entidades.Tramite;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -43,5 +44,64 @@ public class TramiteDAO implements ITramite {
             em.close();
         }
     }
+
+    @Override
+    public List<Tramite> buscarTipo(String tipo) {
+        EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT t FROM Tramite t WHERE t.tipo = :tipo");
+        query.setParameter("tipo", tipo) ;
+        List<Tramite> tramites = query.getResultList();
+        em.getTransaction().commit();
+        return tramites;
+    } catch (Exception e) {
+        em.getTransaction().rollback();
+        JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de trámites: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        throw new PersistenceException("No se pudo generar la búsqueda de trámites: " + e.getMessage(), e);
+    } finally {
+        em.close();
+    }
+    }
+
+    @Override
+    public List<Tramite> buscarPorId(int id) {
+           EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT t FROM Tramite t WHERE t.id = :id");
+        query.setParameter("id", id) ;
+        List<Tramite> tramites = query.getResultList();
+        em.getTransaction().commit();
+        return tramites;
+    } catch (Exception e) {
+        em.getTransaction().rollback();
+        JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de trámites: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        throw new PersistenceException("No se pudo generar la búsqueda de trámites: " + e.getMessage(), e);
+    } finally {
+        em.close();
+    }
+    }
+
+    @Override
+    public List<Tramite> buscarPorFecha(Date fecha) {
+        EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT t FROM Tramite t WHERE t.fechaInicio = :fecha");
+        query.setParameter("fecha", fecha);
+        List<Tramite> tramites = query.getResultList();
+        em.getTransaction().commit();
+        return tramites;
+    } catch (Exception e) {
+        em.getTransaction().rollback();
+        JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de trámites: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        throw new PersistenceException("No se pudo generar la búsqueda de trámites: " + e.getMessage(), e);
+    } finally {
+        em.close();
+    }
+    }
+
+
 
 }

@@ -9,7 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.swing.JOptionPane;
 import persistencias.IPersona;
 
 /**
@@ -53,7 +55,8 @@ public class PersonaDAO implements IPersona {
             return persona;
         } catch (NoResultException e) {
             em.getTransaction().rollback();
-            throw new RuntimeException("No se encontró una persona con el RFC especificado", e);
+            JOptionPane.showMessageDialog(null, "No se encontro la RFC: " + e, "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenceException("No se pudo generar la búsqueda de trámites: " + e.getMessage(), e);
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new RuntimeException("Error al buscar persona por RFC: " + e.getMessage(), e);
