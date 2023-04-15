@@ -5,6 +5,7 @@
 package persistencias;
 
 import entidades.Persona;
+import java.util.List;
 
 /**
  *
@@ -14,6 +15,6 @@ public interface IPersona {
     public Persona agregarMasivo(Persona persona);
     public Persona agregar(Persona persona);
     public Persona buscarRFC(String rfc);
-    public Persona buscarDiscapacidad(boolean discapacidad);
+    List <Persona> buscarRfcTabla(String rfc);
     
 }

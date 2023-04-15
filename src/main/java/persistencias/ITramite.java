@@ -17,4 +17,7 @@ public interface ITramite {
     List<Tramite> buscarTipo(String tipo);
     List<Tramite> buscarPorId(int id);
     List<Tramite> buscarPorFecha(Date fecha);
+    List<Tramite> buscarPeriodo(Date fechaInicio, Date fechaFin);
+    List<Tramite> buscarRFC(String rfc);
+    List<Tramite> buscarNombre(String nombres);
 }

@@ -102,6 +102,64 @@ public class TramiteDAO implements ITramite {
     }
     }
 
+    @Override
+    public List<Tramite> buscarPeriodo(Date fechaInicio, Date fechaFin) {
+       EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT t FROM Tramite t WHERE t.fechaInicio BETWEEN :fechaInicio AND :fechaFin");
+        query.setParameter("fechaInicio", fechaInicio);
+        query.setParameter("fechaFin", fechaFin);
+        List<Tramite> tramites = query.getResultList();
+        em.getTransaction().commit();
+        return tramites;
+    } catch (Exception e) {
+        em.getTransaction().rollback();
+        JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de trámites: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        throw new PersistenceException("No se pudo generar la búsqueda de trámites: " + e.getMessage(), e);
+    } finally {
+        em.close();
+    }
+    }
+
+    @Override
+    public List<Tramite> buscarRFC(String rfc) {
+          EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT t FROM Tramite t INNER JOIN t.personasTramite p WHERE p.rfc = :rfc");
+        query.setParameter("rfc", rfc);
+        List<Tramite> tramites = query.getResultList();
+        em.getTransaction().commit();
+        return tramites;
+    }catch (Exception e) {
+        em.getTransaction().rollback();
+        JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de rfc: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        throw new PersistenceException("No se pudo generar la búsqueda de rfc: " + e.getMessage(), e);
+    } finally {
+        em.close();
+    }
+    }
+
+    @Override
+    public List<Tramite> buscarNombre(String nombres) {
+            EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT t FROM Tramite t INNER JOIN t.personasTramite p WHERE p.nombres = :nombres");
+        query.setParameter("nombres", nombres);
+        List<Tramite> tramites = query.getResultList();
+        em.getTransaction().commit();
+        return tramites;
+    }catch (Exception e) {
+        em.getTransaction().rollback();
+        JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de rfc: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        throw new PersistenceException("No se pudo generar la búsqueda de rfc: " + e.getMessage(), e);
+    } finally {
+        em.close();
+    }
+    }
+
 
 
 }
