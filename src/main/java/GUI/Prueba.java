@@ -4,12 +4,20 @@
  */
 package GUI;
 
+import daos.TramiteDAO;
 import entidades.Licencia;
 import entidades.Persona;
+import entidades.Placas;
+import entidades.Tramite;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import reporte.GenerarReporte;
+import reporte.Reporte;
 
 /**
  *
@@ -24,26 +32,26 @@ public class Prueba {
 //        //Ya funciona
         Menu xd = new Menu();
         xd.setVisible(true);
-//  Ya funciona
-//        SolicitarPlacas xd = new SolicitarPlacas();
-//        xd.setVisible(true);
 
-//        Renovarlicencia xd = new Renovarlicencia();
-//        xd.setVisible(true);
-//        
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
-//        EntityManager em = emf.createEntityManager();
+//        TramiteDAO tramiteDAO = new TramiteDAO(emf);
+//
+//        Date fechaInicio = new Date(11, 11, 11);
+//        Date fechaFin = new Date(123, 11, 11);
+//
+//        List<Tramite> tramites = tramiteDAO.buscarPeriodo(fechaInicio, fechaFin);
+//        List<Reporte> reportes = new LinkedList<>();
 //        
-      
-        
-//        Licencia licencia = new Licencia("1","1 Año","Licencia",1, new Date(11,11,11), new Date(12,11,11),persona);
+//        System.out.println(fechaInicio);
+//        System.out.println(fechaFin);
 //        
-//        em.getTransaction().begin();
-//        em.persist(persona);
-//        em.persist(licencia);
-//        
-//        em.getTransaction().commit();
-//        em.close();
-        
+//        for (Tramite tramite : tramites) {
+//            System.out.println(tramite.getPersonasTramite().getNombres());
+//            reportes.add(new Reporte(tramite));
+//
+//        }
+//
+//        GenerarReporte.generarReporte(reportes);
+
     }
 }

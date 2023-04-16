@@ -11,6 +11,7 @@ import entidades.Tramite;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,6 +19,8 @@ import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import reporte.GenerarReporte;
+import reporte.Reporte;
 
 /**
  *
@@ -43,9 +46,9 @@ public class Historial extends javax.swing.JFrame {
         personaDAO = new PersonaDAO(emf);
         quitarPeriodo();
         llenarTabla();
-        
+
     }
-    
+
     public void llenarTabla() {
         List<Tramite> listaTramites = this.tramiteDAO.mostrarTramite();
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaTramites.getModel();
@@ -94,27 +97,41 @@ public class Historial extends javax.swing.JFrame {
 
         if (dpFechaInicio.getDate() != null) {
             fecha = Date.from(this.dpFechaInicio.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            List<Tramite> listaTramites = this.tramiteDAO.buscarPorFecha(fecha);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaTramites.getModel();
+            modeloTabla.setRowCount(0);
+            listaTramites.forEach(tramite -> {
+                Object[] fila = new Object[7];
+                fila[0] = tramite.getId();
+                fila[1] = tramite.getTipo();
+                fila[2] = tramite.getPersonasTramite().getId();
+                fila[3] = tramite.getCosto();
+                fila[4] = formatoFecha.format(tramite.getFechaInicio().getTime());
+                fila[5] = tramite.getPersonasTramite().getNombres();
+                fila[6] = tramite.getPersonasTramite().getRfc();
+
+                modeloTabla.addRow(fila);
+
+            });
         } else {
             JOptionPane.showMessageDialog(this, "Por favor seleccione una fecha", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        List<Tramite> listaTramites = this.tramiteDAO.buscarPorFecha(fecha);
-        DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaTramites.getModel();
-        modeloTabla.setRowCount(0);
-        listaTramites.forEach(tramite -> {
-            Object[] fila = new Object[7];
-            fila[0] = tramite.getId();
-            fila[1] = tramite.getTipo();
-            fila[2] = tramite.getPersonasTramite().getId();
-            fila[3] = tramite.getCosto();
-            fila[4] = formatoFecha.format(tramite.getFechaInicio().getTime());
-            fila[5] = tramite.getPersonasTramite().getNombres();
-            fila[6] = tramite.getPersonasTramite().getRfc();
+        //Reporte
+        List<Tramite> tramites = tramiteDAO.buscarPorFecha(fecha);
+        if (tramites.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron los tramites", "", JOptionPane.ERROR_MESSAGE);
+        } else {
 
-            modeloTabla.addRow(fila);
+            List<Reporte> reportes = new LinkedList<>();
+            for (Tramite tramite : tramites) {
+                reportes.add(new Reporte(tramite));
 
-        });
+            }
+            GenerarReporte.generarReporte(reportes);
+        }
 
         if (fecha.after(new Date())) {
             JOptionPane.showMessageDialog(this, "No se puede buscar un tramite con fecha mayor a hoy", "Error", JOptionPane.ERROR_MESSAGE);
@@ -150,13 +167,27 @@ public class Historial extends javax.swing.JFrame {
 
         });
 
+        //Reporte
+        List<Tramite> tramites = tramiteDAO.buscarPorId(id);
+        if (tramites.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron los tramites", "", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            List<Reporte> reportes = new LinkedList<>();
+            for (Tramite tramite : tramites) {
+                reportes.add(new Reporte(tramite));
+
+            }
+            GenerarReporte.generarReporte(reportes);
+        }
+
     }
 
     public void buscarPeriodo() {
 
         Date fechaInicio = null;
-        Date fechaFin =  null;
-                
+        Date fechaFin = null;
+
         if (dpFechaDespues.getDate() != null) {
             fechaInicio = Date.from(this.dpFechaDespues.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
         } else {
@@ -165,7 +196,7 @@ public class Historial extends javax.swing.JFrame {
         }
 
         if (dpFechaAntes.getDate() != null) {
-            fechaFin =  Date.from(this.dpFechaAntes.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            fechaFin = Date.from(this.dpFechaAntes.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
         } else {
             JOptionPane.showMessageDialog(this, "Por favor seleccione una fecha (Antes)", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -188,9 +219,22 @@ public class Historial extends javax.swing.JFrame {
 
         });
 
+        //Reporte
+        List<Tramite> tramites = tramiteDAO.buscarPeriodo(fechaInicio, fechaFin);
+        if (tramites.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron los tramites", "", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            List<Reporte> reportes = new LinkedList<>();
+            for (Tramite tramite : tramites) {
+                reportes.add(new Reporte(tramite));
+
+            }
+            GenerarReporte.generarReporte(reportes);
+        }
     }
-    
-    public void quitarPeriodo(){
+
+    public void quitarPeriodo() {
         dpFechaAntes.setEnabled(false);
         dpFechaDespues.setEnabled(false);
         btnPeriodo.setEnabled(false);
@@ -216,6 +260,20 @@ public class Historial extends javax.swing.JFrame {
             modeloTabla.addRow(fila);
 
         });
+
+        //Reporte
+        List<Tramite> tramites = tramiteDAO.buscarRFC(rfc);
+        if (tramites.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron los tramites", "", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            List<Reporte> reportes = new LinkedList<>();
+            for (Tramite tramite : tramites) {
+                reportes.add(new Reporte(tramite));
+
+            }
+            GenerarReporte.generarReporte(reportes);
+        }
 
         if (rfc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El RFC esta vacio", "Error", JOptionPane.ERROR_MESSAGE);
@@ -243,6 +301,19 @@ public class Historial extends javax.swing.JFrame {
 
         });
 
+        //Reporte
+        List<Tramite> tramites = tramiteDAO.buscarNombre(nombres);
+        if (tramites.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron los tramites", "", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            List<Reporte> reportes = new LinkedList<>();
+            for (Tramite tramite : tramites) {
+                reportes.add(new Reporte(tramite));
+
+            }
+            GenerarReporte.generarReporte(reportes);
+        }
         if (nombres.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El nombre esta vacio", "Error", JOptionPane.ERROR_MESSAGE);
         }

@@ -158,6 +158,8 @@ public class SolicitarLicencia extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.INFORMATION_MESSAGE);
         }
         dispose();
+        
+        
     }
 
     /**
