@@ -16,5 +16,6 @@ public interface IPersona {
     public Persona agregar(Persona persona);
     public Persona buscarRFC(String rfc);
     List <Persona> buscarRfcTabla(String rfc);
+    List <Persona> mostrarPersonas();
     
 }

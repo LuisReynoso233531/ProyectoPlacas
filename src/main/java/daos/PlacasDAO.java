@@ -8,6 +8,7 @@ import entidades.Placas;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import persistencias.IPlacas;
 
 /**
@@ -39,25 +40,20 @@ public class PlacasDAO implements IPlacas {
     }
 
     @Override
-    public Placas renovarPlacas(Placas placas) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            Placas placaActualizada = em.find(Placas.class, placas.getId());
-            if (placaActualizada == null) {
-                throw new RuntimeException("No se han encontrado las Placas por renovar");
-            }
-//            placaActualizada.setFechaInicio(placas.getFechaInicio());
-//            placaActualizada.setFechaFin(placas.getFechaFin());
-//            placaActualizada.setVigencia(placas.getVigencia());
-            em.getTransaction().commit();
-            return placaActualizada;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            throw new RuntimeException("Error. No es posible renovar las Placas", e);
-        } finally {
-            em.close();
-        }
+    public void actualizarPlacas(String numeroPlacas, String estado) {
+            EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        Query query = em.createQuery("UPDATE Placas p SET p.estado = :estado WHERE p.vehiculo = :vehiculo");
+        query.setParameter("estado", estado);
+        query.setParameter("vehiculo", numeroPlacas);
+        int rowsUpdated = query.executeUpdate();
+        em.getTransaction().commit();
+    } catch (Exception e) {
+        System.err.println(e.getMessage());
+    } finally {
+        em.close();
+    }
     }
     
     

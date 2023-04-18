@@ -6,12 +6,16 @@ package GUI;
 
 import daos.LicenciaDAO;
 import daos.PersonaDAO;
+import daos.TramiteDAO;
 import entidades.Licencia;
+import entidades.Tramite;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -37,8 +41,8 @@ public class Renovarlicencia extends javax.swing.JFrame {
     private void rellenarCosto() {
         txtCosto.setText("0");
     }
-    
-    public void renovarLicencia(){
+
+    public void renovarLicencia() {
         String rfc = this.txtRfc.getText();
         String vigencia = cbVigencia.getSelectedItem().toString();
         int costo = Integer.parseInt(this.txtCosto.getText());
@@ -57,15 +61,17 @@ public class Renovarlicencia extends javax.swing.JFrame {
             calendar.add(Calendar.YEAR, 3);
         }
         Date fechaFin = calendar.getTime();
-        Licencia actualizarLicencia = new Licencia(identificador,vigencia,"Activo","Licencia",costo,fechaInicio,fechaFin,personaDAO.buscarRFC(this.txtRfc.getText()));
+        Licencia actualizarLicencia = new Licencia(identificador, vigencia, "Activo", "Licencia", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRfc.getText()));
+        licenciaDAO.renovarLicencia(identificador, "Caduco");
         licenciaDAO.agregarLicencia(actualizarLicencia);
-        if(actualizarLicencia!=null){
-             JOptionPane.showMessageDialog(this, "Se ha renovado con éxito la Licencia", "", JOptionPane.INFORMATION_MESSAGE);
-        }else{
-             JOptionPane.showMessageDialog(this, "Error! No es posible renovar la Licencia", "", JOptionPane.ERROR_MESSAGE);
+        if (actualizarLicencia != null) {
+            JOptionPane.showMessageDialog(this, "Se ha renovado con éxito la Licencia", "", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error! No es posible renovar la Licencia", "", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,6 +100,11 @@ public class Renovarlicencia extends javax.swing.JFrame {
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel2.setText("RFC");
 
@@ -331,6 +342,16 @@ public class Renovarlicencia extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_checkBoxDiscapacidadActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+         int mensaje = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (mensaje == JOptionPane.NO_OPTION) {
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        } else {
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

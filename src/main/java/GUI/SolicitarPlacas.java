@@ -30,6 +30,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
     private PersonaDAO personaDAO;
     private VehiculoDAO vehiculoDAO;
     private PlacasDAO placasDAO;
+    private Vehiculo vehiculo;
     
     
     public SolicitarPlacas() {
@@ -53,7 +54,6 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         String linea = this.txtLinea.getText();
         String color = this.txtColor.getText();
         String rfc = this.txtRFC.getText();
-        
         if(numeroSerie.isEmpty()||marca.isEmpty()||modelo.isEmpty()||linea.isEmpty()||color.isEmpty()||rfc.isEmpty()){
              JOptionPane.showMessageDialog(this, "Por favor complete todos los campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -80,6 +80,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, 1);
         Date fechaFin = calendar.getTime();
+        String vehiculoSerie = this.formatNumeroSerie.getText();
         
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
@@ -99,7 +100,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         
         String numeroPlacas3 = numeroPlacas+"-"+numeroPlacas2;
         
-        Placas nuevasPlacas = new Placas(numeroPlacas3,"Placas",costo,fechaInicio,fechaFin, personaDAO.buscarRFC(this.txtRFC.getText()));
+        Placas nuevasPlacas = new Placas(numeroPlacas3,"Activo",vehiculoSerie,"Placas",costo,fechaInicio,fechaFin, personaDAO.buscarRFC(this.txtRFC.getText()));
         nuevasPlacas = placasDAO.agregarPlacas(nuevasPlacas);
         if(nuevasPlacas!=null){
             JOptionPane.showMessageDialog(this, "Se ha agregado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);

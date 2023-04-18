@@ -41,23 +41,20 @@ public class LicenciaDAO implements ILicencia {
     }
 
     @Override
-    public void renovarLicencia(Licencia licencia) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            Query query = em.createQuery("UPDATE Licencia l SET l.fechaInicio = :fechaInicio, l.vigencia = :vigencia, l.fechaFin = :fechaFin, l.costo = :costo WHERE l.id_licencia = :id_licencia");
-            query.setParameter("fechaInicio", licencia.getFechaInicio());
-            query.setParameter("vigencia", licencia.getVigencia());
-            query.setParameter("fechaFin", licencia.getFechaFin());
-            query.setParameter("costo", licencia.getCosto());
-            query.setParameter("id_licencia", licencia.getId_licencia());
-            int rowsUpdated = query.executeUpdate();
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        } finally {
-            em.close();
-        }
+    public void renovarLicencia(String id_licencia, String estado) {
+         EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        Query query = em.createQuery("UPDATE Licencia l SET l.estado = :estado WHERE l.id_licencia = :id_licencia");
+        query.setParameter("estado", estado);
+        query.setParameter("id_licencia", id_licencia);
+        int rowsUpdated = query.executeUpdate();
+        em.getTransaction().commit();
+    } catch (Exception e) {
+        System.err.println(e.getMessage());
+    } finally {
+        em.close();
+    }
 
     }
 

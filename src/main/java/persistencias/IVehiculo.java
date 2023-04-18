@@ -4,7 +4,9 @@
  */
 package persistencias;
 
+import entidades.Persona;
 import entidades.Vehiculo;
+import java.util.List;
 
 /**
  *
@@ -12,4 +14,5 @@ import entidades.Vehiculo;
  */
 public interface IVehiculo {
     public Vehiculo agregar(Vehiculo vehiculo);
+    List<Vehiculo> buscarRFC(String rfc);
 }

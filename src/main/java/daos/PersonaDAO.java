@@ -50,14 +50,14 @@ public class PersonaDAO implements IPersona {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc");
+            Query query = em.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc",Persona.class);
             query.setParameter("rfc", rfc);
             Persona persona = (Persona) query.getSingleResult();
             em.getTransaction().commit();
             return persona;
         } catch (NoResultException e) {
             em.getTransaction().rollback();
-            JOptionPane.showMessageDialog(null, "No se encontro la RFC: " + e, "Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "No se encontro la RFC: " + e, "Error", JOptionPane.ERROR_MESSAGE);
             throw new PersistenceException("No se pudo generar la búsqueda de trámites: " + e.getMessage(), e);
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -144,6 +144,24 @@ public class PersonaDAO implements IPersona {
     } finally {
         em.close();
     }
+    }
+
+    @Override
+    public List<Persona> mostrarPersonas() {
+          EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT p FROM Persona p");
+            List<Persona> personas = query.getResultList();
+            em.getTransaction().commit();
+            return personas;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de trámites: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenceException("No se pudo generar la búsqueda de trámites: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
     }
 
 

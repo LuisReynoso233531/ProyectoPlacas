@@ -4,10 +4,15 @@
  */
 package daos;
 
+import entidades.Persona;
 import entidades.Vehiculo;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+import javax.swing.JOptionPane;
 import persistencias.IVehiculo;
 
 /**
@@ -37,6 +42,25 @@ public class VehiculoDAO implements IVehiculo {
             em.close();
         }
 
+    }
+
+    @Override
+    public List<Vehiculo> buscarRFC(String rfc) {
+        EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        Query query = em.createQuery("SELECT v FROM Vehiculo v INNER JOIN v.personaVehiculo p WHERE p.rfc = :rfc");
+        query.setParameter("rfc", rfc) ;
+        List<Vehiculo> vehiculos = query.getResultList();
+        em.getTransaction().commit();
+        return vehiculos;
+    } catch (Exception e) {
+        em.getTransaction().rollback();
+        JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de trámites: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        throw new PersistenceException("No se pudo generar la búsqueda de trámites: " + e.getMessage(), e);
+    } finally {
+        em.close();
+    }
     }
     
 }

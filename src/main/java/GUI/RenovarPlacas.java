@@ -4,17 +4,115 @@
  */
 package GUI;
 
+import daos.PersonaDAO;
+import daos.PlacasDAO;
+import daos.VehiculoDAO;
+import entidades.Persona;
+import entidades.Placas;
+import entidades.Vehiculo;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author luis-
  */
 public class RenovarPlacas extends javax.swing.JFrame {
 
+    private EntityManagerFactory emf;
+    private PersonaDAO personaDAO;
+    private VehiculoDAO vehiculoDAO;
+    private PlacasDAO placasDAO;
+    private Persona persona;
+    private Vehiculo vehiculo;
+
     /**
      * Creates new form RenovarPlacas
      */
     public RenovarPlacas() {
+
+        emf = Persistence.createEntityManagerFactory("ConexionPU");
+        personaDAO = new PersonaDAO(emf);
+        placasDAO = new PlacasDAO(emf);
+        vehiculoDAO = new VehiculoDAO(emf);
         initComponents();
+        this.rellenarCosto();
+
+    }
+
+    public void rellenarCosto() {
+        this.txtCosto.setText("1000");
+    }
+
+    public void llenarTabla() {
+        String rfc = this.txtRfc.getText();
+        List<Vehiculo> vehiculos = this.vehiculoDAO.buscarRFC(rfc);
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblVehiculo.getModel();
+        modeloTabla.setRowCount(0);
+        vehiculos.forEach(vehiculo -> {
+            Object[] fila = new Object[4];
+            fila[0] = vehiculo.getPersonaVehiculo().getNombres();
+            fila[1] = vehiculo.getPersonaVehiculo().getRfc();
+            fila[2] = vehiculo.getNumeroSerie();
+            modeloTabla.addRow(fila);
+
+        });
+    }
+
+    public void renovarPlacas() {
+        String rfc = this.txtRfc.getText();
+        String numeroSerie = this.txtNumeroSerie.getText();
+        int costo = Integer.parseInt(this.txtCosto.getText());
+        Date fechaInicio = Calendar.getInstance().getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, 1);
+        Date fechaFin = calendar.getTime();
+
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (int i = 0; i < 3; i++) {
+            sb.append(caracteres.charAt(random.nextInt(caracteres.length())));
+        }
+        String numeroPlacas = sb.toString();
+
+        StringBuilder sb2 = new StringBuilder();
+        Random random2 = new Random();
+        String caracteres2 = "123456789";
+        for (int i = 0; i < 3; i++) {
+            sb2.append(caracteres2.charAt(random2.nextInt(caracteres2.length())));
+        }
+        String numeroPlacas2 = sb2.toString();
+
+        String numeroPlacas3 = numeroPlacas + "-" + numeroPlacas2;
+
+        if (!rfc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor selecciona todos los campos", "Información", JOptionPane.ERROR_MESSAGE);
+        }
+
+        if (!rfc.matches("[A-Z0-9]{13}")) {
+            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto,\n Asegurese de solo insertar letras mayusculas y numeros,\n ademas de que sean 13 caracteres",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        Placas renovarPlacas = new Placas(numeroPlacas3, "Activo", numeroSerie, "Placas", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(rfc));
+        placasDAO.actualizarPlacas(numeroSerie, "Caduco");
+        placasDAO.agregarPlacas(renovarPlacas);
+        if (renovarPlacas != null) {
+            JOptionPane.showMessageDialog(this, "Se ha renovado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error!!", "Información", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     /**
@@ -31,16 +129,23 @@ public class RenovarPlacas extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         checkBoxExtravio = new javax.swing.JCheckBox();
         txtRfc = new javax.swing.JTextField();
-        cbNumeroSerie = new javax.swing.JComboBox<>();
         txtCosto = new javax.swing.JTextField();
         btnReporte = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblVehiculo = new javax.swing.JTable();
+        txtNumeroSerie = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Renovar placas");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel2.setText("RFC");
 
@@ -61,13 +166,7 @@ public class RenovarPlacas extends javax.swing.JFrame {
             }
         });
 
-        cbNumeroSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbNumeroSerie.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbNumeroSerieActionPerformed(evt);
-            }
-        });
-
+        txtCosto.setEditable(false);
         txtCosto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCostoActionPerformed(evt);
@@ -78,13 +177,6 @@ public class RenovarPlacas extends javax.swing.JFrame {
         btnReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReporteActionPerformed(evt);
-            }
-        });
-
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
             }
         });
 
@@ -110,59 +202,93 @@ public class RenovarPlacas extends javax.swing.JFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        tblVehiculo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Nombre", "RFC", "Numero de serie"
+            }
+        ));
+        tblVehiculo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVehiculoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblVehiculo);
+
+        txtNumeroSerie.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkBoxExtravio)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE))
+                        .addComponent(btnReporte)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBuscar)
+                        .addGap(33, 33, 33))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtRfc)
-                    .addComponent(cbNumeroSerie, 0, 90, Short.MAX_VALUE)
-                    .addComponent(txtCosto))
-                .addGap(95, 95, 95))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(btnReporte)
-                .addGap(80, 80, 80)
-                .addComponent(btnSalir)
-                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtRfc)
+                                    .addComponent(txtCosto)
+                                    .addComponent(txtNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(checkBoxExtravio)
+                                .addGap(130, 130, 130)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtRfc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cbNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(checkBoxExtravio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReporte)
-                    .addComponent(btnSalir))
-                .addGap(22, 22, 22))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtRfc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(checkBoxExtravio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBuscar)
+                            .addComponent(btnReporte))))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         pack();
@@ -180,34 +306,50 @@ public class RenovarPlacas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCostoActionPerformed
 
-    private void cbNumeroSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbNumeroSerieActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbNumeroSerieActionPerformed
-
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
         // TODO add your handling code here:
+        renovarPlacas();
+
     }//GEN-LAST:event_btnReporteActionPerformed
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalirActionPerformed
+        llenarTabla();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void tblVehiculoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVehiculoMouseClicked
+        // TODO add your handling code here:
+        int seleccionar = tblVehiculo.rowAtPoint(evt.getPoint());
+        txtNumeroSerie.setText(String.valueOf(tblVehiculo.getValueAt(seleccionar, 2)));
+    }//GEN-LAST:event_tblVehiculoMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        int mensaje = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (mensaje == JOptionPane.NO_OPTION) {
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        } else {
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnReporte;
-    private javax.swing.JButton btnSalir;
-    private javax.swing.JComboBox<String> cbNumeroSerie;
     private javax.swing.JCheckBox checkBoxExtravio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblVehiculo;
     private javax.swing.JTextField txtCosto;
+    private javax.swing.JTextField txtNumeroSerie;
     private javax.swing.JTextField txtRfc;
     // End of variables declaration//GEN-END:variables
 }

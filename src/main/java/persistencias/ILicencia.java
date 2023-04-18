@@ -13,7 +13,7 @@ import entidades.Licencia;
 public interface ILicencia {
     
     public Licencia agregarLicencia(Licencia licencia);
-    public void renovarLicencia(Licencia licencia);
+    public void renovarLicencia(String id_licencia, String estado);
     public Licencia buscarPorLicencia(String id_licencia);
     
 }

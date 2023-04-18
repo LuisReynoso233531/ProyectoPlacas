@@ -23,7 +23,7 @@ public class Menu extends javax.swing.JFrame {
 
     private EntityManagerFactory emf;
     private PersonaDAO personaDAO;
-
+    int contador=1;
     /**
      * Creates new form Menu
      */
@@ -32,9 +32,10 @@ public class Menu extends javax.swing.JFrame {
         initComponents();
         personaDAO = new PersonaDAO(emf);
     }
-
+    
     public void agregarMasivo() {
-        List<Persona> listaPersonas = new ArrayList<>();
+        if(contador==1){
+              List<Persona> listaPersonas = new ArrayList<>();
         Persona persona1 = new Persona("LECJ901217A15", "Javier", "Legarreta", "Contreras", "6442567633", new Date(90, 12, 17), true);
         Persona persona2 = new Persona("QUMA470929F37", "Alfonso", "Quintero", "Montenegro", "6441166443", new Date(47, 9, 29), true);
         Persona persona3 = new Persona("MOSC900920R43", "Carolina", "Montes", "Salinas", "6441857696", new Date(90, 9, 20), false);
@@ -96,13 +97,20 @@ public class Menu extends javax.swing.JFrame {
         listaPersonas.add(persona18);
         listaPersonas.add(persona19);
         listaPersonas.add(persona20);
+        contador++;
 
         if (listaPersonas.size() == 20) {
-          JOptionPane.showMessageDialog(this, "Se agregaron las 20 personas", "", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-             JOptionPane.showMessageDialog(this, "Error", "!!", JOptionPane.ERROR_MESSAGE);
-        }
+            JOptionPane.showMessageDialog(this, "Se agregaron las 20 personas", "", JOptionPane.INFORMATION_MESSAGE);
 
+        
+        }else if(contador>=2){
+            JOptionPane.showMessageDialog(this, "Ya se han agregado las personas", "", JOptionPane.ERROR_MESSAGE);
+        }else {
+            JOptionPane.showMessageDialog(this, "Ya se han agregado las personas", "!!", JOptionPane.ERROR_MESSAGE);
+        }
+      
+
+    }
     }
 
     /**

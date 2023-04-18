@@ -669,7 +669,8 @@ public class Historial extends javax.swing.JFrame {
         int seleccionar = tablaTramites.rowAtPoint(evt.getPoint());
         txtID.setText(String.valueOf(tablaTramites.getValueAt(seleccionar, 0)));
         txtRFC.setText(String.valueOf(tablaTramites.getValueAt(seleccionar, 6)));
-        dpFechaInicio.setText(String.valueOf(tablaTramites.getValueAt(seleccionar, 4)));
+        txtNombre.setText(String.valueOf(tablaTramites.getValueAt(seleccionar, 5)));
+        
 
     }//GEN-LAST:event_tablaTramitesMouseClicked
 

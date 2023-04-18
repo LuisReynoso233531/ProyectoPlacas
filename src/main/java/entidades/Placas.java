@@ -6,6 +6,7 @@ package entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,20 +22,32 @@ import javax.persistence.Table;
 public class Placas extends Tramite implements Serializable {
 
     private String numeroPlacas;
+    private String estado;
+    private String vehiculo;
 
     public Placas() {
 
     }
 
-    public Placas(String numeroPlacas) {
+    public Placas(String numeroPlacas, String estado, String vehiculo) {
         this.numeroPlacas = numeroPlacas;
-
+        this.estado = estado;
+        this.vehiculo = vehiculo;
     }
 
-    public Placas(String numeroPlacas, String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
+    public Placas(String numeroPlacas, String estado, String vehiculo, String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
         super(tipo, costo, fechaInicio, fechaFin, personasTramite);
         this.numeroPlacas = numeroPlacas;
+        this.estado = estado;
+        this.vehiculo = vehiculo;
+    }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public int getId() {

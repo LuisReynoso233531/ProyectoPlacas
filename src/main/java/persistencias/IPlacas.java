@@ -13,6 +13,6 @@ import entidades.Placas;
 public interface IPlacas {
     
    public Placas agregarPlacas(Placas placas);
-   public Placas renovarPlacas(Placas placas);
+  public void actualizarPlacas(String numeroPlacas, String estado);
     
 }
