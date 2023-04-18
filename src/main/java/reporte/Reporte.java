@@ -12,18 +12,31 @@ import java.util.Date;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public class Reporte {
 
+    //Atributo tipo de tipo String.
     private String tipo;
+    //Atributo costo de tipo String.
     private String costo;
+    // Atributo nombreCompleto de tipo String.
     private String nombreCompleto;
+    // Atributo fechaInicio de tipo String.
     private String fechaInicio;
+    // Atributo licencia de tipo Licencia.
     private Licencia licencia;
+    // Atributo placas de tipo Placas.
     private Placas placas;
+    // Atributo tramite de tipo Tramite.
     private Tramite tramite;
 
+    /**
+     * Constructor de la clase Reporte.
+     *
+     * @param tramite de tipo Tramite.
+     */
     public Reporte(Tramite tramite) {
         this.tramite = tramite;
         this.tipo = this.tramite.getTipo();
@@ -34,7 +47,12 @@ public class Reporte {
         this.llenarNombreCompleto(tramite);
     }
 
-
+    /**
+     * El método llenarNombreCompleto(Tramite tramite) tiene la función de
+     * obtener el nombre y apellidos de una persona.
+     *
+     * @param tramite de tipo Tramite.
+     */
     private void llenarNombreCompleto(Tramite tramite) {
         String nombres = tramite.getPersonasTramite().getNombres();
         String apellidoP = tramite.getPersonasTramite().getApellidoP();
@@ -43,6 +61,7 @@ public class Reporte {
         this.nombreCompleto = nombres + " " + apellidoP + " " + apellidoM;
     }
 
+    // Getter & Setter de los atributos de la clase Reporte
     public String getTipo() {
         return tipo;
     }
@@ -98,7 +117,5 @@ public class Reporte {
     public void setTramite(Tramite tramite) {
         this.tramite = tramite;
     }
-    
-    
-    
+
 }

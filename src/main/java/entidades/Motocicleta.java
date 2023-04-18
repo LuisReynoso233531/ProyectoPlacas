@@ -13,14 +13,17 @@ import javax.persistence.Id;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 @Entity
 public class Motocicleta extends Vehiculo implements Serializable {
 
-    public Motocicleta(){
-        
+    /**
+     * Constructor vacío de la entidad Motocicleta.
+     */
+    public Motocicleta() {
+
     }
-    
-    
+
 }

@@ -8,12 +8,15 @@ import entidades.Licencia;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public interface ILicencia {
-    
+
     public Licencia agregarLicencia(Licencia licencia);
+
     public void renovarLicencia(String id_licencia, String estado);
+
     public Licencia buscarPorLicencia(String id_licencia);
-    
+
 }

@@ -13,22 +13,35 @@ import javax.persistence.Id;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 @Entity
 public class Empleado extends Persona implements Serializable {
 
-   private String usuario;
-   private String contrasena;
+    // Atributo usuario de tipo String.
+    private String usuario;
+    // Atributo contrasena de tipo String.
+    private String contrasena;
 
+    /**
+     * Constructor vacío de la entidad Empleado.
+     */
     public Empleado() {
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Empleado.
+     *
+     * @param usuario de tipo String.
+     * @param contrasena de tipo String.
+     */
     public Empleado(String usuario, String contrasena) {
         this.usuario = usuario;
         this.contrasena = contrasena;
     }
 
+    // Getter & Setter de los atributos de la entidad Empleado.
     public String getUsuario() {
         return usuario;
     }
@@ -44,7 +57,5 @@ public class Empleado extends Persona implements Serializable {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
-   
-   
-    
+
 }

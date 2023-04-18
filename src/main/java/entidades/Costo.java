@@ -20,13 +20,13 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 @Entity
 @Table(name = "Costo")
 public class Costo implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_costo")
@@ -41,12 +41,23 @@ public class Costo implements Serializable {
     private int monto;
 
     @ManyToOne
-    @JoinColumn(name="id_tramite", nullable = false)
+    @JoinColumn(name = "id_tramite", nullable = false)
     private Tramite tramiteCosto;
 
+    /**
+     * Constructor vacío de la entidad Costo.
+     */
     public Costo() {
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Costo.
+     *
+     * @param id de tipo int.
+     * @param fechaPago de tipo Date.
+     * @param monto de tipo int.
+     * @param tramiteCosto de tipo Tramite.
+     */
     public Costo(int id, Date fechaPago, int monto, Tramite tramiteCosto) {
         this.id = id;
         this.fechaPago = fechaPago;
@@ -54,12 +65,21 @@ public class Costo implements Serializable {
         this.tramiteCosto = tramiteCosto;
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad de Costo a excepción
+     * del id.
+     *
+     * @param fechaPago de tipo Date.
+     * @param monto de tipo int.
+     * @param tramiteCosto de tipo Tramite.
+     */
     public Costo(Date fechaPago, int monto, Tramite tramiteCosto) {
         this.fechaPago = fechaPago;
         this.monto = monto;
         this.tramiteCosto = tramiteCosto;
     }
 
+    // Getter & Setter de atributos de Costo
     public int getId() {
         return id;
     }
@@ -92,6 +112,7 @@ public class Costo implements Serializable {
         this.tramiteCosto = tramiteCosto;
     }
 
+    // Método hashCode()
     @Override
     public int hashCode() {
         int hash = 0;
@@ -99,6 +120,7 @@ public class Costo implements Serializable {
         return hash;
     }
 
+    // Método equals(Object object)
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -112,6 +134,7 @@ public class Costo implements Serializable {
         return true;
     }
 
+    // Método toString()
     @Override
     public String toString() {
         return "entidades.Costo[ id=" + id + " ]";

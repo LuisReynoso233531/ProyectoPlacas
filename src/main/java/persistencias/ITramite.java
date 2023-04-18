@@ -10,14 +10,22 @@ import java.util.List;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public interface ITramite {
+
     List<Tramite> mostrarTramite();
+
     List<Tramite> buscarTipo(String tipo);
+
     List<Tramite> buscarPorId(int id);
+
     List<Tramite> buscarPorFecha(Date fecha);
+
     List<Tramite> buscarPeriodo(Date fechaInicio, Date fechaFin);
+
     List<Tramite> buscarRFC(String rfc);
+
     List<Tramite> buscarNombre(String nombres);
 }

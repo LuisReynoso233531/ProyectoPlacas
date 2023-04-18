@@ -8,11 +8,13 @@ import entidades.Placas;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public interface IPlacas {
-    
-   public Placas agregarPlacas(Placas placas);
-  public void actualizarPlacas(String numeroPlacas, String estado);
-    
+
+    public Placas agregarPlacas(Placas placas);
+
+    public void actualizarPlacas(String numeroPlacas, String estado);
+
 }

@@ -26,14 +26,14 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 @Entity
 @Table(name = "Persona")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Persona implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Persona")
@@ -73,9 +73,26 @@ public class Persona implements Serializable {
     @OneToMany(mappedBy = "personasTramite", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     List<Tramite> tramites;
 
+    /**
+     * Constructor vacío de la entidad Persona
+     */
     public Persona() {
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Persona.
+     *
+     * @param id de tipo int.
+     * @param rfc de tipo String.
+     * @param nombres de tipo String.
+     * @param apellidoP de tipo String.
+     * @param apellidoM de tipo String.
+     * @param telefono de tipo String.
+     * @param fechaNacimiento de tipo Date.
+     * @param discapacidad de tipo boolean.
+     * @param vehiculos de tipo ListVehiculo
+     * @param tramites de tipo ListTramite
+     */
     public Persona(int id, String rfc, String nombres, String apellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad, List<Vehiculo> vehiculos, List<Tramite> tramites) {
         this.id = id;
         this.rfc = rfc;
@@ -89,6 +106,20 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Persona a excepción del
+     * atributo id.
+     *
+     * @param rfc de tipo String.
+     * @param nombres de tipo String.
+     * @param apellidoP de tipo String.
+     * @param apellidoM de tipo String.
+     * @param telefono de tipo String.
+     * @param fechaNacimiento de tipo Date.
+     * @param discapacidad de tipo boolean.
+     * @param vehiculos de tipo ListVehiculo.
+     * @param tramites de tipo ListTramite.
+     */
     public Persona(String rfc, String nombres, String apellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad, List<Vehiculo> vehiculos, List<Tramite> tramites) {
         this.rfc = rfc;
         this.nombres = nombres;
@@ -101,8 +132,18 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
 
-    
-
+    /**
+     * Constructor con todos los atributos de la entidad Persona a excepción de
+     * los atributos vehiculos y tramites.
+     *
+     * @param rfc de tipo String.
+     * @param nombres de tipo String.
+     * @param apellidoP de tipo String.
+     * @param apellidoM de tipo String.
+     * @param telefono de tipo String.
+     * @param fechaNacimiento de tipo Date.
+     * @param discapacidad de tipo boolean.
+     */
     public Persona(String rfc, String nombres, String apellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad) {
         this.rfc = rfc;
         this.nombres = nombres;
@@ -113,6 +154,7 @@ public class Persona implements Serializable {
         this.discapacidad = discapacidad;
     }
 
+    // Getter & Setter de los atributos de la entidad Persona.
     public int getId() {
         return id;
     }
@@ -193,6 +235,7 @@ public class Persona implements Serializable {
         this.rfc = rfc;
     }
 
+    // Método hashCode()
     @Override
     public int hashCode() {
         int hash = 7;
@@ -200,6 +243,7 @@ public class Persona implements Serializable {
         return hash;
     }
 
+    // Método equals(Object obj)
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -215,6 +259,7 @@ public class Persona implements Serializable {
         return true;
     }
 
+    // Método toString()
     @Override
     public String toString() {
         return "entidades.Persona[ id=" + id + " ]";

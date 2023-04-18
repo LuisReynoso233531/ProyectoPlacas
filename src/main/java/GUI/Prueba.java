@@ -21,7 +21,8 @@ import reporte.Reporte;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public class Prueba {
 
@@ -29,29 +30,9 @@ public class Prueba {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        //Ya funciona
+
         Menu xd = new Menu();
         xd.setVisible(true);
-
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
-//        TramiteDAO tramiteDAO = new TramiteDAO(emf);
-//
-//        Date fechaInicio = new Date(11, 11, 11);
-//        Date fechaFin = new Date(123, 11, 11);
-//
-//        List<Tramite> tramites = tramiteDAO.buscarPeriodo(fechaInicio, fechaFin);
-//        List<Reporte> reportes = new LinkedList<>();
-//        
-//        System.out.println(fechaInicio);
-//        System.out.println(fechaFin);
-//        
-//        for (Tramite tramite : tramites) {
-//            System.out.println(tramite.getPersonasTramite().getNombres());
-//            reportes.add(new Reporte(tramite));
-//
-//        }
-//
-//        GenerarReporte.generarReporte(reportes);
 
     }
 }

@@ -19,20 +19,28 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public class SolicitarPlacas extends javax.swing.JFrame {
 
     /**
      * Creates new form SolicitarPlacas
      */
+    // Atributo emf de tipo EntityManagerFactory
     private EntityManagerFactory emf;
+    // Atributo personaDAO de tipo PersonaDAO
     private PersonaDAO personaDAO;
+    // Atributo vehiculoDAO de tipo VehiculoDAO
     private VehiculoDAO vehiculoDAO;
+    // Atributo placasDAO de tipo PlacasDAO
     private PlacasDAO placasDAO;
+    // Atributo vehiculo de tipo Vehiculo
     private Vehiculo vehiculo;
-    
-    
+
+    /**
+     * Constructor
+     */
     public SolicitarPlacas() {
         emf = Persistence.createEntityManagerFactory("ConexionPU");
         personaDAO = new PersonaDAO(emf);
@@ -41,47 +49,60 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         initComponents();
         this.rellenarCosto();
     }
-    
-    private void rellenarCosto(){
+
+    /**
+     * El método rellenarCosto tiene la función de hacer Set al txtCosto con el
+     * valor de 1500.
+     */
+    private void rellenarCosto() {
         txtCosto.setText("1500");
     }
 
-    
-    public void agregarVehiculo(){
+    /**
+     * Este método agregarVehiculo() realiza la función de agregar un vehículo
+     * tomando el RFC del cliente y los datos del vehículo en cuestión
+     * ingresados por el usuario.
+     */
+    public void agregarVehiculo() {
         String numeroSerie = this.formatNumeroSerie.getText();
         String marca = this.txtMarca.getText();
         String modelo = this.txtModelo.getText();
         String linea = this.txtLinea.getText();
         String color = this.txtColor.getText();
         String rfc = this.txtRFC.getText();
-        if(numeroSerie.isEmpty()||marca.isEmpty()||modelo.isEmpty()||linea.isEmpty()||color.isEmpty()||rfc.isEmpty()){
-             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
+        if (numeroSerie.isEmpty() || marca.isEmpty() || modelo.isEmpty() || linea.isEmpty() || color.isEmpty() || rfc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos vacíos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (!rfc.matches("[A-Z0-9]{13}")) {
-                JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        
-        Vehiculo nuevoVehiculo = new Vehiculo(numeroSerie,marca,color,modelo,linea,personaDAO.buscarRFC(this.txtRFC.getText()));
+            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Vehiculo nuevoVehiculo = new Vehiculo(numeroSerie, marca, color, modelo, linea, personaDAO.buscarRFC(this.txtRFC.getText()));
         nuevoVehiculo = vehiculoDAO.agregar(nuevoVehiculo);
-         if (nuevoVehiculo != null) {
+        if (nuevoVehiculo != null) {
             JOptionPane.showMessageDialog(this, "Se ha agregado con éxito un nuevo Vehículo", "Información", JOptionPane.INFORMATION_MESSAGE);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    public void agregarPlacas(){
+
+    /**
+     * El método agregarPlacas() tiene la función de agregar las placas del
+     * vehículo del cliente en cuestión, generando unas placas nuevas y
+     * aleatorias.
+     */
+    public void agregarPlacas() {
         int costo = Integer.parseInt(this.txtCosto.getText());
         Date fechaInicio = Calendar.getInstance().getTime();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, 1);
         Date fechaFin = calendar.getTime();
         String vehiculoSerie = this.formatNumeroSerie.getText();
-        
+
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -89,7 +110,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
             sb.append(caracteres.charAt(random.nextInt(caracteres.length())));
         }
         String numeroPlacas = sb.toString();
-        
+
         StringBuilder sb2 = new StringBuilder();
         Random random2 = new Random();
         String caracteres2 = "123456789";
@@ -97,14 +118,14 @@ public class SolicitarPlacas extends javax.swing.JFrame {
             sb2.append(caracteres2.charAt(random2.nextInt(caracteres2.length())));
         }
         String numeroPlacas2 = sb2.toString();
-        
-        String numeroPlacas3 = numeroPlacas+"-"+numeroPlacas2;
-        
-        Placas nuevasPlacas = new Placas(numeroPlacas3,"Activo",vehiculoSerie,"Placas",costo,fechaInicio,fechaFin, personaDAO.buscarRFC(this.txtRFC.getText()));
+
+        String numeroPlacas3 = numeroPlacas + "-" + numeroPlacas2;
+
+        Placas nuevasPlacas = new Placas(numeroPlacas3, "Activo", vehiculoSerie, "Placas", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRFC.getText()));
         nuevasPlacas = placasDAO.agregarPlacas(nuevasPlacas);
-        if(nuevasPlacas!=null){
+        if (nuevasPlacas != null) {
             JOptionPane.showMessageDialog(this, "Se ha agregado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -342,9 +363,9 @@ public class SolicitarPlacas extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         int mensaje = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        if(mensaje==JOptionPane.NO_OPTION){
+        if (mensaje == JOptionPane.NO_OPTION) {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        }else{
+        } else {
             this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         }
     }//GEN-LAST:event_formWindowClosing
@@ -352,8 +373,6 @@ public class SolicitarPlacas extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-  
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReporte;

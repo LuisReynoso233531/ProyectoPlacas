@@ -22,10 +22,17 @@ import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public class GenerarReporte {
 
+    /**
+     * Método generarReporte(ListReporte reportes) que se encarga de crear el
+     * reporte correspondiente del trámite realizado por el usuario.
+     *
+     * @param reportes de tipo ListReporte.
+     */
     public static void generarReporte(List<Reporte> reportes) {
         try {
             JRBeanCollectionDataSource objeto = new JRBeanCollectionDataSource(reportes);

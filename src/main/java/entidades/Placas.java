@@ -15,26 +15,52 @@ import javax.persistence.Table;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 @Entity
 @Table(name = "placas")
 public class Placas extends Tramite implements Serializable {
 
+    // Atributo numeroPlacas de tipo String.
     private String numeroPlacas;
+    // Atributo estado de tipo String.
     private String estado;
+    // Atributo vehiculo de tipo String.
     private String vehiculo;
 
+    /**
+     * Constructor vacío de la entidad Placas.
+     */
     public Placas() {
 
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Placas sin super.
+     *
+     * @param numeroPlacas de tipo String.
+     * @param estado de tipo String.
+     * @param vehiculo de tipo String.
+     */
     public Placas(String numeroPlacas, String estado, String vehiculo) {
         this.numeroPlacas = numeroPlacas;
         this.estado = estado;
         this.vehiculo = vehiculo;
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Placas con super.
+     *
+     * @param numeroPlacas de tipo String.
+     * @param estado de tipo String.
+     * @param vehiculo de tipo String.
+     * @param tipo de tipo String.
+     * @param costo de tipo Integer.
+     * @param fechaInicio de tipo Date.
+     * @param fechaFin de tipo Date.
+     * @param personasTramite de tipo Persona.
+     */
     public Placas(String numeroPlacas, String estado, String vehiculo, String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
         super(tipo, costo, fechaInicio, fechaFin, personasTramite);
         this.numeroPlacas = numeroPlacas;
@@ -42,6 +68,7 @@ public class Placas extends Tramite implements Serializable {
         this.vehiculo = vehiculo;
     }
 
+    // Getter & Setter de los atributos de la entidad Placas.
     public String getEstado() {
         return estado;
     }

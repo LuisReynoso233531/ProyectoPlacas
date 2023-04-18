@@ -24,16 +24,22 @@ import reporte.Reporte;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public class Historial extends javax.swing.JFrame {
 
+    // Atributo emf de tipo EntityManagerFactory
     private EntityManagerFactory emf;
+    // Atributo tramite de tipo Tramite
     private Tramite tramite;
+    // Atributo tramiteDAO de tipo TramiteDAO
     private TramiteDAO tramiteDAO;
+    // Atributo personaDAO de tipo PersonaDAO
     private PersonaDAO personaDAO;
-
+    // Atributo persona de tipo Persona
     private Persona persona;
+    // Atributo formatoFecha de tipo SimpleDateFormat
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
@@ -49,6 +55,10 @@ public class Historial extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Método llenarTabla() que realiza el llenado de la tabla con datos de
+     * tramites en la interfaz de Historial.
+     */
     public void llenarTabla() {
         List<Tramite> listaTramites = this.tramiteDAO.mostrarTramite();
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaTramites.getModel();
@@ -68,6 +78,10 @@ public class Historial extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Este método buscarTipoTramite() tiene la función de hacer la búsqueda
+     * dependiendo el tipo de trámite deseado por el usuario.
+     */
     public void buscarTipoTramite() {
 
         String tipo = this.cbTipo.getSelectedItem().toString();
@@ -91,6 +105,10 @@ public class Historial extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Método buscarPorFecha() que realiza la búsqueda para la interfaz de
+     * Historial dependiendo la fecha en que se haya efectuado el trámite.
+     */
     public void buscarPorFecha() {
 
         Date fecha = null;
@@ -140,6 +158,10 @@ public class Historial extends javax.swing.JFrame {
 
     }
 
+    /**
+     * El método buscarPorId() tiene la función de realizar la búsqueda para la
+     * interfaz de Historial dependiendo el ID correspondiente para el trámite.
+     */
     public void buscarPorId() {
 
         String Stringid = this.txtID.getText();
@@ -183,6 +205,10 @@ public class Historial extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Este método buscarPeriodo() realiza la búsqueda para la interfaz de
+     * Historial dependiendo el periodo en que se haya efectuado el trámite.
+     */
     public void buscarPeriodo() {
 
         Date fechaInicio = null;
@@ -234,12 +260,21 @@ public class Historial extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * El método quitarPeriodo() tiene la función de quitar los periodos,
+     * haciedo Set en false a los DatePicker dpFechaAntes, dpFechaDespues y al
+     * botón btnPeriodo.
+     */
     public void quitarPeriodo() {
         dpFechaAntes.setEnabled(false);
         dpFechaDespues.setEnabled(false);
         btnPeriodo.setEnabled(false);
     }
 
+    /**
+     * Este método buscarRFC() realiza la búsqueda del RFC de un cliente que ya
+     * haya sido registrado y sea acorde al trámite.
+     */
     public void buscarRFC() {
 
         String rfc = this.txtRFC.getText();
@@ -280,6 +315,11 @@ public class Historial extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * El método buscarNombre() tiene la función de realizar la búsqueda del
+     * nombre de un cliente para la interfaz de Historial y sea acorde para el
+     * trámite efectuado.
+     */
     public void buscarNombre() {
 
         String nombres = this.txtNombre.getText();
@@ -639,7 +679,7 @@ public class Historial extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        int mensaje = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        int mensaje = JOptionPane.showConfirmDialog(null, "¿Estás seguro que deseas salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (mensaje == JOptionPane.NO_OPTION) {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         } else {
@@ -661,7 +701,7 @@ public class Historial extends javax.swing.JFrame {
         txtID.setText(String.valueOf(tablaTramites.getValueAt(seleccionar, 0)));
         txtRFC.setText(String.valueOf(tablaTramites.getValueAt(seleccionar, 6)));
         txtNombre.setText(String.valueOf(tablaTramites.getValueAt(seleccionar, 5)));
-        
+
 
     }//GEN-LAST:event_tablaTramitesMouseClicked
 
@@ -703,6 +743,13 @@ public class Historial extends javax.swing.JFrame {
         buscarPorId();
     }//GEN-LAST:event_btnBuscarIDActionPerformed
 
+    /**
+     * El checkbox checkBoxPeriodoActionPerformed tiene la función de habilitar
+     * y hacer Set en True a los DatePicker dpFechaAntes, dpFechaDespues y
+     * dpFechaInicio dependiendo si la casilla fue seleccionada.
+     *
+     * @param evt
+     */
     private void checkBoxPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxPeriodoActionPerformed
         // TODO add your handling code here:
         if (checkBoxPeriodo.isSelected()) {

@@ -17,29 +17,52 @@ import javax.persistence.Table;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 @Entity
 @Table(name = "licencia")
 public class Licencia extends Tramite implements Serializable {
 
-    @Column(name="id_licencia")
+    @Column(name = "id_licencia")
     private String id_licencia;
-    @Column(name="vigencia")
+    @Column(name = "vigencia")
     private String Vigencia;
-    @Column(name="estado")
+    @Column(name = "estado")
     private String estado;
 
+    /**
+     * Constructor de la entidad Licencia.
+     */
     public Licencia() {
         super();
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Licencia sin super.
+     *
+     * @param id_licencia de tipo String.
+     * @param Vigencia de tipo String.
+     * @param estado de tipo String.
+     */
     public Licencia(String id_licencia, String Vigencia, String estado) {
         this.id_licencia = id_licencia;
         this.Vigencia = Vigencia;
         this.estado = estado;
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Licencia con super.
+     *
+     * @param id_licencia de tipo String.
+     * @param Vigencia de tipo String.
+     * @param estado de tipo String.
+     * @param tipo de tipo String.
+     * @param costo de tipo Integer.
+     * @param fechaInicio de tipo Date.
+     * @param fechaFin de tipo Date.
+     * @param personasTramite de tipo Persona.
+     */
     public Licencia(String id_licencia, String Vigencia, String estado, String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
         super(tipo, costo, fechaInicio, fechaFin, personasTramite);
         this.id_licencia = id_licencia;
@@ -47,6 +70,7 @@ public class Licencia extends Tramite implements Serializable {
         this.estado = estado;
     }
 
+    // Getter & Setter de los atributos de la entidad Licencia.
     public String getId_licencia() {
         return id_licencia;
     }
@@ -118,6 +142,5 @@ public class Licencia extends Tramite implements Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
+
 }

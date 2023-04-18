@@ -8,10 +8,11 @@ import entidades.Costo;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public interface ICosto {
- 
+
     public Costo agregar(Costo costo);
-    
+
 }

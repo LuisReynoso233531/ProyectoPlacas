@@ -12,16 +12,14 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public class ProyectoPlacas {
 
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
         EntityManager em = emf.createEntityManager();
-        
-        
-
 
         Licencia licencia = new Licencia();
         licencia.setId_licencia("xd");

@@ -19,15 +19,19 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public class Renovarlicencia extends javax.swing.JFrame {
 
     /**
      * Creates new form RenovarPlacas
      */
+    // Atributo emf de tipo EntityManagerFactory
     private EntityManagerFactory emf;
+    // Atributo personaDAO de tipo PersonaDAO
     private PersonaDAO personaDAO;
+    // Atributo licenciaDAO de tipo LicenciaDAO
     private LicenciaDAO licenciaDAO;
 
     public Renovarlicencia() {
@@ -38,10 +42,20 @@ public class Renovarlicencia extends javax.swing.JFrame {
         this.rellenarCosto();
     }
 
+    /**
+     * El método rellenarCosto() realiza la función de hacer Set para el
+     * txtCosto a 0.
+     */
     private void rellenarCosto() {
         txtCosto.setText("0");
     }
 
+    /**
+     * El método renovarLicencia() realiza la función de efectuar la renovación
+     * de licencia una vez que el usuario haya llenado todos los campos de la
+     * GUI Renovarlicencia, toma el RFC de un cliente, el identificador de su
+     * licencia, la vigencia deseada por renovar y brinda el costo del trámite.
+     */
     public void renovarLicencia() {
         String rfc = this.txtRfc.getText();
         String vigencia = cbVigencia.getSelectedItem().toString();
@@ -259,6 +273,12 @@ public class Renovarlicencia extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRfcActionPerformed
 
+    /**
+     * Este combobox cvVigenciaActionPerformed utiliza la vigencia que desee el
+     * usuario para renovar la licencia del cliente.
+     *
+     * @param evt
+     */
     private void cbVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbVigenciaActionPerformed
         // TODO add your handling code here:
         if (cbVigencia.getSelectedItem().toString().equals("Seleccione")) {
@@ -307,6 +327,13 @@ public class Renovarlicencia extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    /**
+     * Este checkbox checkboxDiscapacidadActionPerformed utiliza la opción de
+     * discapacidad que ingrese el usuario según el cliente en cuestión, ya sea
+     * si está seleccionada la casilla o no y hará Set a txtCosto.
+     *
+     * @param evt
+     */
     private void checkBoxDiscapacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxDiscapacidadActionPerformed
         // TODO add your handling code here:
         // TODO add your handling code here:
@@ -345,7 +372,7 @@ public class Renovarlicencia extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-         int mensaje = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        int mensaje = JOptionPane.showConfirmDialog(null, "¿Estás seguro que deseas salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (mensaje == JOptionPane.NO_OPTION) {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         } else {

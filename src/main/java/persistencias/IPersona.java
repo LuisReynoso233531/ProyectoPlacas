@@ -9,13 +9,19 @@ import java.util.List;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public interface IPersona {
+
     public Persona agregarMasivo(Persona persona);
+
     public Persona agregar(Persona persona);
+
     public Persona buscarRFC(String rfc);
-    List <Persona> buscarRfcTabla(String rfc);
-    List <Persona> mostrarPersonas();
-    
+
+    List<Persona> buscarRfcTabla(String rfc);
+
+    List<Persona> mostrarPersonas();
+
 }

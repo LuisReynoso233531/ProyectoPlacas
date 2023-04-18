@@ -14,21 +14,34 @@ import javax.persistence.Id;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 @Entity
 public class Cliente extends Persona implements Serializable {
-    
-  
-    
-    public Cliente(){
-        
+
+    /**
+     * Constructor vacío de la entidad Cliente.
+     */
+    public Cliente() {
+
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Cliente con super.
+     *
+     * @param cliente de tipo String.
+     * @param rfc de tipo String.
+     * @param nombres de tipo String.
+     * @param apellidoP de tipo String.
+     * @param apellidoM de tipo String.
+     * @param telefono de tipo String.
+     * @param fechaNacimiento de tipo Date.
+     * @param discapacidad de tipo boolean.
+     */
     public Cliente(String cliente, String rfc, String nombres, String apellidoP, String apellidoM, String telefono, Date fechaNacimiento, boolean discapacidad) {
         super(rfc, nombres, apellidoP, apellidoM, telefono, fechaNacimiento, discapacidad);
-        
+
     }
-    
-    
+
 }

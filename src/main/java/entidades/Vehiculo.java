@@ -24,14 +24,14 @@ import javax.persistence.Table;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 @Entity
 @Table(name = "Vehiculo")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Vehiculo implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Vehiculo")
@@ -58,12 +58,26 @@ public class Vehiculo implements Serializable {
     private String linea;
 
     @ManyToOne
-    @JoinColumn(name="id_persona", nullable = false)
+    @JoinColumn(name = "id_persona", nullable = false)
     private Persona personaVehiculo;
 
+    /**
+     * Constructor vacío de la entidad Vehiculo
+     */
     public Vehiculo() {
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Vehiculo.
+     *
+     * @param id de tipo int.
+     * @param numeroSerie de tipo String.
+     * @param marca de tipo String.
+     * @param color de tipo String.
+     * @param modelo de tipo String.
+     * @param linea de tipo String.
+     * @param personaVehiculo de tipo Persona.
+     */
     public Vehiculo(int id, String numeroSerie, String marca, String color, String modelo, String linea, Persona personaVehiculo) {
         this.id = id;
         this.numeroSerie = numeroSerie;
@@ -74,6 +88,17 @@ public class Vehiculo implements Serializable {
         this.personaVehiculo = personaVehiculo;
     }
 
+    /**
+     * Constructor con todos los atributos de la entidad Vehiculo a excepción
+     * del atributo id.
+     *
+     * @param numeroSerie de tipo String.
+     * @param marca de tipo String.
+     * @param color de tipo String.
+     * @param modelo de tipo String.
+     * @param linea de tipo String.
+     * @param personaVehiculo de tipo Persona.
+     */
     public Vehiculo(String numeroSerie, String marca, String color, String modelo, String linea, Persona personaVehiculo) {
         this.numeroSerie = numeroSerie;
         this.marca = marca;
@@ -83,6 +108,7 @@ public class Vehiculo implements Serializable {
         this.personaVehiculo = personaVehiculo;
     }
 
+    // Getter & Setter de los atributos de la entidad Vehiculo.
     public String getNumeroSerie() {
         return numeroSerie;
     }
@@ -139,6 +165,7 @@ public class Vehiculo implements Serializable {
         this.personaVehiculo = personaVehiculo;
     }
 
+    // Método hashcode()
     @Override
     public int hashCode() {
         int hash = 7;
@@ -146,6 +173,7 @@ public class Vehiculo implements Serializable {
         return hash;
     }
 
+    // Método equals(Object obj)
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -161,6 +189,7 @@ public class Vehiculo implements Serializable {
         return true;
     }
 
+    // Método toString()
     @Override
     public String toString() {
         return "entidades.Vehiculo[ id=" + id + " ]";

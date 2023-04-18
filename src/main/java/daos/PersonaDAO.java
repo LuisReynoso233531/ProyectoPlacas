@@ -18,16 +18,33 @@ import persistencias.IPersona;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public class PersonaDAO implements IPersona {
 
+    /**
+     * Atributo EntityManagerFactory que hace una conexión con la BD. Mientras
+     * se hace la unidad de persistencia denominada ConexionPU.
+     */
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
 
+    /**
+     * Constructor para inicializar la PersonaDAO como EntityManagerFactory.
+     *
+     * @param emf de tipo EntityManagerFactory.
+     */
     public PersonaDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
+    /**
+     * Método agregar(Persona persona) que se encarga de insertar un dato. En
+     * este caso agrega una persona.
+     *
+     * @param persona de tipo Persona.
+     * @return persona.
+     */
     @Override
     public Persona agregar(Persona persona) {
         EntityManager em = emf.createEntityManager();
@@ -45,12 +62,19 @@ public class PersonaDAO implements IPersona {
 
     }
 
+    /**
+     * Método buscarRFC(String rfc) que se encarga de buscar un dato. En este
+     * caso busca un rfc que pertenece a una persona.
+     *
+     * @param rfc de tipo String.
+     * @return persona.
+     */
     @Override
     public Persona buscarRFC(String rfc) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc",Persona.class);
+            Query query = em.createQuery("SELECT p FROM Persona p WHERE p.rfc = :rfc", Persona.class);
             query.setParameter("rfc", rfc);
             Persona persona = (Persona) query.getSingleResult();
             em.getTransaction().commit();
@@ -68,6 +92,14 @@ public class PersonaDAO implements IPersona {
 
     }
 
+    /**
+     * Método agregarMasivo(Persona persona) que se encarga de insertar datos.
+     * En este caso agrega un total de 20 personas con sus respectivos
+     * atributos.
+     *
+     * @param persona de tipo Persona.
+     * @return persona.
+     */
     @Override
     public Persona agregarMasivo(Persona persona) {
         EntityManager em = emf.createEntityManager();
@@ -113,13 +145,13 @@ public class PersonaDAO implements IPersona {
             em.persist(persona18);
             em.persist(persona19);
             em.persist(persona20);
-             em.getTransaction().commit();
-             return persona;
-        }catch (NoResultException e) {
+            em.getTransaction().commit();
+            return persona;
+        } catch (NoResultException e) {
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "No se pudo insertar: " + e, "Error", JOptionPane.ERROR_MESSAGE);
             throw new PersistenceException("No se pudo insertar los clientes: " + e.getMessage(), e);
-        }catch (Exception e) {
+        } catch (Exception e) {
             em.getTransaction().rollback();
             throw new RuntimeException("Error al ingresar clientes " + e.getMessage(), e);
         } finally {
@@ -127,28 +159,41 @@ public class PersonaDAO implements IPersona {
         }
     }
 
+    /**
+     * Método buscarRfcTabla(String rfc) que se encarga de buscar un dato. En
+     * este caso un rfc que pertenece a una persona.
+     *
+     * @param rfc de tipo String
+     * @return personas.
+     */
     @Override
     public List<Persona> buscarRfcTabla(String rfc) {
-       EntityManager em = emf.createEntityManager();
-    try {
-        em.getTransaction().begin();
-        Query query = em.createQuery("SELECT p FROM Persona p INNER JOIN p.tramites t WHERE p.rfc = :rfc");
-        query.setParameter("rfc", rfc);
-        List<Persona> personas = query.getResultList();
-        em.getTransaction().commit();
-        return personas;
-    }catch (Exception e) {
-        em.getTransaction().rollback();
-        JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de rfc: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        throw new PersistenceException("No se pudo generar la búsqueda de rfc: " + e.getMessage(), e);
-    } finally {
-        em.close();
-    }
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT p FROM Persona p INNER JOIN p.tramites t WHERE p.rfc = :rfc");
+            query.setParameter("rfc", rfc);
+            List<Persona> personas = query.getResultList();
+            em.getTransaction().commit();
+            return personas;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de rfc: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenceException("No se pudo generar la búsqueda de rfc: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
     }
 
+    /**
+     * Método mostrarPersonas() que se encarga de mostrar datos. En este caso
+     * muestra una lista de personas.
+     *
+     * @return personas.
+     */
     @Override
     public List<Persona> mostrarPersonas() {
-          EntityManager em = emf.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT p FROM Persona p");
@@ -163,7 +208,4 @@ public class PersonaDAO implements IPersona {
             em.close();
         }
     }
-
-
-
 }

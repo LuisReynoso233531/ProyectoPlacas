@@ -10,9 +10,12 @@ import java.util.List;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public interface IVehiculo {
+
     public Vehiculo agregar(Vehiculo vehiculo);
+
     List<Vehiculo> buscarRFC(String rfc);
 }

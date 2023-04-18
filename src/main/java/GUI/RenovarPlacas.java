@@ -24,15 +24,22 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public class RenovarPlacas extends javax.swing.JFrame {
 
+    // Atributo emf de tipo EntityManagerFactory
     private EntityManagerFactory emf;
+    // Atributo personaDAO de tipo PersonaDAO
     private PersonaDAO personaDAO;
+    // Atributo vehiculoDAO de tipo VehiculoDAO
     private VehiculoDAO vehiculoDAO;
+    // Atributo placasDAO de tipo PlacasDAO
     private PlacasDAO placasDAO;
+    // Atributo persona de tipo Persona
     private Persona persona;
+    // Atributo vehiculo de tipo Vehiculo
     private Vehiculo vehiculo;
 
     /**
@@ -49,10 +56,18 @@ public class RenovarPlacas extends javax.swing.JFrame {
 
     }
 
+    /**
+     * El método rellenarCosto() realiza la función de hacer Set para el
+     * txtCosto a 1000.
+     */
     public void rellenarCosto() {
         this.txtCosto.setText("1000");
     }
 
+    /**
+     * Este método llenarTabla() tiene la función de llenar con datos de
+     * vehículos la tabla en la GUI de RenovarPlacas.
+     */
     public void llenarTabla() {
         String rfc = this.txtRfc.getText();
         List<Vehiculo> vehiculos = this.vehiculoDAO.buscarRFC(rfc);
@@ -68,6 +83,12 @@ public class RenovarPlacas extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * El método renovarPlacas() realiza la función de efectuar la renovación de
+     * placas una vez que el cliente haya llenado todos los campos de la GUI
+     * RenovarPlacas, toma el RFC de un cliente y brinda tanto el número de
+     * serie de un vehículo como el costo del trámite.
+     */
     public void renovarPlacas() {
         String rfc = this.txtRfc.getText();
         String numeroSerie = this.txtNumeroSerie.getText();
@@ -323,7 +344,7 @@ public class RenovarPlacas extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        int mensaje = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        int mensaje = JOptionPane.showConfirmDialog(null, "¿Estás seguro que deseas salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (mensaje == JOptionPane.NO_OPTION) {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         } else {

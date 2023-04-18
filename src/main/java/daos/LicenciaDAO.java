@@ -14,16 +14,33 @@ import persistencias.ILicencia;
 
 /**
  *
- * @author luis-
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * 00000233531
  */
 public class LicenciaDAO implements ILicencia {
 
+    /**
+     * Atributo EntityManagerFactory que hace una conexión con la BD. Mientras
+     * se hace la unidad de persistencia denominada ConexionPU.
+     */
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
 
+    /**
+     * Constructor para inicializar la LicenciaDAO como EntityManagerFactory.
+     *
+     * @param emf de tipo EntityManagerFactory.
+     */
     public LicenciaDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
+    /**
+     * Método agregarLicencia() que se encarga de insertar un dato. En este caso
+     * agrega una licencia.
+     *
+     * @param licencia de tipo Licencia.
+     * @return licencia.
+     */
     @Override
     public Licencia agregarLicencia(Licencia licencia) {
         EntityManager em = emf.createEntityManager();
@@ -40,24 +57,38 @@ public class LicenciaDAO implements ILicencia {
         }
     }
 
+    /**
+     * Método renovarLicencia() que se encarga de actualizar un dato. En este
+     * caso renueva una licencia.
+     *
+     * @param id_licencia de tipo String.
+     * @param estado de tipo String.
+     */
     @Override
     public void renovarLicencia(String id_licencia, String estado) {
-         EntityManager em = emf.createEntityManager();
-    try {
-        em.getTransaction().begin();
-        Query query = em.createQuery("UPDATE Licencia l SET l.estado = :estado WHERE l.id_licencia = :id_licencia");
-        query.setParameter("estado", estado);
-        query.setParameter("id_licencia", id_licencia);
-        int rowsUpdated = query.executeUpdate();
-        em.getTransaction().commit();
-    } catch (Exception e) {
-        System.err.println(e.getMessage());
-    } finally {
-        em.close();
-    }
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("UPDATE Licencia l SET l.estado = :estado WHERE l.id_licencia = :id_licencia");
+            query.setParameter("estado", estado);
+            query.setParameter("id_licencia", id_licencia);
+            int rowsUpdated = query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        } finally {
+            em.close();
+        }
 
     }
 
+    /**
+     * Método buscarPorLicencia() que se encarga de buscar un dato. En este caso
+     * busca una licencia.
+     *
+     * @param id_licencia de tipo String.
+     * @return Licencia.
+     */
     @Override
     public Licencia buscarPorLicencia(String id_licencia) {
         EntityManager em = emf.createEntityManager();
