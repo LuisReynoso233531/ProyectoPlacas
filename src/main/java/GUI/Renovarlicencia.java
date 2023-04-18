@@ -106,13 +106,13 @@ public class Renovarlicencia extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("RFC");
+        jLabel2.setText("RFC:");
 
-        jLabel3.setText("Vigencia");
+        jLabel3.setText("Vigencia:");
 
-        jLabel4.setText("Costo");
+        jLabel4.setText("Costo:");
 
-        checkBoxExtravio.setText("¿Extravio la licencia?");
+        checkBoxExtravio.setText("¿Extravió la Licencia?");
         checkBoxExtravio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxExtravioActionPerformed(evt);
@@ -160,7 +160,7 @@ public class Renovarlicencia extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Identificador");
+        jLabel5.setText("Identificador:");
 
         jPanel1.setBackground(new java.awt.Color(51, 255, 102));
 
@@ -215,7 +215,7 @@ public class Renovarlicencia extends javax.swing.JFrame {
                         .addGap(51, 51, 51)
                         .addComponent(btnReporte)
                         .addGap(79, 79, 79)
-                        .addComponent(btnSalir)))
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
