@@ -4,9 +4,11 @@
  */
 package daos;
 
+import entidades.Licencia;
 import entidades.Placas;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import persistencias.IPlacas;
@@ -68,13 +70,34 @@ public class PlacasDAO implements IPlacas {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Query query = em.createQuery("UPDATE Placas p SET p.estado = :estado WHERE p.vehiculo = :vehiculo");
+            Query query = em.createQuery("UPDATE Placas p SET p.estado = :estado WHERE p.vehiculo = :vehiculo AND p.fechaFin <= CAST(CURRENT_DATE AS date)");
             query.setParameter("estado", estado);
             query.setParameter("vehiculo", numeroPlacas);
             int rowsUpdated = query.executeUpdate();
             em.getTransaction().commit();
         } catch (Exception e) {
             System.err.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+    
+    /**
+     * El metodo buscarPorVehiculo() se encarga de buscar un dato
+     * en este caso, por vehiculo
+     * @param vehiculo de tipo String
+     * @return Placas
+     */
+    
+    @Override
+    public Placas buscarPorVehiculo(String vehiculo) {
+         EntityManager em = emf.createEntityManager();
+        try {
+            Query query = em.createQuery("SELECT p FROM Placas p WHERE p.vehiculo = :vehiculo");
+            query.setParameter("vehiculo", vehiculo);
+            return (Placas) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         } finally {
             em.close();
         }

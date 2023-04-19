@@ -30,9 +30,18 @@ public class Prueba {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
+        
         Menu xd = new Menu();
         xd.setVisible(true);
-
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
+        EntityManager em = emf.createEntityManager();
+        Persona persona = new Persona("xd", "xd", "Xd", "xd", "xd", new Date(11, 111, 11), true);
+        Licencia actualizarLicencia = new Licencia("xd", "2 Años", "Activo", "Licencia", 500, new Date(11, 11, 11), new Date(12, 12, 12), persona);
+        em.getTransaction().begin();
+        em.persist(persona);
+        em.persist(actualizarLicencia);
+        em.getTransaction().commit();
+        em.close();
     }
 }

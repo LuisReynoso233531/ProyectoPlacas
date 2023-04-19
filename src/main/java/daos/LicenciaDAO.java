@@ -5,10 +5,13 @@
 package daos;
 
 import entidades.Licencia;
+import entidades.Persona;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import persistencias.ILicencia;
 
@@ -69,7 +72,7 @@ public class LicenciaDAO implements ILicencia {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Query query = em.createQuery("UPDATE Licencia l SET l.estado = :estado WHERE l.id_licencia = :id_licencia");
+            Query query = em.createQuery("UPDATE Licencia l SET l.estado = :estado WHERE l.id_licencia = :id_licencia AND l.fechaFin <= CAST(CURRENT_DATE AS date)");
             query.setParameter("estado", estado);
             query.setParameter("id_licencia", id_licencia);
             int rowsUpdated = query.executeUpdate();
@@ -101,6 +104,6 @@ public class LicenciaDAO implements ILicencia {
         } finally {
             em.close();
         }
-
+        
     }
 }
