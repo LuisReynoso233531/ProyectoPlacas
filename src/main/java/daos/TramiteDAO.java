@@ -205,8 +205,8 @@ public class TramiteDAO implements ITramite {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT t FROM Tramite t INNER JOIN t.personasTramite p WHERE p.nombres = :nombres");
-            query.setParameter("nombres", nombres);
+            Query query = em.createQuery("SELECT t FROM Tramite t INNER JOIN t.personasTramite p WHERE p.nombres LIKE :nombres");
+            query.setParameter("nombres", "%" + nombres + "%");
             List<Tramite> tramites = query.getResultList();
             em.getTransaction().commit();
             return tramites;

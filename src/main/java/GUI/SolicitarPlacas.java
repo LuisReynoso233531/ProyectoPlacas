@@ -8,6 +8,7 @@ import daos.LicenciaDAO;
 import daos.PersonaDAO;
 import daos.PlacasDAO;
 import daos.VehiculoDAO;
+import entidades.Licencia;
 import entidades.Placas;
 import entidades.Vehiculo;
 import java.util.Calendar;
@@ -37,6 +38,8 @@ public class SolicitarPlacas extends javax.swing.JFrame {
     private PlacasDAO placasDAO;
     // Atributo vehiculo de tipo Vehiculo
     private Vehiculo vehiculo;
+    // Atributo licenciaDAO de tipo LicenciaDAO
+    private LicenciaDAO licenciaDAO;
 
     /**
      * Constructor
@@ -46,6 +49,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         personaDAO = new PersonaDAO(emf);
         placasDAO = new PlacasDAO(emf);
         vehiculoDAO = new VehiculoDAO(emf);
+        licenciaDAO = new LicenciaDAO(emf);
         initComponents();
         this.rellenarCosto();
     }
@@ -75,16 +79,14 @@ public class SolicitarPlacas extends javax.swing.JFrame {
             return;
         }
 
-        if (!rfc.matches("[A-Z0-9]{13}")) {
-            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
+//        if (!rfc.matches("[A-Z0-9]{13}")) {
+//            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
         Vehiculo nuevoVehiculo = new Vehiculo(numeroSerie, marca, color, modelo, linea, personaDAO.buscarRFC(this.txtRFC.getText()));
         nuevoVehiculo = vehiculoDAO.agregar(nuevoVehiculo);
         if (nuevoVehiculo != null) {
-            JOptionPane.showMessageDialog(this, "Se ha agregado con éxito un nuevo Vehículo", "Información", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
+           // JOptionPane.showMessageDialog(this, "Se ha agregado con éxito un nuevo Vehículo", "Información", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.ERROR_MESSAGE);
         }
@@ -102,6 +104,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         calendar.add(Calendar.YEAR, 1);
         Date fechaFin = calendar.getTime();
         String vehiculoSerie = this.formatNumeroSerie.getText();
+        String identificador = this.txtIdentificador.getText();
 
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
@@ -121,13 +124,21 @@ public class SolicitarPlacas extends javax.swing.JFrame {
 
         String numeroPlacas3 = numeroPlacas + "-" + numeroPlacas2;
 
-        Placas nuevasPlacas = new Placas(numeroPlacas3, "Activo", vehiculoSerie, "Placas", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRFC.getText()));
-        nuevasPlacas = placasDAO.agregarPlacas(nuevasPlacas);
-        if (nuevasPlacas != null) {
-            JOptionPane.showMessageDialog(this, "Se ha agregado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
+        Licencia licenciaRenovada = licenciaDAO.buscarPorLicencia(identificador);
+        if (licenciaRenovada != null && licenciaRenovada.getFechaFin().after(new Date())) {
+            Placas nuevasPlacas = new Placas(numeroPlacas3, "Activo", vehiculoSerie, "Placas", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRFC.getText()));
+            nuevasPlacas = placasDAO.agregarPlacas(nuevasPlacas);
+            if (nuevasPlacas != null) {
+                JOptionPane.showMessageDialog(this, "Se ha agregado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
+                 dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.INFORMATION_MESSAGE);
+            }
+
         } else {
-            JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Su licencia ha caducado, no se pueden sacar las placas", "Información", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
     /**
@@ -157,6 +168,8 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         formatNumeroSerie = new javax.swing.JFormattedTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtIdentificador = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Solicitar placas");
@@ -258,6 +271,8 @@ public class SolicitarPlacas extends javax.swing.JFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        jLabel9.setText("Identificador");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -272,18 +287,19 @@ public class SolicitarPlacas extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnReporte)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                        .addComponent(txtModelo)
-                        .addComponent(txtLinea)
-                        .addComponent(txtColor)
-                        .addComponent(txtCosto)
-                        .addComponent(txtRFC)
-                        .addComponent(formatNumeroSerie)))
+                    .addComponent(txtMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                    .addComponent(txtModelo)
+                    .addComponent(txtLinea)
+                    .addComponent(txtColor)
+                    .addComponent(txtCosto)
+                    .addComponent(txtRFC)
+                    .addComponent(formatNumeroSerie)
+                    .addComponent(txtIdentificador))
                 .addContainerGap(160, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -294,7 +310,11 @@ public class SolicitarPlacas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(formatNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -320,7 +340,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnReporte)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         pack();
@@ -385,10 +405,12 @@ public class SolicitarPlacas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtCosto;
+    private javax.swing.JTextField txtIdentificador;
     private javax.swing.JTextField txtLinea;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtModelo;

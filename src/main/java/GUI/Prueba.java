@@ -9,6 +9,7 @@ import entidades.Licencia;
 import entidades.Persona;
 import entidades.Placas;
 import entidades.Tramite;
+import entidades.Vehiculo;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -38,9 +39,13 @@ public class Prueba {
         EntityManager em = emf.createEntityManager();
         Persona persona = new Persona("xd", "xd", "Xd", "xd", "xd", new Date(11, 111, 11), true);
         Licencia actualizarLicencia = new Licencia("xd", "2 Años", "Activo", "Licencia", 500, new Date(11, 11, 11), new Date(12, 12, 12), persona);
+        Vehiculo vehiculo = new Vehiculo("xd", "xd", "xd", "xd", "xd", persona);
+        Placas placas = new Placas("xd", "Caduco", "xd", "xd", 500, new Date(11,11,11), new Date(12,12,12), persona);
         em.getTransaction().begin();
         em.persist(persona);
         em.persist(actualizarLicencia);
+        em.persist(vehiculo);
+        em.persist(placas);
         em.getTransaction().commit();
         em.close();
     }

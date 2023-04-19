@@ -75,18 +75,40 @@ public class Renovarlicencia extends javax.swing.JFrame {
             calendar.add(Calendar.YEAR, 3);
         }
         Date fechaFin = calendar.getTime();
-        Licencia licenciaRenovada = licenciaDAO.buscarPorLicencia(identificador);
-        if (licenciaRenovada != null && licenciaRenovada.getFechaFin().after(new Date())) {
-            JOptionPane.showMessageDialog(this, "Aun no se ha expirado su licencia", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            Licencia actualizarLicencia = new Licencia(identificador, vigencia, "Activo", "Licencia", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRfc.getText()));
-            licenciaDAO.renovarLicencia(identificador, "Caduco");
-            licenciaDAO.agregarLicencia(actualizarLicencia);
-            if (actualizarLicencia != null) {
-                JOptionPane.showMessageDialog(this, "Se ha renovado con éxito la Licencia", "", JOptionPane.INFORMATION_MESSAGE);
-                dispose();
+
+        if (checkBoxExtravio.isSelected()) {
+            int mensaje = JOptionPane.showConfirmDialog(null, "¿Estás seguro que deseas renovar?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (mensaje == JOptionPane.NO_OPTION) {
+                this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             } else {
-                JOptionPane.showMessageDialog(this, "Error! No es posible renovar la Licencia", "", JOptionPane.ERROR_MESSAGE);
+                Licencia licenciaRenovada = licenciaDAO.buscarPorLicencia(identificador);
+                if (licenciaRenovada != null) {
+                    licenciaDAO.renovarLicencia(identificador, "Caduco");
+                }
+                Licencia actualizarLicencia = new Licencia(identificador, vigencia, "Activo", "Licencia", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRfc.getText()));
+                licenciaDAO.agregarLicencia(actualizarLicencia);
+                if (actualizarLicencia != null) {
+                    JOptionPane.showMessageDialog(this, "Se ha renovado con éxito la Licencia", "", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error! No es posible renovar la Licencia", "", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+        } else {
+            Licencia licenciaRenovada = licenciaDAO.buscarPorLicencia(identificador);
+            if (licenciaRenovada != null && licenciaRenovada.getFechaFin().after(new Date())) {
+                JOptionPane.showMessageDialog(this, "Aun no se ha expirado su licencia", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                Licencia actualizarLicencia = new Licencia(identificador, vigencia, "Activo", "Licencia", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRfc.getText()));
+                licenciaDAO.renovarLicencia(identificador, "Caduco");
+                licenciaDAO.agregarLicencia(actualizarLicencia);
+                if (actualizarLicencia != null) {
+                    JOptionPane.showMessageDialog(this, "Se ha renovado con éxito la Licencia", "", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error! No es posible renovar la Licencia", "", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
 

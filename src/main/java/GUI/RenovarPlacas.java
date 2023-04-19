@@ -125,10 +125,7 @@ public class RenovarPlacas extends javax.swing.JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        Placas placasRenovadas = placasDAO.buscarPorVehiculo(numeroSerie);
-        if (placasRenovadas != null && placasRenovadas.getFechaFin().after(new Date())) {
-            JOptionPane.showMessageDialog(this, "Aun no expiran sus placas", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
+        if (checkBoxExtravio.isSelected()) {
             Placas renovarPlacas = new Placas(numeroPlacas3, "Activo", numeroSerie, "Placas", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(rfc));
             placasDAO.actualizarPlacas(numeroSerie, "Caduco");
             placasDAO.agregarPlacas(renovarPlacas);
@@ -136,6 +133,20 @@ public class RenovarPlacas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Se ha renovado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Error!!", "Información", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            Placas placasRenovadas = placasDAO.buscarPorVehiculo(numeroSerie);
+            if (placasRenovadas != null && placasRenovadas.getFechaFin().after(new Date())) {
+                JOptionPane.showMessageDialog(this, "Aun no expiran sus placas", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                Placas renovarPlacas = new Placas(numeroPlacas3, "Activo", numeroSerie, "Placas", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(rfc));
+                placasDAO.actualizarPlacas(numeroSerie, "Caduco");
+                placasDAO.agregarPlacas(renovarPlacas);
+                if (renovarPlacas != null) {
+                    JOptionPane.showMessageDialog(this, "Se ha renovado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error!!", "Información", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
 
