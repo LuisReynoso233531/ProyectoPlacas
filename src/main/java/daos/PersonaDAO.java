@@ -81,14 +81,13 @@ public class PersonaDAO implements IPersona {
             return persona;
         } catch (NoResultException e) {
             em.getTransaction().rollback();
-            //JOptionPane.showMessageDialog(null, "No se encontro la RFC: " + e, "Error", JOptionPane.ERROR_MESSAGE);
-            throw new PersistenceException("No se pudo generar la búsqueda de trámites: " + e.getMessage(), e);
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new RuntimeException("Error al buscar persona por RFC: " + e.getMessage(), e);
         } finally {
             em.close();
         }
+        return null;
 
     }
 

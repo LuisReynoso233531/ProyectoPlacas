@@ -47,6 +47,13 @@ public class Reporte {
         this.llenarNombreCompleto(tramite);
     }
 
+    public Reporte(String tipo, String costo, String nombreCompleto, String fechaInicio) {
+        this.tipo = tipo;
+        this.costo = costo;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaInicio = fechaInicio;
+    }
+
     /**
      * El método llenarNombreCompleto(Tramite tramite) tiene la función de
      * obtener el nombre y apellidos de una persona.

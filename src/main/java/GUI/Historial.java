@@ -10,6 +10,7 @@ import entidades.Persona;
 import entidades.Tramite;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -106,106 +107,6 @@ public class Historial extends javax.swing.JFrame {
     }
 
     /**
-     * Método buscarPorFecha() que realiza la búsqueda para la interfaz de
-     * Historial dependiendo la fecha en que se haya efectuado el trámite.
-     */
-    public void buscarPorFecha() {
-
-        Date fecha = null;
-
-        if (dpFechaInicio.getDate() != null) {
-            fecha = Date.from(this.dpFechaInicio.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-            List<Tramite> listaTramites = this.tramiteDAO.buscarPorFecha(fecha);
-            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaTramites.getModel();
-            modeloTabla.setRowCount(0);
-            listaTramites.forEach(tramite -> {
-                Object[] fila = new Object[7];
-                fila[0] = tramite.getId();
-                fila[1] = tramite.getTipo();
-                fila[2] = tramite.getPersonasTramite().getId();
-                fila[3] = tramite.getCosto();
-                fila[4] = formatoFecha.format(tramite.getFechaInicio().getTime());
-                fila[5] = tramite.getPersonasTramite().getNombres();
-                fila[6] = tramite.getPersonasTramite().getRfc();
-
-                modeloTabla.addRow(fila);
-
-            });
-        } else {
-            JOptionPane.showMessageDialog(this, "Por favor seleccione una fecha", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        //Reporte
-        List<Tramite> tramites = tramiteDAO.buscarPorFecha(fecha);
-        if (tramites.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se encontraron los tramites", "", JOptionPane.ERROR_MESSAGE);
-        } else {
-
-            List<Reporte> reportes = new LinkedList<>();
-            for (Tramite tramite : tramites) {
-                reportes.add(new Reporte(tramite));
-
-            }
-            GenerarReporte.generarReporte(reportes);
-        }
-
-        if (fecha.after(new Date())) {
-            JOptionPane.showMessageDialog(this, "No se puede buscar un tramite con fecha mayor a hoy", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-    }
-
-    /**
-     * El método buscarPorId() tiene la función de realizar la búsqueda para la
-     * interfaz de Historial dependiendo el ID correspondiente para el trámite.
-     */
-    public void buscarPorId() {
-
-        String Stringid = this.txtID.getText();
-        if (Stringid.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El campo de ID está vacío", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int id = Integer.parseInt(Stringid);
-
-        List<Tramite> listaTramites = this.tramiteDAO.buscarPorId(id);
-        DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaTramites.getModel();
-        modeloTabla.setRowCount(0);
-        listaTramites.forEach(tramite -> {
-            Object[] fila = new Object[7];
-            fila[0] = tramite.getId();
-            fila[1] = tramite.getTipo();
-            fila[2] = tramite.getPersonasTramite().getId();
-            fila[3] = tramite.getCosto();
-            fila[4] = formatoFecha.format(tramite.getFechaInicio().getTime());
-            fila[5] = tramite.getPersonasTramite().getNombres();
-            fila[6] = tramite.getPersonasTramite().getRfc();
-
-            modeloTabla.addRow(fila);
-
-        });
-
-        //Reporte
-        List<Tramite> tramites = tramiteDAO.buscarPorId(id);
-        if (tramites.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se encontraron los tramites", "", JOptionPane.ERROR_MESSAGE);
-        } else {
-
-            List<Reporte> reportes = new LinkedList<>();
-            for (Tramite tramite : tramites) {
-                reportes.add(new Reporte(tramite));
-
-            }
-            GenerarReporte.generarReporte(reportes);
-        }
-
-    }
-
-    /**
      * Este método buscarPeriodo() realiza la búsqueda para la interfaz de
      * Historial dependiendo el periodo en que se haya efectuado el trámite.
      */
@@ -268,7 +169,6 @@ public class Historial extends javax.swing.JFrame {
     public void quitarPeriodo() {
         dpFechaAntes.setEnabled(false);
         dpFechaDespues.setEnabled(false);
-        btnPeriodo.setEnabled(false);
     }
 
     /**
@@ -371,16 +271,10 @@ public class Historial extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaTramites = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        txtID = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         txtRFC = new javax.swing.JTextField();
         cbTipo = new javax.swing.JComboBox<>();
-        dpFechaInicio = new com.github.lgooddatepicker.components.DatePicker();
-        btnBuscarFecha = new javax.swing.JButton();
-        btnBuscarID = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         dpFechaAntes = new com.github.lgooddatepicker.components.DatePicker();
         jLabel4 = new javax.swing.JLabel();
@@ -388,9 +282,7 @@ public class Historial extends javax.swing.JFrame {
         dpFechaDespues = new com.github.lgooddatepicker.components.DatePicker();
         jLabel8 = new javax.swing.JLabel();
         checkBoxPeriodo = new javax.swing.JCheckBox();
-        btnPeriodo = new javax.swing.JButton();
-        btnRFC = new javax.swing.JButton();
-        btnNombre = new javax.swing.JButton();
+        btnReporte = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -422,23 +314,18 @@ public class Historial extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaTramites);
 
-        jLabel1.setText("Buscar por ID:");
-
-        txtID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIDActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Buscar por RFC:");
 
         jLabel3.setText("Buscar por tipo:");
 
-        jLabel5.setText("Buscar por fecha");
-
         txtRFC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtRFCActionPerformed(evt);
+            }
+        });
+        txtRFC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRFCKeyTyped(evt);
             }
         });
 
@@ -454,26 +341,6 @@ public class Historial extends javax.swing.JFrame {
             }
         });
 
-        dpFechaInicio.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                dpFechaInicioMouseClicked(evt);
-            }
-        });
-
-        btnBuscarFecha.setText("Buscar Fecha");
-        btnBuscarFecha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarFechaActionPerformed(evt);
-            }
-        });
-
-        btnBuscarID.setText("Buscar ID");
-        btnBuscarID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarIDActionPerformed(evt);
-            }
-        });
-
         jLabel4.setText("Buscar por periodo:");
 
         jLabel7.setText("Después de:");
@@ -483,13 +350,6 @@ public class Historial extends javax.swing.JFrame {
         checkBoxPeriodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxPeriodoActionPerformed(evt);
-            }
-        });
-
-        btnPeriodo.setText("Buscar periodo");
-        btnPeriodo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPeriodoActionPerformed(evt);
             }
         });
 
@@ -515,10 +375,7 @@ public class Historial extends javax.swing.JFrame {
                         .addComponent(jLabel7))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(102, 102, 102)
-                        .addComponent(jLabel8))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(btnPeriodo)))
+                        .addComponent(jLabel8)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -536,23 +393,13 @@ public class Historial extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dpFechaAntes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnPeriodo)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
-        btnRFC.setText("Buscar RFC");
-        btnRFC.setToolTipText("");
-        btnRFC.addActionListener(new java.awt.event.ActionListener() {
+        btnReporte.setText("Generar reporte");
+        btnReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRFCActionPerformed(evt);
-            }
-        });
-
-        btnNombre.setText("Buscar nombre");
-        btnNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNombreActionPerformed(evt);
+                btnReporteActionPerformed(evt);
             }
         });
 
@@ -561,6 +408,11 @@ public class Historial extends javax.swing.JFrame {
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
+            }
+        });
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
             }
         });
 
@@ -595,9 +447,6 @@ public class Historial extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -606,30 +455,21 @@ public class Historial extends javax.swing.JFrame {
                                 .addComponent(txtNombre))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtRFC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(cbTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(43, 43, 43)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnReporte)
+                        .addGap(306, 306, 306))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBuscarFecha)
-                        .addGap(70, 70, 70)
-                        .addComponent(btnBuscarID)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnNombre)
-                        .addGap(88, 88, 88)
-                        .addComponent(btnRFC)))
-                .addGap(21, 21, 21))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(dpFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -641,10 +481,7 @@ public class Historial extends javax.swing.JFrame {
                 .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
+                        .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -656,21 +493,13 @@ public class Historial extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(37, 37, 37)
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(dpFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(27, 27, 27)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnBuscarFecha)
-                            .addComponent(btnBuscarID)
-                            .addComponent(btnNombre)
-                            .addComponent(btnRFC))
+                        .addComponent(btnReporte)
                         .addGap(102, 102, 102))))
         );
 
@@ -687,10 +516,6 @@ public class Historial extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIDActionPerformed
-
     private void txtRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRFCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRFCActionPerformed
@@ -698,7 +523,6 @@ public class Historial extends javax.swing.JFrame {
     private void tablaTramitesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaTramitesMouseClicked
         // TODO add your handling code here:
         int seleccionar = tablaTramites.rowAtPoint(evt.getPoint());
-        txtID.setText(String.valueOf(tablaTramites.getValueAt(seleccionar, 0)));
         txtRFC.setText(String.valueOf(tablaTramites.getValueAt(seleccionar, 6)));
         txtNombre.setText(String.valueOf(tablaTramites.getValueAt(seleccionar, 5)));
 
@@ -726,23 +550,6 @@ public class Historial extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cbTipoItemStateChanged
 
-    private void dpFechaInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dpFechaInicioMouseClicked
-        // TODO add your handling code here:
-        buscarPorFecha();
-
-    }//GEN-LAST:event_dpFechaInicioMouseClicked
-
-    private void btnBuscarFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarFechaActionPerformed
-        // TODO add your handling code here:
-        buscarPorFecha();
-
-    }//GEN-LAST:event_btnBuscarFechaActionPerformed
-
-    private void btnBuscarIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIDActionPerformed
-        // TODO add your handling code here:
-        buscarPorId();
-    }//GEN-LAST:event_btnBuscarIDActionPerformed
-
     /**
      * El checkbox checkBoxPeriodoActionPerformed tiene la función de habilitar
      * y hacer Set en True a los DatePicker dpFechaAntes, dpFechaDespues y
@@ -755,60 +562,153 @@ public class Historial extends javax.swing.JFrame {
         if (checkBoxPeriodo.isSelected()) {
             dpFechaAntes.setEnabled(true);
             dpFechaDespues.setEnabled(true);
-            btnPeriodo.setEnabled(true);
-            dpFechaInicio.setEnabled(false);
-            dpFechaInicio.setText("");
         } else {
             dpFechaAntes.setEnabled(false);
             dpFechaDespues.setEnabled(false);
-            btnPeriodo.setEnabled(false);
-            dpFechaInicio.setEnabled(true);
             dpFechaAntes.setText("");
             dpFechaDespues.setText("");
 
         }
     }//GEN-LAST:event_checkBoxPeriodoActionPerformed
 
-    private void btnPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeriodoActionPerformed
+    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
         // TODO add your handling code here:
-        buscarPeriodo();
-    }//GEN-LAST:event_btnPeriodoActionPerformed
+        String nombres = this.txtNombre.getText();
+        Date fechaInicio = null;
+        Date fechaFin = null;
 
-    private void btnRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRFCActionPerformed
-        // TODO add your handling code here:
-        buscarRFC();
-    }//GEN-LAST:event_btnRFCActionPerformed
+        if (checkBoxPeriodo.isSelected()) {
+            if (dpFechaDespues.getDate() != null) {
+                fechaInicio = Date.from(this.dpFechaDespues.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor seleccione una fecha (Despues)", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-    private void btnNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNombreActionPerformed
-        // TODO add your handling code here:
-        buscarNombre();
-    }//GEN-LAST:event_btnNombreActionPerformed
+            if (dpFechaAntes.getDate() != null) {
+                fechaFin = Date.from(this.dpFechaAntes.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor seleccione una fecha (Antes)", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (dpFechaDespues.getDate() != null && dpFechaAntes.getDate() != null && nombres.isEmpty()) {
+                buscarPeriodo();
+                List<Tramite> tramites = tramiteDAO.buscarPeriodo(fechaInicio, fechaFin);
+                if (tramites.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No se encontraron los tramites", "", JOptionPane.ERROR_MESSAGE);
+                } else {
+
+                    List<Reporte> reportes = new LinkedList<>();
+                    for (Tramite tramite : tramites) {
+                        reportes.add(new Reporte(tramite));
+
+                    }
+                    GenerarReporte.generarReporte(reportes);
+                }
+                if (tramites.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "La lista esta vacia", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                List<Tramite> tramites = tramiteDAO.buscarNombrePeriodo(nombres, fechaInicio, fechaFin);
+                if (tramites.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No se encontraron los tramites", "", JOptionPane.ERROR_MESSAGE);
+                } else {
+
+                    List<Reporte> reportes = new LinkedList<>();
+                    for (Tramite tramite : tramites) {
+                        reportes.add(new Reporte(tramite));
+
+                    }
+                    GenerarReporte.generarReporte(reportes);
+                }
+                if (tramites.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "La lista esta vacia", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+
+        } else {
+            List<Tramite> tramites = tramiteDAO.buscarNombre(nombres);
+            if (tramites.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se encontraron los tramites", "", JOptionPane.ERROR_MESSAGE);
+            } else {
+
+                List<Reporte> reportes = new LinkedList<>();
+                for (Tramite tramite : tramites) {
+                    reportes.add(new Reporte(tramite));
+
+                }
+                GenerarReporte.generarReporte(reportes);
+            }
+            if (tramites.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "La lista esta vacia", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnReporteActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        // TODO add your handling code here:
+        String nombres = this.txtNombre.getText();
+
+        List<Tramite> listaTramites = this.tramiteDAO.buscarNombre(nombres);
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaTramites.getModel();
+        modeloTabla.setRowCount(0);
+        listaTramites.forEach(tramite -> {
+            Object[] fila = new Object[7];
+            fila[0] = tramite.getId();
+            fila[1] = tramite.getTipo();
+            fila[2] = tramite.getPersonasTramite().getId();
+            fila[3] = tramite.getCosto();
+            fila[4] = formatoFecha.format(tramite.getFechaInicio().getTime());
+            fila[5] = tramite.getPersonasTramite().getNombres();
+            fila[6] = tramite.getPersonasTramite().getRfc();
+
+            modeloTabla.addRow(fila);
+
+        });
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRFCKeyTyped
+        // TODO add your handling code here:
+        String rfc = this.txtRFC.getText();
+
+        List<Tramite> listaTramites = this.tramiteDAO.buscarRFC(rfc);
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tablaTramites.getModel();
+        modeloTabla.setRowCount(0);
+        listaTramites.forEach(tramite -> {
+            Object[] fila = new Object[7];
+            fila[0] = tramite.getId();
+            fila[1] = tramite.getTipo();
+            fila[2] = tramite.getPersonasTramite().getId();
+            fila[3] = tramite.getCosto();
+            fila[4] = formatoFecha.format(tramite.getFechaInicio().getTime());
+            fila[5] = tramite.getPersonasTramite().getNombres();
+            fila[6] = tramite.getPersonasTramite().getRfc();
+
+            modeloTabla.addRow(fila);
+
+        });
+    }//GEN-LAST:event_txtRFCKeyTyped
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscarFecha;
-    private javax.swing.JButton btnBuscarID;
-    private javax.swing.JButton btnNombre;
-    private javax.swing.JButton btnPeriodo;
-    private javax.swing.JButton btnRFC;
+    private javax.swing.JButton btnReporte;
     private javax.swing.JComboBox<String> cbTipo;
     private javax.swing.JCheckBox checkBoxPeriodo;
     private com.github.lgooddatepicker.components.DatePicker dpFechaAntes;
     private com.github.lgooddatepicker.components.DatePicker dpFechaDespues;
-    private com.github.lgooddatepicker.components.DatePicker dpFechaInicio;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -816,7 +716,6 @@ public class Historial extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaTramites;
-    private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRFC;
     // End of variables declaration//GEN-END:variables

@@ -5,6 +5,7 @@
 package persistencias;
 
 import entidades.Licencia;
+import entidades.Persona;
 
 /**
  *
@@ -18,5 +19,5 @@ public interface ILicencia {
     public void renovarLicencia(String id_licencia, String estado);
 
     public Licencia buscarPorLicencia(String id_licencia);
-
+    
 }

@@ -4,9 +4,11 @@
  */
 package GUI;
 
+import daos.CostoDAO;
 import daos.LicenciaDAO;
 import daos.PersonaDAO;
 import daos.TramiteDAO;
+import entidades.Costo;
 import entidades.Licencia;
 import entidades.Tramite;
 import java.util.Calendar;
@@ -33,11 +35,14 @@ public class Renovarlicencia extends javax.swing.JFrame {
     private PersonaDAO personaDAO;
     // Atributo licenciaDAO de tipo LicenciaDAO
     private LicenciaDAO licenciaDAO;
+    // Atributo costoDAO de tipo CostoDAO
+    private CostoDAO costoDAO;
 
     public Renovarlicencia() {
         emf = Persistence.createEntityManagerFactory("ConexionPU");
         personaDAO = new PersonaDAO(emf);
         licenciaDAO = new LicenciaDAO(emf);
+        costoDAO = new CostoDAO(emf);
         initComponents();
         this.rellenarCosto();
     }
@@ -105,6 +110,8 @@ public class Renovarlicencia extends javax.swing.JFrame {
                 licenciaDAO.agregarLicencia(actualizarLicencia);
                 if (actualizarLicencia != null) {
                     JOptionPane.showMessageDialog(this, "Se ha renovado con éxito la Licencia", "", JOptionPane.INFORMATION_MESSAGE);
+                    Costo nuevoCosto = new Costo(fechaInicio, costo, actualizarLicencia);
+                    costoDAO.agregar(nuevoCosto);
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Error! No es posible renovar la Licencia", "", JOptionPane.ERROR_MESSAGE);
@@ -182,6 +189,7 @@ public class Renovarlicencia extends javax.swing.JFrame {
         });
 
         btnReporte.setText("Generar reporte");
+        btnReporte.setActionCommand("Aceptar");
         btnReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReporteActionPerformed(evt);

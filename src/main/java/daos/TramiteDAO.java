@@ -125,8 +125,8 @@ public class TramiteDAO implements ITramite {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT t FROM Tramite t WHERE t.fechaInicio = :fecha");
-            query.setParameter("fecha", fecha);
+            Query query = em.createQuery("SELECT t FROM Tramite t WHERE t.fechaInicio LIKE :fecha");
+            query.setParameter("fecha", "%" + fecha + "%");
             List<Tramite> tramites = query.getResultList();
             em.getTransaction().commit();
             return tramites;
@@ -179,8 +179,8 @@ public class TramiteDAO implements ITramite {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT t FROM Tramite t INNER JOIN t.personasTramite p WHERE p.rfc = :rfc");
-            query.setParameter("rfc", rfc);
+            Query query = em.createQuery("SELECT t FROM Tramite t INNER JOIN t.personasTramite p WHERE p.rfc LIKE :rfc");
+            query.setParameter("rfc", "%" + rfc + "%");
             List<Tramite> tramites = query.getResultList();
             em.getTransaction().commit();
             return tramites;
@@ -207,6 +207,27 @@ public class TramiteDAO implements ITramite {
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT t FROM Tramite t INNER JOIN t.personasTramite p WHERE p.nombres LIKE :nombres");
             query.setParameter("nombres", "%" + nombres + "%");
+            List<Tramite> tramites = query.getResultList();
+            em.getTransaction().commit();
+            return tramites;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de rfc: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenceException("No se pudo generar la búsqueda de rfc: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Tramite> buscarNombrePeriodo(String nombres, Date fechaInicio, Date fechaFin) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT t FROM Tramite t INNER JOIN t.personasTramite p WHERE p.nombres LIKE :nombres AND t.fechaInicio BETWEEN :fechaInicio AND :fechaFin");
+            query.setParameter("nombres", "%" + nombres + "%");
+            query.setParameter("fechaInicio", fechaInicio);
+            query.setParameter("fechaFin", fechaFin);
             List<Tramite> tramites = query.getResultList();
             em.getTransaction().commit();
             return tramites;

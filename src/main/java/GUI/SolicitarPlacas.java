@@ -4,10 +4,12 @@
  */
 package GUI;
 
+import daos.CostoDAO;
 import daos.LicenciaDAO;
 import daos.PersonaDAO;
 import daos.PlacasDAO;
 import daos.VehiculoDAO;
+import entidades.Costo;
 import entidades.Licencia;
 import entidades.Placas;
 import entidades.Vehiculo;
@@ -40,6 +42,8 @@ public class SolicitarPlacas extends javax.swing.JFrame {
     private Vehiculo vehiculo;
     // Atributo licenciaDAO de tipo LicenciaDAO
     private LicenciaDAO licenciaDAO;
+    // Atributo licenciaDAO de tipo LicenciaDAO
+    private CostoDAO costoDAO;
 
     /**
      * Constructor
@@ -50,6 +54,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         placasDAO = new PlacasDAO(emf);
         vehiculoDAO = new VehiculoDAO(emf);
         licenciaDAO = new LicenciaDAO(emf);
+        costoDAO = new CostoDAO(emf);
         initComponents();
         this.rellenarCosto();
     }
@@ -79,14 +84,14 @@ public class SolicitarPlacas extends javax.swing.JFrame {
             return;
         }
 
-//        if (!rfc.matches("[A-Z0-9]{13}")) {
-//            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }
+        if (!rfc.matches("[A-Z0-9]{13}")) {
+            JOptionPane.showMessageDialog(this, "El RFC ingresado no cuenta con el formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         Vehiculo nuevoVehiculo = new Vehiculo(numeroSerie, marca, color, modelo, linea, personaDAO.buscarRFC(this.txtRFC.getText()));
         nuevoVehiculo = vehiculoDAO.agregar(nuevoVehiculo);
         if (nuevoVehiculo != null) {
-           // JOptionPane.showMessageDialog(this, "Se ha agregado con éxito un nuevo Vehículo", "Información", JOptionPane.INFORMATION_MESSAGE);
+            // JOptionPane.showMessageDialog(this, "Se ha agregado con éxito un nuevo Vehículo", "Información", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.ERROR_MESSAGE);
         }
@@ -127,10 +132,12 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         Licencia licenciaRenovada = licenciaDAO.buscarPorLicencia(identificador);
         if (licenciaRenovada != null && licenciaRenovada.getFechaFin().after(new Date())) {
             Placas nuevasPlacas = new Placas(numeroPlacas3, "Activo", vehiculoSerie, "Placas", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(this.txtRFC.getText()));
-            nuevasPlacas = placasDAO.agregarPlacas(nuevasPlacas);
+            placasDAO.agregarPlacas(nuevasPlacas);
             if (nuevasPlacas != null) {
                 JOptionPane.showMessageDialog(this, "Se ha agregado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
-                 dispose();
+                Costo nuevoCosto = new Costo(fechaInicio, costo, nuevasPlacas);
+                costoDAO.agregar(nuevoCosto);
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Error", "", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -223,7 +230,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
             }
         });
 
-        btnReporte.setText("Generar reporte");
+        btnReporte.setText("Aceptar");
         btnReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReporteActionPerformed(evt);

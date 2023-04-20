@@ -168,6 +168,7 @@
     <Component class="javax.swing.JButton" name="btnReporte">
       <Properties>
         <Property name="text" type="java.lang.String" value="Generar reporte"/>
+        <Property name="actionCommand" type="java.lang.String" value="Aceptar"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReporteActionPerformed"/>
@@ -226,10 +227,10 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
+            <Property name="text" type="java.lang.String" value="Renovar licencia"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="24" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Renovar licencia"/>
           </Properties>
         </Component>
       </SubComponents>

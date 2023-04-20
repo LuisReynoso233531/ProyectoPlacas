@@ -28,4 +28,6 @@ public interface ITramite {
     List<Tramite> buscarRFC(String rfc);
 
     List<Tramite> buscarNombre(String nombres);
+    
+    List<Tramite> buscarNombrePeriodo(String nombres, Date fechaInicio, Date fechaFin);
 }

@@ -4,9 +4,11 @@
  */
 package GUI;
 
+import daos.CostoDAO;
 import daos.PersonaDAO;
 import daos.PlacasDAO;
 import daos.VehiculoDAO;
+import entidades.Costo;
 import entidades.Persona;
 import entidades.Placas;
 import entidades.Vehiculo;
@@ -41,7 +43,8 @@ public class RenovarPlacas extends javax.swing.JFrame {
     private Persona persona;
     // Atributo vehiculo de tipo Vehiculo
     private Vehiculo vehiculo;
-
+    // Atributo costoDAO de tipo CostoDAO
+    private CostoDAO costoDAO;
     /**
      * Creates new form RenovarPlacas
      */
@@ -51,6 +54,7 @@ public class RenovarPlacas extends javax.swing.JFrame {
         personaDAO = new PersonaDAO(emf);
         placasDAO = new PlacasDAO(emf);
         vehiculoDAO = new VehiculoDAO(emf);
+        costoDAO = new CostoDAO(emf);
         initComponents();
         this.rellenarCosto();
 
@@ -126,13 +130,18 @@ public class RenovarPlacas extends javax.swing.JFrame {
         }
 
         if (checkBoxExtravio.isSelected()) {
-            Placas renovarPlacas = new Placas(numeroPlacas3, "Activo", numeroSerie, "Placas", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(rfc));
-            placasDAO.actualizarPlacas(numeroSerie, "Caduco");
-            placasDAO.agregarPlacas(renovarPlacas);
-            if (renovarPlacas != null) {
-                JOptionPane.showMessageDialog(this, "Se ha renovado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
+            int mensaje = JOptionPane.showConfirmDialog(null, "¿Estás seguro que deseas renovar?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (mensaje == JOptionPane.NO_OPTION) {
+                this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             } else {
-                JOptionPane.showMessageDialog(this, "Error!!", "Información", JOptionPane.ERROR_MESSAGE);
+                Placas renovarPlacas = new Placas(numeroPlacas3, "Activo", numeroSerie, "Placas", costo, fechaInicio, fechaFin, personaDAO.buscarRFC(rfc));
+                placasDAO.actualizarPlacas(numeroSerie, "Caduco");
+                placasDAO.agregarPlacas(renovarPlacas);
+                if (renovarPlacas != null) {
+                    JOptionPane.showMessageDialog(this, "Se ha renovado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error!!", "Información", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } else {
             Placas placasRenovadas = placasDAO.buscarPorVehiculo(numeroSerie);
@@ -144,6 +153,8 @@ public class RenovarPlacas extends javax.swing.JFrame {
                 placasDAO.agregarPlacas(renovarPlacas);
                 if (renovarPlacas != null) {
                     JOptionPane.showMessageDialog(this, "Se ha renovado con éxito una nueva Placa", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    Costo nuevoCosto = new Costo(fechaInicio, costo, renovarPlacas);
+                    costoDAO.agregar(nuevoCosto);
                 } else {
                     JOptionPane.showMessageDialog(this, "Error!!", "Información", JOptionPane.ERROR_MESSAGE);
                 }
@@ -210,7 +221,7 @@ public class RenovarPlacas extends javax.swing.JFrame {
             }
         });
 
-        btnReporte.setText("Generar reporte");
+        btnReporte.setText("Aceptar");
         btnReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReporteActionPerformed(evt);

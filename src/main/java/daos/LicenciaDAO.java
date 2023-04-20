@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.swing.JOptionPane;
 import persistencias.ILicencia;
 
 /**
@@ -104,6 +105,7 @@ public class LicenciaDAO implements ILicencia {
         } finally {
             em.close();
         }
-        
+
     }
+
 }
