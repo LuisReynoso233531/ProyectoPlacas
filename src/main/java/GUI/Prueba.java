@@ -23,13 +23,15 @@ import reporte.GenerarReporte;
 import reporte.Reporte;
 
 /**
+ * Esta es la clase Prueba
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 public class Prueba {
 
     /**
+     * Método main de la clase Prueba
      * @param args the command line arguments
      */
     public static void main(String[] args) {

@@ -21,8 +21,9 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
+ * Esta es la clase utilizada para generar reportes con JasperReport
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 public class GenerarReporte {

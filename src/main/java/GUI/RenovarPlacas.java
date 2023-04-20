@@ -25,26 +25,48 @@ import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * Esta es la interfaz de RenovarPlacas
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 public class RenovarPlacas extends javax.swing.JFrame {
 
-    // Atributo emf de tipo EntityManagerFactory
+    /**
+     * Atributo emf de tipo EntityManagerFactory
+     */
     private EntityManagerFactory emf;
-    // Atributo personaDAO de tipo PersonaDAO
+
+    /**
+     * Atributo personaDAO de tipo PersonaDAO
+     */
     private PersonaDAO personaDAO;
-    // Atributo vehiculoDAO de tipo VehiculoDAO
+
+    /**
+     * Atributo vehiculoDAO de tipo VehiculoDAO
+     */
     private VehiculoDAO vehiculoDAO;
-    // Atributo placasDAO de tipo PlacasDAO
+
+    /**
+     * Atributo placasDAO de tipo PlacasDAO
+     */
     private PlacasDAO placasDAO;
-    // Atributo persona de tipo Persona
+
+    /**
+     * Atributo persona de tipo Persona
+     */
     private Persona persona;
-    // Atributo vehiculo de tipo Vehiculo
+
+    /**
+     * Atributo vehiculo de tipo Vehiculo
+     */
     private Vehiculo vehiculo;
-    // Atributo costoDAO de tipo CostoDAO
+    
+    /**
+     * Atributo costoDAO de tipo CostoDAO
+     */
     private CostoDAO costoDAO;
+    
     /**
      * Creates new form RenovarPlacas
      */
@@ -379,9 +401,7 @@ public class RenovarPlacas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    /**
-     * @param args the command line arguments
-     */
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

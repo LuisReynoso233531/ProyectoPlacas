@@ -24,23 +24,41 @@ import reporte.GenerarReporte;
 import reporte.Reporte;
 
 /**
+ * Esta es la interfaz de Historial
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 public class Historial extends javax.swing.JFrame {
 
-    // Atributo emf de tipo EntityManagerFactory
+    /**
+     * Atributo emf de tipo EntityManagerFactory
+     */
     private EntityManagerFactory emf;
-    // Atributo tramite de tipo Tramite
+    
+    /**
+     * Atributo tramite de tipo Tramite
+     */
     private Tramite tramite;
-    // Atributo tramiteDAO de tipo TramiteDAO
+    
+    /**
+     * Atributo tramiteDAO de tipo TramiteDAO
+     */
     private TramiteDAO tramiteDAO;
-    // Atributo personaDAO de tipo PersonaDAO
+    
+    /**
+     * Atributo personaDAO de tipo PersonaDAO
+     */
     private PersonaDAO personaDAO;
-    // Atributo persona de tipo Persona
+    
+    /**
+     * Atributo persona de tipo Persona
+     */
     private Persona persona;
-    // Atributo formatoFecha de tipo SimpleDateFormat
+    
+    /**
+     * Atributo formatoFecha de tipo SimpleDateFormat
+     */
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
@@ -695,9 +713,7 @@ public class Historial extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_txtRFCKeyTyped
 
-    /**
-     * @param args the command line arguments
-     */
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReporte;

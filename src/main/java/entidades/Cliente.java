@@ -13,8 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
+ * Esta es la clase entidad de la entidad Cliente
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 @Entity

@@ -16,18 +16,30 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * Esta es la clase entidad para la entidad Licencia
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 @Entity
 @Table(name = "licencia")
 public class Licencia extends Tramite implements Serializable {
 
+    /**
+     * Columna id_licencia
+     */
     @Column(name = "id_licencia")
     private String id_licencia;
+    
+    /**
+     * Columna vigencia
+     */
     @Column(name = "vigencia")
     private String Vigencia;
+    
+    /**
+     * Columna estado
+     */
     @Column(name = "estado")
     private String estado;
 
@@ -70,75 +82,110 @@ public class Licencia extends Tramite implements Serializable {
         this.estado = estado;
     }
 
-    // Getter & Setter de los atributos de la entidad Licencia.
+    /**
+     * Getter del atributo id_licencia
+     * @return id_licencia
+     */
     public String getId_licencia() {
         return id_licencia;
     }
 
+    /**
+     * Setter del atributo id_licencia
+     * @param id_licencia de tipo String
+     */
     public void setId_licencia(String id_licencia) {
         this.id_licencia = id_licencia;
     }
 
+    /**
+     * Getter del atributo Vigencia
+     * @return Vigencia
+     */
     public String getVigencia() {
         return Vigencia;
     }
 
+    /**
+     * Setter del atributo Vigencia
+     * @param Vigencia de tipo String
+     */
     public void setVigencia(String Vigencia) {
         this.Vigencia = Vigencia;
     }
 
+    @Override
     public Integer getCosto() {
         return costo;
     }
 
+    @Override
     public void setCosto(Integer costo) {
         this.costo = costo;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
 
+    @Override
     public String getTipo() {
         return tipo;
     }
 
+    @Override
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
+    @Override
     public Date getFechaInicio() {
         return fechaInicio;
     }
 
+    @Override
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
+    @Override
     public Date getFechaFin() {
         return fechaFin;
     }
 
+    @Override
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
 
+    @Override
     public Persona getPersonasTramite() {
         return personasTramite;
     }
 
+    @Override
     public void setPersonasTramite(Persona personasTramite) {
         this.personasTramite = personasTramite;
     }
 
+    /**
+     * Getter del atributo estado
+     * @return estado
+     */
     public String getEstado() {
         return estado;
     }
 
+    /**
+     * Setter del atributo estado
+     * @param estado de tipo String
+     */
     public void setEstado(String estado) {
         this.estado = estado;
     }

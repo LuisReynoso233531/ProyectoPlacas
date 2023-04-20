@@ -12,16 +12,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
+ * Esta es la clase entidad de la entidad Empleado
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 @Entity
 public class Empleado extends Persona implements Serializable {
 
-    // Atributo usuario de tipo String.
+    /**
+     * Atributo usuario de tipo String
+     */
     private String usuario;
-    // Atributo contrasena de tipo String.
+
+    /**
+     * Atributo contrasena de tipo String
+     */
     private String contrasena;
 
     /**
@@ -41,19 +47,38 @@ public class Empleado extends Persona implements Serializable {
         this.contrasena = contrasena;
     }
 
-    // Getter & Setter de los atributos de la entidad Empleado.
+    /**
+     * Getter del atributo usuario
+     *
+     * @return usuario
+     */
     public String getUsuario() {
         return usuario;
     }
 
+    /**
+     * Setter del atributo usuario
+     *
+     * @param usuario de tipo String
+     */
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 
+    /**
+     * Getter del atributo contrasena
+     *
+     * @return contrasena
+     */
     public String getContrasena() {
         return contrasena;
     }
 
+    /**
+     * Setter del atributo contrasena
+     *
+     * @param contrasena de tipo String
+     */
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }

@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import persistencias.IVehiculo;
 
 /**
+ * Esta es la clase DAO de Vehiculo
  *
  * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
  * 00000233531

@@ -17,8 +17,9 @@ import javax.swing.JOptionPane;
 import persistencias.ILicencia;
 
 /**
+ * Esta es la clase DAO de Licencia
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 public class LicenciaDAO implements ILicencia {

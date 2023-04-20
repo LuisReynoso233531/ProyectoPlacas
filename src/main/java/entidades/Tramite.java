@@ -26,8 +26,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
+ * Esta es la clase entidad para la entidad Tramite
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 @Entity
@@ -35,31 +36,52 @@ import javax.persistence.TemporalType;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Tramite implements Serializable {
 
+    /**
+     * Columna id_tramite
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tramite")
     protected int id;
 
+    /**
+     * Columna Tipo
+     */
     @Basic
     @Column(name = "Tipo")
     protected String tipo;
 
+    /**
+     * Columna Costo
+     */
     @Basic
     @Column(name = "Costo")
     protected Integer costo;
 
+    /**
+     * Columna FechaInicio
+     */
     @Temporal(TemporalType.DATE)
     @Column(name = "FechaInicio")
     protected Date fechaInicio;
 
+    /**
+     * Columna FechaFin
+     */
     @Temporal(TemporalType.DATE)
     @Column(name = "FechaFin")
     protected Date fechaFin;
 
+    /**
+     * JoinColumn de id_persona
+     */
     @ManyToOne
     @JoinColumn(name = "id_persona", nullable = false)
     protected Persona personasTramite;
 
+    /**
+     * OneToMany mapeado por tramiteCosto
+     */
     @OneToMany(mappedBy = "tramiteCosto", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     List<Costo> costos;
 
@@ -114,11 +136,11 @@ public class Tramite implements Serializable {
      * Constructor con todos los atributos de la entidad Tramite a excepción de
      * id y costos.
      *
-     * @param tipo
-     * @param costo
-     * @param fechaInicio
-     * @param fechaFin
-     * @param personasTramite
+     * @param tipo de tipo String
+     * @param costo de tipo Integer
+     * @param fechaInicio de tipo Date
+     * @param fechaFin de tipo Date
+     * @param personasTramite de tipo Persona
      */
     public Tramite(String tipo, Integer costo, Date fechaInicio, Date fechaFin, Persona personasTramite) {
         this.tipo = tipo;
@@ -128,64 +150,137 @@ public class Tramite implements Serializable {
         this.personasTramite = personasTramite;
     }
 
-    // Getter & Setter de los atributos de la entidad Tramite
+    /**
+     * Getter del atributo id
+     *
+     * @return id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Setter del atributo id
+     *
+     * @param id de tipo int
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Getter del atributo tipo
+     *
+     * @return tipo
+     */
     public String getTipo() {
         return tipo;
     }
 
+    /**
+     * Setter del atributo tipo
+     *
+     * @param tipo de tipo String
+     */
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
+    /**
+     * Getter del atributo costo
+     *
+     * @return costo
+     */
     public Integer getCosto() {
         return costo;
     }
 
+    /**
+     * Setter del atributo costo
+     *
+     * @param costo de tipo Integer
+     */
     public void setCosto(Integer costo) {
         this.costo = costo;
     }
 
+    /**
+     * Getter del atributo fechaInicio
+     *
+     * @return fechaInicio
+     */
     public Date getFechaInicio() {
         return fechaInicio;
     }
 
+    /**
+     * Setter del atributo fechaInicio
+     *
+     * @param fechaInicio de tipo Date
+     */
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
+    /**
+     * Getter del atributo fechaFin
+     *
+     * @return fechaFin
+     */
     public Date getFechaFin() {
         return fechaFin;
     }
 
+    /**
+     * Setter del atributo fechaFin
+     *
+     * @param fechaFin de tipo Date
+     */
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
 
+    /**
+     * Getter del atributo personasTramite
+     *
+     * @return personasTramite
+     */
     public Persona getPersonasTramite() {
         return personasTramite;
     }
 
+    /**
+     * Setter del atributo personasTramite
+     *
+     * @param personasTramite de tipo Persona
+     */
     public void setPersonasTramite(Persona personasTramite) {
         this.personasTramite = personasTramite;
     }
 
+    /**
+     * Getter de la lista Costo
+     *
+     * @return costos de la lista Costo
+     */
     public List<Costo> getCostos() {
         return costos;
     }
 
+    /**
+     * Setter de la lista Costo
+     *
+     * @param costos de tipo ListCosto
+     */
     public void setCostos(List<Costo> costos) {
         this.costos = costos;
     }
 
-    // Método hashCode()
+    /**
+     * Método hashCode() de la entidad Tramite
+     *
+     * @return hash
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -193,7 +288,12 @@ public class Tramite implements Serializable {
         return hash;
     }
 
-    // Método equals(Object object)
+    /**
+     * Método equals(Object object) de la entidad Tramite
+     *
+     * @param object de tipo Object
+     * @return true en caso verdadero y false en caso contrario
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -207,7 +307,11 @@ public class Tramite implements Serializable {
         return true;
     }
 
-    // Método toString()
+    /**
+     * Método toString() de la entidad Tramite
+     *
+     * @return id de Tramite en formato String
+     */
     @Override
     public String toString() {
         return "entidades.Tramite[ id=" + id + " ]";

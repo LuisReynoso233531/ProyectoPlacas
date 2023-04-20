@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import persistencias.ITramite;
 
 /**
+ * Esta es la clase DAO de Tramite
  *
  * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
  * 00000233531
@@ -219,6 +220,14 @@ public class TramiteDAO implements ITramite {
         }
     }
 
+    /**
+     * Método buscarNombrePeriodo(String nombres, Date fechaInicio, Date fechaFin)
+     * que se encarga de buscar trámites por nombre y periodo
+     * @param nombres de tipo String
+     * @param fechaInicio de tipo Date
+     * @param fechaFin de tipo Date
+     * @return tramites
+     */
     @Override
     public List<Tramite> buscarNombrePeriodo(String nombres, Date fechaInicio, Date fechaFin) {
         EntityManager em = emf.createEntityManager();

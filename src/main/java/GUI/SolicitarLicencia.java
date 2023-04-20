@@ -26,21 +26,36 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * Esta es la interfaz de SolicitarLicencia
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 public class SolicitarLicencia extends javax.swing.JFrame {
 
-    // Atributo emf de tipo EntityManagerFactory
+    /**
+     * Atributo emf de tipo EntityManagerFactory
+     */
     private EntityManagerFactory emf;
-    // Atributo personaDAO de tipo PersonaDAO
+    
+    /**
+     * Atributo personaDAO de tipo PersonaDAO
+     */
     private PersonaDAO personaDAO;
-    // Atributo licenciaDAO de tipo LicenciaDAO
+    
+    /**
+     * Atributo licenciaDAO de tipo LicenciaDAO
+     */
     private LicenciaDAO licenciaDAO;
-    // Atributo persona de tipo Persona
+    
+    /**
+     * Atributo persona de tipo Persona
+     */
     private Persona persona;
-    // Atributo costoDAO de tipo costoDAO
+    
+    /**
+     * Atributo costoDAO de tipo costoDAO
+     */
     private CostoDAO costoDAO;
 
     /**
@@ -547,7 +562,7 @@ public class SolicitarLicencia extends javax.swing.JFrame {
      * Este combobox cbVigenciaItemStateChanged utiliza la vigencia que desee el
      * usuario para solicitar la licencia del cliente.
      *
-     * @param evt
+     * @param evt de tipo ItemEvent
      */
     private void cbVigenciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVigenciaItemStateChanged
         // TODO add your handling code here:
@@ -600,7 +615,7 @@ public class SolicitarLicencia extends javax.swing.JFrame {
      * ya que toma si es el caso de la primera vez que se registra el cliente en
      * cuestión.
      *
-     * @param evt
+     * @param evt de tipo ActionEvent
      */
     private void checkBoxPrimeraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxPrimeraActionPerformed
         // TODO add your handling code here:
@@ -625,9 +640,7 @@ public class SolicitarLicencia extends javax.swing.JFrame {
 
     }//GEN-LAST:event_checkBoxPrimeraActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReporte;

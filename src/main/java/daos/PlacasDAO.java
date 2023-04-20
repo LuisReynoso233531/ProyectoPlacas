@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import persistencias.IPlacas;
 
 /**
+ * Esta es la clase DAO de Placas
  *
  * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
  * 00000233531

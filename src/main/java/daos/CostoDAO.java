@@ -10,23 +10,19 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import persistencias.ICosto;
 
-/**
- *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
- * 00000233531
- */
+
 public class CostoDAO implements ICosto {
 
     /**
      * Atributo EntityManagerFactory que hace una conexión con la BD. Mientras
-     * se hace la unidad de persistencia denominada ConexionPU.
+     * se hace la unidad de persistencia denominada ConexionPU
      */
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
 
     /**
-     * Constructor para inicializar el CostoDAO como EntityManagerFactory.
+     * Constructor para inicializar el CostoDAO como EntityManagerFactory
      *
-     * @param emf de tipo EntityManagerFactory.
+     * @param emf de tipo EntityManagerFactory
      */
     public CostoDAO(EntityManagerFactory emf) {
         this.emf = emf;
@@ -34,10 +30,10 @@ public class CostoDAO implements ICosto {
 
     /**
      * Método agregar(Costo costo) que se encarga de insertar un dato. En este
-     * caso agrega un costo.
+     * caso agrega un costo
      *
-     * @param costo de tipo Costo.
-     * @return
+     * @param costo de tipo Costo
+     * @return costo
      */
     @Override
     public Costo agregar(Costo costo) {

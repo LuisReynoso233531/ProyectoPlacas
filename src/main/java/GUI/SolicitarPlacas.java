@@ -21,32 +21,50 @@ import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 /**
+ * Esta es la interfaz de SolicitarPlacas
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 public class SolicitarPlacas extends javax.swing.JFrame {
 
     /**
-     * Creates new form SolicitarPlacas
+     * Atributo emf de tipo EntityManagerFactory
      */
-    // Atributo emf de tipo EntityManagerFactory
     private EntityManagerFactory emf;
-    // Atributo personaDAO de tipo PersonaDAO
+
+    /**
+     * Atributo personaDAO de tipo PersonaDAO
+     */
     private PersonaDAO personaDAO;
-    // Atributo vehiculoDAO de tipo VehiculoDAO
+
+    /**
+     * Atributo vehiculoDAO de tipo VehiculoDAO
+     */
     private VehiculoDAO vehiculoDAO;
-    // Atributo placasDAO de tipo PlacasDAO
+
+    /**
+     * Atributo placasDAO de tipo PlacasDAO
+     */
     private PlacasDAO placasDAO;
-    // Atributo vehiculo de tipo Vehiculo
+
+    /**
+     * Atributo vehiculo de tipo Vehiculo
+     */
     private Vehiculo vehiculo;
-    // Atributo licenciaDAO de tipo LicenciaDAO
+
+    /**
+     * Atributo licenciaDAO de tipo LicenciaDAO
+     */
     private LicenciaDAO licenciaDAO;
-    // Atributo licenciaDAO de tipo LicenciaDAO
+
+    /**
+     * Atributo CostoDAO de tipo CostoDAO
+     */
     private CostoDAO costoDAO;
 
     /**
-     * Constructor
+     * Creates new form SolicitarPlacas
      */
     public SolicitarPlacas() {
         emf = Persistence.createEntityManagerFactory("ConexionPU");
@@ -389,7 +407,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        int mensaje = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        int mensaje = JOptionPane.showConfirmDialog(null, "¿Estás seguro que deseas salir?", "Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (mensaje == JOptionPane.NO_OPTION) {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         } else {
@@ -397,9 +415,7 @@ public class SolicitarPlacas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    /**
-     * @param args the command line arguments
-     */
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReporte;

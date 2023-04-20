@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import persistencias.IPersona;
 
 /**
+ * Esta es la clase DAO de Persona
  *
  * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
  * 00000233531

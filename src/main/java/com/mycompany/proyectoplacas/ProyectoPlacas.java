@@ -11,12 +11,17 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
+ * Esta es la clase main ProyectoPlacas
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 public class ProyectoPlacas {
 
+    /**
+     * Método main de clase ProyectoPlacas
+     * @param args de tipo String[]
+     */
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ConexionPU");
         EntityManager em = emf.createEntityManager();

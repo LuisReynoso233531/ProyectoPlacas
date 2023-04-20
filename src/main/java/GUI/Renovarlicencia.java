@@ -20,24 +20,36 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * Esta es la interfaz de RenovarLicencia
  *
- * @author Alejandro Gil Aguilar 00000228773 - Luis Martín Reynoso Cibrian
+ * @author Alejandro Gil Aguilar 00000228773 - Luis Martin Reynoso Cibrian
  * 00000233531
  */
 public class Renovarlicencia extends javax.swing.JFrame {
 
     /**
-     * Creates new form RenovarPlacas
+     * Atributo emf de tipo EntityManagerFactory
      */
-    // Atributo emf de tipo EntityManagerFactory
     private EntityManagerFactory emf;
-    // Atributo personaDAO de tipo PersonaDAO
+
+    /**
+     * Atributo personaDAO de tipo PersonaDAO
+     */
     private PersonaDAO personaDAO;
-    // Atributo licenciaDAO de tipo LicenciaDAO
+
+    /**
+     * Atributo licenciaDAO de tipo LicenciaDAO
+     */
     private LicenciaDAO licenciaDAO;
-    // Atributo costoDAO de tipo CostoDAO
+    
+    /**
+     * Atributo costoDAO de tipo CostoDAO
+     */
     private CostoDAO costoDAO;
 
+    /**
+     * Creates new form RenovarPlacas
+     */
     public Renovarlicencia() {
         emf = Persistence.createEntityManagerFactory("ConexionPU");
         personaDAO = new PersonaDAO(emf);
@@ -416,9 +428,6 @@ public class Renovarlicencia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    /**
-     * @param args the command line arguments
-     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReporte;
